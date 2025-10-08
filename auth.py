@@ -55,27 +55,27 @@ class OAuth2Token(db.Model):
     refresh_token = db.Column(db.String(255), unique=True)
     expires_at = db.Column(db.DateTime, nullable=False)
     scope = db.Column(db.Text, default='')
-    is_revoked = db.Column(db.Boolean, default=False)
+    revoked = db.Column(db.Boolean, default=False)
     
     def is_expired(self):
         return datetime.datetime.utcnow() > self.expires_at
     
+    def is_revoked(self):
+        return self.revoked
+    
     def is_valid(self):
-        return not self.is_expired() and not self.is_revoked
+        return not self.is_expired() and not self.is_revoked()
+    
+    def get_scope(self):  # Add this method for Authlib compatibility
+        return self.scope or ''
 
-# Custom Token Validator
+# Custom Token Validator - SIMPLIFIED VERSION
 class MyBearerTokenValidator(BearerTokenValidator):
     def authenticate_token(self, token_string):
         token = OAuth2Token.query.filter_by(access_token=token_string).first()
         if token and token.is_valid():
             return token
         return None
-    
-    def request_invalid(self, request):
-        return False
-    
-    def token_revoked(self, token):
-        return token.is_revoked
 
 # Register the token validator
 require_oauth.register_token_validator(MyBearerTokenValidator())
@@ -106,7 +106,7 @@ def save_token(token_data, request):
         access_token=token_data.get('access_token'),
         refresh_token=token_data.get('refresh_token'),
         token_type=token_data.get('token_type', 'Bearer'),
-        scope=token_data.get('scope', '')
+        scope=token_data.get('scope', 'firewall')
     )
     
     if 'expires_in' in token_data:
@@ -253,7 +253,7 @@ class RefreshToken(Resource):
         
         # Verify refresh token
         token = OAuth2Token.query.filter_by(refresh_token=args['refresh_token']).first()
-        if not token or token.is_expired() or token.is_revoked:
+        if not token or token.is_expired() or token.is_revoked():
             return {'error': 'invalid_refresh_token'}, 401
         
         # Generate new token
@@ -265,7 +265,7 @@ class RefreshToken(Resource):
         token.access_token = new_access_token
         token.refresh_token = new_refresh_token
         token.expires_at = datetime.datetime.utcnow() + datetime.timedelta(seconds=expires_in)
-        token.is_revoked = False  # Ensure the new token is not revoked
+        token.revoked = False  # Ensure the new token is not revoked
         
         try:
             db.session.commit()
@@ -283,17 +283,18 @@ class Logout(Resource):
     @require_oauth()  # Requires valid OAuth token
     def post(self):
         try:
-            # Get the current token from the request context
-            # Authlib should set this when the token is validated
-            current_token = getattr(g, 'oauth2_token', None)
+            # Get the authorization header
+            auth_header = request.headers.get('Authorization')
+            if not auth_header or not auth_header.startswith('Bearer '):
+                return {'error': 'Invalid authorization header'}, 400
             
-            if not current_token:
-                return {'error': 'No token found in request'}, 400
+            # Extract the token from the header
+            access_token = auth_header.split(' ')[1]
             
-            # Revoke the current access token
-            token = OAuth2Token.query.filter_by(access_token=current_token.access_token).first()
+            # Find and revoke the token
+            token = OAuth2Token.query.filter_by(access_token=access_token).first()
             if token:
-                token.is_revoked = True
+                token.revoked = True
                 db.session.commit()
                 return {'message': 'Successfully logged out'}, 200
             else:
@@ -307,18 +308,25 @@ class LogoutAll(Resource):
     @require_oauth()  # Requires valid OAuth token
     def post(self):
         try:
-            # Get the current user ID from the token
-            current_token = getattr(g, 'oauth2_token', None)
+            # Get the authorization header to identify the current user
+            auth_header = request.headers.get('Authorization')
+            if not auth_header or not auth_header.startswith('Bearer '):
+                return {'error': 'Invalid authorization header'}, 400
             
+            # Extract the token from the header
+            access_token = auth_header.split(' ')[1]
+            
+            # Find the current token to get user_id
+            current_token = OAuth2Token.query.filter_by(access_token=access_token).first()
             if not current_token:
-                return {'error': 'No token found in request'}, 400
+                return {'error': 'Token not found'}, 404
             
             user_id = current_token.user_id
             
             # Revoke all tokens for this user
-            tokens = OAuth2Token.query.filter_by(user_id=user_id, is_revoked=False).all()
+            tokens = OAuth2Token.query.filter_by(user_id=user_id, revoked=False).all()
             for token in tokens:
-                token.is_revoked = True
+                token.revoked = True
             
             db.session.commit()
             return {'message': f'Successfully logged out from all devices. {len(tokens)} tokens revoked.'}, 200
