@@ -1,72 +1,20 @@
-from flask import Flask, request, jsonify, g
+''' External Library Import '''
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource, Api, reqparse
 import subprocess
 from authlib.integrations.flask_oauth2 import ResourceProtector, AuthorizationServer
-from authlib.oauth2 import OAuth2Error
 from authlib.oauth2.rfc6749 import grants
 from authlib.oauth2.rfc6750 import BearerTokenValidator
-from werkzeug.security import gen_salt, generate_password_hash, check_password_hash
+from werkzeug.security import gen_salt
 import datetime
 
-# Setup Flask, Database, REST API
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///firewallx_oauth.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'your-secret-key-here'  # Change this in production!
-db = SQLAlchemy(app)
-api = Api(app)
+''' Internal File Import '''
+from config import app, api
+from dbModel import db, User, OAuth2Client, OAuth2Token
 
 # OAuth 2.0 Configuration
 require_oauth = ResourceProtector()
-
-# Simplified Database Models
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    password_hash = db.Column(db.String(120), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    is_active = db.Column(db.Boolean, default=True)
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
-
-    def get_user_id(self):
-        return self.id
-
-class OAuth2Client(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    client_id = db.Column(db.String(48), unique=True, nullable=False)
-    client_secret = db.Column(db.String(120))
-    client_id_issued_at = db.Column(db.Integer, nullable=False, default=0)
-    client_secret_expires_at = db.Column(db.Integer, nullable=False, default=0)
-    client_metadata = db.Column(db.Text)
-
-class OAuth2Token(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    client_id = db.Column(db.String(48), nullable=False)
-    token_type = db.Column(db.String(40))
-    access_token = db.Column(db.String(255), unique=True)
-    refresh_token = db.Column(db.String(255), unique=True)
-    expires_at = db.Column(db.DateTime, nullable=False)
-    scope = db.Column(db.Text, default='')
-    revoked = db.Column(db.Boolean, default=False)
-    
-    def is_expired(self):
-        return datetime.datetime.utcnow() > self.expires_at
-    
-    def is_revoked(self):
-        return self.revoked
-    
-    def is_valid(self):
-        return not self.is_expired() and not self.is_revoked()
-    
-    def get_scope(self):  # Add this method for Authlib compatibility
-        return self.scope or ''
 
 # Custom Token Validator
 class MyBearerTokenValidator(BearerTokenValidator):
@@ -388,4 +336,5 @@ if __name__ == '__main__':
     # Initialize database and create default data
     with app.app_context():
         init_database()
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    # app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=('SSL_cert/cert.pem', 'SSL_cert/key.pem'))
