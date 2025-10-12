@@ -25,7 +25,6 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(120), nullable=False)
-    email = db.Column(db.String(80), unique=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     is_active = db.Column(db.Boolean, default=True)
 
@@ -69,7 +68,7 @@ class OAuth2Token(db.Model):
     def get_scope(self):  # Add this method for Authlib compatibility
         return self.scope or ''
 
-# Custom Token Validator - SIMPLIFIED VERSION
+# Custom Token Validator
 class MyBearerTokenValidator(BearerTokenValidator):
     def authenticate_token(self, token_string):
         token = OAuth2Token.query.filter_by(access_token=token_string).first()
@@ -140,8 +139,7 @@ def init_database():
             # Create a default admin user
             if not User.query.filter_by(username='admin').first():
                 admin_user = User(
-                    username='admin',
-                    email='admin@firewallx.com'
+                    username='admin'
                 )
                 admin_user.set_password('admin123')
                 db.session.add(admin_user)
@@ -169,7 +167,7 @@ class Login(Resource):
         # Get client
         client = OAuth2Client.query.filter_by(client_id=args['client_id']).first()
         if not client or client.client_secret != args['client_secret']:
-            return {'error': 'invalid_client'}, 401
+            return {'error': 'invalid_client'}, 405
         
         # Authenticate user
         user = User.query.filter_by(username=args['username']).first()
@@ -199,8 +197,7 @@ class Login(Resource):
                 "access_token": access_token,
                 "token_type": "bearer",
                 "expires_in": expires_in,
-                "refresh_token": refresh_token,
-                "user_id": user.id
+                "refresh_token": refresh_token
             })
         except Exception as e:
             db.session.rollback()
@@ -211,7 +208,6 @@ class Register(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('username', type=str, required=True, help='Username is required')
         parser.add_argument('password', type=str, required=True, help='Password is required')
-        parser.add_argument('email', type=str, required=True, help='Email is required')
         
         args = parser.parse_args()
         
@@ -219,13 +215,9 @@ class Register(Resource):
         if User.query.filter_by(username=args['username']).first():
             return {'error': 'Username already exists'}, 400
         
-        if User.query.filter_by(email=args['email']).first():
-            return {'error': 'Email already exists'}, 400
-        
         # Create new user
         user = User(
             username=args['username'],
-            email=args['email']
         )
         user.set_password(args['password'])
         
