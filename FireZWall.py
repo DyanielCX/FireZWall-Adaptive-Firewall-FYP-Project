@@ -2,8 +2,6 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource, Api, reqparse
-import subprocess
-import datetime
 
 ''' Internal File Import '''
 from config import app, api
@@ -11,39 +9,8 @@ from instance.create_db import init_database
 from dbModel import db, User, OAuth2Client, OAuth2Token
 from source.auth import require_oauth, authorization
 from endpoints.ep_auth import Login, Register, RefreshToken, Logout, LogoutAll
+from endpoints.ep_firewall import Firewall
 
-
-# Protected Firewall Resource
-class Firewall(Resource):
-    @require_oauth()  # Requires valid OAuth token
-    def post(self, port):
-        try:
-            # Build and run the ufw command
-            cmd = ["sudo", "/usr/sbin/ufw", "allow", f"{port}/tcp"]
-            result = subprocess.run(cmd, capture_output=True, text=True)
-            
-            return jsonify({
-                "success": True,
-                "stdout": result.stdout,
-                "stderr": result.stderr
-            })
-        except Exception as e:
-            return jsonify({"success": False, "error": str(e)}), 500
-
-    @require_oauth()  # Requires valid OAuth token
-    def delete(self, port):
-        try:
-            # Build and run the ufw command
-            cmd = ["sudo", "/usr/sbin/ufw", "delete", f"{port}"]
-            result = subprocess.run(cmd, input="y", capture_output=True, text=True)
-            
-            return jsonify({
-                "success": True,
-                "stdout": result.stdout,
-                "stderr": result.stderr
-            })
-        except Exception as e:
-            return jsonify({"success": False, "error": str(e)}), 500
 
 # API Routes
 api.add_resource(Login, '/api/login')
@@ -51,7 +18,7 @@ api.add_resource(Register, '/api/register')
 api.add_resource(RefreshToken, '/api/refresh-token')
 api.add_resource(Logout, '/api/logout')
 api.add_resource(LogoutAll, '/api/logout-all')
-api.add_resource(Firewall, '/api/firewall/<int:port>')
+api.add_resource(Firewall, '/api/firewall')
 
 @app.route('/')
 def index():

@@ -9,7 +9,8 @@ from dbModel import db, User, OAuth2Client, OAuth2Token
 from source.auth import require_oauth, authorization
 
 
-# Authentication Endpoints
+## Authentication Endpoints ##
+# Login Endpoint
 class Login(Resource):
     def post(self):
         parser = reqparse.RequestParser()
@@ -59,6 +60,7 @@ class Login(Resource):
             db.session.rollback()
             return {'error': str(e)}, 500
 
+# Register Endpoint
 class Register(Resource):
     def post(self):
         parser = reqparse.RequestParser()
@@ -85,6 +87,7 @@ class Register(Resource):
             db.session.rollback()
             return {'error': str(e)}, 500
 
+# Refresh Token Endpoints
 class RefreshToken(Resource):
     def post(self):
         parser = reqparse.RequestParser()
@@ -127,6 +130,7 @@ class RefreshToken(Resource):
             db.session.rollback()
             return {'error': str(e)}, 500
 
+# Logout Endpoints
 class Logout(Resource):
     @require_oauth()  # Requires valid OAuth token
     def post(self):
@@ -152,6 +156,7 @@ class Logout(Resource):
             db.session.rollback()
             return {'error': str(e)}, 500
 
+# Logout All Devices Endpoints
 class LogoutAll(Resource):
     @require_oauth()  # Requires valid OAuth token
     def post(self):
