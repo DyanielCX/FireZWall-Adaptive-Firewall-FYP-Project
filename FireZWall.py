@@ -10,6 +10,7 @@ from dbModel import db, User, OAuth2Client, OAuth2Token
 from source.auth import require_oauth, authorization
 from endpoints.ep_auth import Login, Register, RefreshToken, Logout, LogoutAll
 from endpoints.ep_firewall import Firewall
+from endpoints.ep_firewall_external import Firewall, FirewallStatus
 
 
 # API Routes
@@ -19,6 +20,7 @@ api.add_resource(RefreshToken, '/api/refresh-token')
 api.add_resource(Logout, '/api/logout')
 api.add_resource(LogoutAll, '/api/logout-all')
 api.add_resource(Firewall, '/api/firewall')
+api.add_resource(FirewallStatus, '/api/firewall/status')
 
 @app.route('/')
 def index():
