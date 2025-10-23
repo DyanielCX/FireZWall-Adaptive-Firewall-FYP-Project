@@ -11,32 +11,92 @@ from source.auth import require_oauth, authorization
 # Protected Firewall Endpoint
 class Firewall(Resource):
 
-    # Post Request
+    ## Post Request
     @require_oauth()  # Requires valid OAuth token
     def post(self):
         """
         Add firewall rule by port/service
         """
         parser = reqparse.RequestParser()
-        parser.add_argument('port', type=str, required=True, help='Port number is required')
+        parser.add_argument('action', type=str, required=False, default='allow', help='Action (allow/deny/reject)')
+        parser.add_argument('port', type=str, required=False, help='Port number (optional if service is provided)')
+        parser.add_argument('service', type=str, required=False, help='Service name (optional if port is provided)')
+        parser.add_argument('protocol', type=str, required=False, default='tcp', choices=['tcp', 'udp'], help='Protocol (tcp/udp)')
+        parser.add_argument('direction', type=str, required=False, choices=['in', 'out'], help='Direction (in/out)')
+        parser.add_argument('ipv4', type=str, required=False, default='true', help='Apply to IPv4 rules (true/false)')
+        parser.add_argument('ipv6', type=str, required=False, default='true', help='Apply to IPv6 rules (true/false)')
+        parser.add_argument('source', type=str, required=False, help='Source (IP address/CIDR Subnet)')
         
         args = parser.parse_args()
         
-        try:
-            port = args['port']
+        # Input Cleaning & Validation #
+        # Standard & validate action input
+        action = args['action'].lower()
 
-            # Build and run the ufw command
-            cmd = ["sudo", "/usr/sbin/ufw", "allow", f"{port}/tcp"]
-            result = subprocess.run(cmd, capture_output=True, text=True)
-            
-            return jsonify({
-                "success": True,
-                "message": f"Port {port} is added successfully"
+        if action not in ['allow', 'deny', 'reject']:
+            return {
+                "success": False,
+                "error": "Only enter allow/deny/reject for action"
+            }, 400
+        
+        # Validate that at least one of port or service is provided
+        if not args['port'] and not args['service']:
+            return {
+                "success": False,
+                "error": "Either port or service must be provided"
+            }, 400
+
+        # Standard & validate ipv4 ipv6 input
+        ipv4 = args['ipv4'].lower()
+        ipv6 = args['ipv6'].lower()
+
+        if ipv4 not in ['true', 'false'] or ipv6 not in ['true', 'false']:
+            return {
+                "success": False,
+                "error": "Only enter true/false for ipv4 & ipv6"
+            }, 400
+
+        # Define add rule condition #
+        # State the condition flags
+        default_rule = False
+        with_direction_rule = False
+        with_source_ip_rule = False
+        with_direction_source_ip_rule = False
+
+        # Determine rule condition
+        if not args['direction'] and not args['source']:
+            default_rule = True
+        elif args['direction'] and not args['source']:
+            with_direction_rule = True
+        elif not args['direction'] and args['source']:
+            with_source_ip_rule = True
+        elif args['direction'] and args['source']:
+            with_direction_source_ip_rule = True
+
+        print(f"default_rule: {default_rule}")
+        print(f"with_direction_rule: {with_direction_rule}")
+        print(f"with_source_ip_rule: {with_source_ip_rule}")
+        print(f"with_direction_source_ip_rule: {with_direction_source_ip_rule}")
+
+        return jsonify({
+                "success": True
             })
-        except Exception as e:
-            return jsonify({"success": False, "error": str(e)}), 500
 
-    # Delete Request
+        # try:
+        #     port = args['port']
+
+        #     # Build and run the ufw command
+        #     cmd = ["sudo", "/usr/sbin/ufw", "allow", f"{port}/tcp"]
+        #     result = subprocess.run(cmd, capture_output=True, text=True)
+            
+        #     return jsonify({
+        #         "success": True,
+        #         "message": f"Port {port} is added successfully"
+        #     })
+        # except Exception as e:
+        #     return jsonify({"success": False, "error": str(e)}), 500
+
+    ## Delete Request
     @require_oauth()
     def delete(self):
         """
@@ -51,7 +111,15 @@ class Firewall(Resource):
         
         args = parser.parse_args()
         
-        # Convert string booleans to actual booleans
+        # Input Cleaning & Validation #
+        # Validate that at least one of port or service is provided
+        if not args['port'] and not args['service']:
+            return {
+                "success": False,
+                "error": "Either port or service must be provided"
+            }, 400
+
+        # Standard & validate ipv4 ipv6 input
         ipv4 = args['ipv4'].lower()
         ipv6 = args['ipv6'].lower()
 
@@ -59,13 +127,6 @@ class Firewall(Resource):
             return {
                 "success": False,
                 "error": "Only enter true/false for ipv4 & ipv6"
-            }, 400
-        
-        # Validate that at least one of port or service is provided
-        if not args['port'] and not args['service']:
-            return {
-                "success": False,
-                "error": "Either port or service must be provided"
             }, 400
         
         try:
