@@ -2,6 +2,7 @@
 from flask import request, jsonify
 from flask_restful import Resource, reqparse
 import subprocess
+import ipaddress
 import re
 
 ''' Internal File Import '''
@@ -45,16 +46,42 @@ class Firewall(Resource):
                 "success": False,
                 "error": "Either port or service must be provided"
             }, 400
+        
+        # If service is provided, get the port number for that service
+        target_port = args['port']
+        if args['service']:
+            target_port = self._service_to_port(args['service'])
+            if not target_port:
+                return {
+                    "success": False,
+                    "error": f"Service '{args['service']}' not found or has no default port"
+                }, 400
 
         # Standard & validate ipv4 ipv6 input
         ipv4 = args['ipv4'].lower()
         ipv6 = args['ipv6'].lower()
+        protocol = args['protocol']
 
         if ipv4 not in ['true', 'false'] or ipv6 not in ['true', 'false']:
             return {
                 "success": False,
                 "error": "Only enter true/false for ipv4 & ipv6"
             }, 400
+        
+        if ipv4 == "false" and ipv6 == "false":
+            return {
+                "success": False,
+                "error": "Please enter at least a true for ipv4 & ipv6"
+            }, 400
+        
+        # Convert string booleans to actual booleans
+        if isinstance(ipv4, str):
+            ipv4 = ipv4.lower() in ['true', '1', 'yes', 'y']
+        if isinstance(ipv6, str):
+            ipv6 = ipv6.lower() in ['true', '1', 'yes', 'y']
+        
+        ipv4 = bool(ipv4)
+        ipv6 = bool(ipv6)
 
         # Define add rule condition #
         # State the condition flags
@@ -63,38 +90,93 @@ class Firewall(Resource):
         with_source_ip_rule = False
         with_direction_source_ip_rule = False
 
-        # Determine rule condition
+        # Determine rule condition with source validation
         if not args['direction'] and not args['source']:
             default_rule = True
+
         elif args['direction'] and not args['source']:
+            direction = args['direction']
             with_direction_rule = True
+
         elif not args['direction'] and args['source']:
-            with_source_ip_rule = True
-        elif args['direction'] and args['source']:
-            with_direction_source_ip_rule = True
-
-        print(f"default_rule: {default_rule}")
-        print(f"with_direction_rule: {with_direction_rule}")
-        print(f"with_source_ip_rule: {with_source_ip_rule}")
-        print(f"with_direction_source_ip_rule: {with_direction_source_ip_rule}")
-
-        return jsonify({
-                "success": True
-            })
-
-        # try:
-        #     port = args['port']
-
-        #     # Build and run the ufw command
-        #     cmd = ["sudo", "/usr/sbin/ufw", "allow", f"{port}/tcp"]
-        #     result = subprocess.run(cmd, capture_output=True, text=True)
+            validation, src_type = self._validate_ip_or_cidr(args['source'])
             
-        #     return jsonify({
-        #         "success": True,
-        #         "message": f"Port {port} is added successfully"
-        #     })
-        # except Exception as e:
-        #     return jsonify({"success": False, "error": str(e)}), 500
+            if validation:
+                source = args['source']
+                with_source_ip_rule = True
+            else:
+                return {
+                "success": False,
+                "error": f"Invalid {src_type} is provided"
+            }, 400
+
+        elif args['direction'] and args['source']:
+            direction = args['direction']
+            source = args['source']
+            validation, src_type = self._validate_ip_or_cidr(args['source'])
+            
+            if validation:
+                with_direction_source_ip_rule = True
+            else:
+                return {
+                "success": False,
+                "error": f"Invalid {src_type} is provided"
+            }, 400
+            
+
+        # Debug Logging
+        # print(f"default_rule: {default_rule}")
+        # print(f"with_direction_rule: {with_direction_rule}")
+        # print(f"with_source_ip_rule: {with_source_ip_rule}")
+        # print(f"with_direction_source_ip_rule: {with_direction_source_ip_rule}")
+        # return jsonify({"success": True})
+
+        # Add the firewall rules based on condition
+        try:
+            if default_rule:
+                # Build and run the ufw command
+                cmd = ["sudo", "/usr/sbin/ufw", action, f"{target_port}/{protocol}"]
+                subprocess.run(cmd, capture_output=True, text=True)
+                
+                return jsonify({
+                    "success": True,
+                    "message": f"Port {target_port} is added successfully"
+                })
+            
+            elif with_direction_rule:
+                # Build and run the ufw command
+                cmd = ["sudo", "/usr/sbin/ufw", action, direction, f"{target_port}/{protocol}"]
+                subprocess.run(cmd, capture_output=True, text=True)
+                
+                return jsonify({
+                    "success": True,
+                    "message": f"Port {target_port} is added successfully"
+                })
+            
+            elif with_source_ip_rule:
+                # Build and run the ufw command
+                cmd = ["sudo", "/usr/sbin/ufw", action, "from", source, "to", "any", "port", target_port, "proto", protocol]
+                subprocess.run(cmd, capture_output=True, text=True)
+                
+                return jsonify({
+                    "success": True,
+                    "message": f"Port {target_port} is added successfully"
+                })
+            
+            elif with_direction_source_ip_rule:
+                # Build and run the ufw command
+                cmd = ["sudo", "/usr/sbin/ufw", action, direction, "from", source, "to", "any", "port", target_port, "proto", protocol]
+                subprocess.run(cmd, capture_output=True, text=True)
+                
+                return jsonify({
+                    "success": True,
+                    "message": f"Port {target_port} is added successfully"
+                })
+
+        except Exception as e:
+            return jsonify({"success": False, "error": str(e)}), 500
+
+
 
     ## Delete Request
     @require_oauth()
@@ -103,6 +185,7 @@ class Firewall(Resource):
         Delete firewall rule by port/service
         """
         parser = reqparse.RequestParser()
+        parser.add_argument('action', type=str, required=False, default='allow', help='Action (allow/deny/reject)')
         parser.add_argument('port', type=str, required=False, help='Port number (optional if service is provided)')
         parser.add_argument('service', type=str, required=False, help='Service name (optional if port is provided)')
         parser.add_argument('protocol', type=str, required=False, default='tcp', choices=['tcp', 'udp'], help='Protocol (tcp/udp)')
@@ -122,13 +205,29 @@ class Firewall(Resource):
         # Standard & validate ipv4 ipv6 input
         ipv4 = args['ipv4'].lower()
         ipv6 = args['ipv6'].lower()
+        protocol = args['protocol'].upper()
 
         if ipv4 not in ['true', 'false'] or ipv6 not in ['true', 'false']:
             return {
                 "success": False,
                 "error": "Only enter true/false for ipv4 & ipv6"
             }, 400
+
+        if ipv4 == "false" and ipv6 == "false":
+            return {
+                "success": False,
+                "error": "Please enter at least a true for ipv4 & ipv6"
+            }, 400
         
+        # Convert string booleans to actual booleans
+        if isinstance(ipv4, str):
+            ipv4 = ipv4.lower() in ['true', '1', 'yes', 'y']
+        if isinstance(ipv6, str):
+            ipv6 = ipv6.lower() in ['true', '1', 'yes', 'y']
+        
+        ipv4 = bool(ipv4)
+        ipv6 = bool(ipv6)
+
         try:
             # If service is provided, get the port number for that service
             target_port = args['port']
@@ -154,6 +253,7 @@ class Firewall(Resource):
             # Find rules that match the criteria
             matching_rules = self._find_matching_rules(
                 current_rules, 
+                args['action'], 
                 target_port, 
                 args['protocol'], 
                 ipv4, 
@@ -168,23 +268,20 @@ class Firewall(Resource):
             if not matching_rules:
                 return {
                     "success": False,
-                    "error": f"No matching rules found for port {target_port}/{args['protocol']} with IPv4:{ipv4} IPv6:{ipv6}"
+                    "error": f"No matching rules found for {args['action']} port {target_port}/{args['protocol']} with IPv4:{ipv4} IPv6:{ipv6}"
                 }, 404
             
             # Delete the matching rules
             deletion_results = self._delete_rules(matching_rules)
+
+            # Calculate common details for the response
+            details = self._get_deletion_details(matching_rules, target_port, protocol, ipv4, ipv6, args['service'])
             
             return {
                 "success": True,
                 "message": f"Successfully deleted {len(deletion_results)} rule(s) for port {target_port}/{args['protocol']}",
                 "deleted_rules": deletion_results,
-                "details": {
-                    "port": target_port,
-                    "protocol": args['protocol'],
-                    "ipv4": ipv4,
-                    "ipv6": ipv6,
-                    "service": args['service'] if args['service'] else None
-                }
+                "details": details
             }, 200
             
         except Exception as e:
@@ -193,6 +290,108 @@ class Firewall(Resource):
                 "error": str(e)
             }, 500
     
+    def _validate_ip_address(self,ip_str):
+        """
+        Validate an IPv4 address
+        """
+        if not ip_str or not isinstance(ip_str, str):
+            return False
+        
+        # Basic format validation using regex
+        ip_pattern = r'^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$'
+        match = re.match(ip_pattern, ip_str)
+        
+        if not match:
+            return False
+        
+        # Check each octet
+        octets = match.groups()
+        for i, octet in enumerate(octets):
+            if len(octet) > 1 and octet.startswith('0'):
+                return False
+            
+            # Check numeric range
+            try:
+                octet_value = int(octet)
+                if not (0 <= octet_value <= 255):
+                    return False
+            except ValueError:
+                return False
+        
+        # Check for reserved addresses
+        try:
+            ip = ipaddress.IPv4Address(ip_str)
+            if ip.is_multicast:
+                return False
+            if ip.is_private:
+                return True
+            if ip.is_loopback:
+                return True
+            if ip.is_link_local:
+                return True
+            if ip.is_unspecified:
+                return False
+        except Exception as e:
+            return False
+        
+        return True
+
+    def _validate_cidr_subnet(self, cidr_str):
+        """
+        Validate a CIDR subnet notation
+        """
+        if not cidr_str or not isinstance(cidr_str, str):
+            return False
+        
+        # Check for CIDR format with slash
+        if '/' not in cidr_str:
+            return False
+        
+        parts = cidr_str.split('/')
+        if len(parts) != 2:
+            return False
+        
+        ip_part, mask_part = parts
+        
+        # Validate IP part
+        is_valid_ip = self._validate_ip_address(ip_part)
+        if not is_valid_ip:
+            return False
+        
+        # Validate subnet mask
+        try:
+            mask_value = int(mask_part)
+            if not (0 <= mask_value <= 32):
+                return False
+        except ValueError:
+            return False
+        
+        # Validate the complete CIDR using ipaddress module
+        try:
+            network = ipaddress.IPv4Network(cidr_str, strict=False)
+            
+            if network.num_addresses == 0:
+                return False
+                
+            return True
+            
+        except ValueError as e:
+            return False
+        except Exception as e:
+            return False
+
+    def _validate_ip_or_cidr(self,input_str):
+        """
+        Validate either an IP address or CIDR subnet
+        Returns: (is_valid, type)
+        """
+        if '/' in input_str:
+            is_valid = self._validate_cidr_subnet(input_str)
+            return is_valid, "CIDR subnet"
+        else:
+            is_valid = self._validate_ip_address(input_str)
+            return is_valid, "IP address"
+
     def _service_to_port(self, service_name):
         """
         Convert service name to default port number
@@ -304,7 +503,7 @@ class Firewall(Resource):
             print(f"Error parsing rule with number: {line}, Error: {e}")
             return None
     
-    def _find_matching_rules(self, rules, target_port, protocol, ipv4, ipv6):
+    def _find_matching_rules(self, rules, action, target_port, protocol, ipv4, ipv6):
         """
         Find rules that match the specified criteria
         """
@@ -312,11 +511,18 @@ class Firewall(Resource):
         
         # Debug Logging
         # print(f"=== MATCHING CRITERIA ===")
-        # print(f"Looking for: port={target_port}, protocol={protocol}, ipv4={ipv4}, ipv6={ipv6}")
+        # print(f"Looking for: port={target_port}, protocol={protocol}")
+        # print(f"Delete param: ipv4={ipv4}, ipv6={ipv6}")
         
         for rule in rules:
-            # print(f"Checking rule {rule['rule_number']}: {rule['port']}/{rule['protocol']} IPv4:{rule['ipv4']} IPv6:{rule['ipv6']}")
+            # print(f"\nChecking rule {rule['rule_number']}: {rule['action']} {rule['port']}/{rule['protocol']} IPv4:{rule['ipv4']} IPv6:{rule['ipv6']}")
             
+            # Check if rule matches the action
+            action = action.upper()
+            if rule['action'] != action:
+                # print(f"  - Action mismatch: {rule['action']} != {action}")
+                continue
+
             # Check if rule matches the port
             if rule['port'] != target_port:
                 # print(f"  - Port mismatch: {rule['port']} != {target_port}")
@@ -325,18 +531,16 @@ class Firewall(Resource):
             # Check if rule matches the protocol (case insensitive)
             rule_protocol = rule['protocol'].lower()
             target_protocol = protocol.lower()
-            
+
             if rule_protocol != target_protocol and rule_protocol != 'any':
                 # print(f"  - Protocol mismatch: {rule_protocol} != {target_protocol}")
                 continue
+
+           # Check IP version - THE KEY LOGIC
+            ipv4_ok = ipv4 and rule['ipv4']
+            ipv6_ok = ipv6 and rule['ipv6']
             
-           # Match if rule matches EITHER IP version
-            if not ((ipv4 and rule['ipv4']) or (ipv6 and rule['ipv6'])):
-                continue
-            
-            # Check if it's an ALLOW rule (you might want to handle DENY rules differently)
-            if rule['action'] != 'ALLOW':
-                # print(f"  - Action mismatch: {rule['action']} != ALLOW")
+            if not (ipv4_ok or ipv6_ok):
                 continue
             
             # print(f"  - Rule MATCHED!")
@@ -359,29 +563,64 @@ class Firewall(Resource):
                 cmd = ["sudo", "ufw", "--force", "delete", rule['rule_number']]
                 result = subprocess.run(cmd, capture_output=True, text=True, input='y\n')
                 
+                success = result.returncode == 0
+                
                 deletion_results.append({
-                    "rule_number": rule['rule_number'],
+                    "action": rule['action'],
                     "port": rule['port'],
                     "protocol": rule['protocol'],
+                    "direction": rule['direction'],
                     "ipv4": rule['ipv4'],
                     "ipv6": rule['ipv6'],
-                    "success": result.returncode == 0,
-                    "stdout": result.stdout,
-                    "stderr": result.stderr
+                    "source": rule['source'],
+                    "success": success,
                 })
-                
+                    
             except Exception as e:
                 deletion_results.append({
                     "rule_number": rule['rule_number'],
+                    "action": rule['action'],
                     "port": rule['port'],
                     "protocol": rule['protocol'],
+                    "direction": rule['direction'],
                     "ipv4": rule['ipv4'],
                     "ipv6": rule['ipv6'],
+                    "source": rule['source'],
                     "success": False,
-                    "error": str(e)
+                    "error": str(e) 
                 })
         
         return deletion_results
+    
+    def _get_deletion_details(self, matching_rules, target_port, protocol, ipv4, ipv6, service):
+        """
+        Extract common details from the deleted rules for the response
+        """
+        if not matching_rules:
+            return {}
+        
+        # Get the most common action, direction, and source
+        actions = [rule['action'] for rule in matching_rules]
+        directions = [rule['direction'] for rule in matching_rules]
+        sources = [rule['source'] for rule in matching_rules]
+        
+        # Use the most frequent value, or the first if all are equally frequent
+        from collections import Counter
+        
+        common_action = Counter(actions).most_common(1)[0][0] if actions else 'ALLOW'
+        common_direction = Counter(directions).most_common(1)[0][0] if directions else 'IN'
+        common_source = Counter(sources).most_common(1)[0][0] if sources else 'Anywhere'
+        
+        return {
+            "action": common_action,
+            "port": target_port,
+            "protocol": protocol.upper(),
+            "direction": common_direction,
+            "ipv4": ipv4,
+            "ipv6": ipv6,
+            "source": common_source,
+            "service": service.lower() if service else None
+        }
     
     def _parse_port_protocol(self, port_info):
         """
