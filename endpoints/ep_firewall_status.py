@@ -128,6 +128,21 @@ class FirewallStatus(Resource):
         """
         Determine IP version and clean source
         """
-        is_ipv6 = '(v6)' in port_info or '(v6)' in source_info
+         # Clean the source
         clean_source = re.sub(r'\s*\(v6\)\s*', '', source_info).strip()
-        return clean_source, not is_ipv6, is_ipv6
+        clean_source = re.sub(r'\s*\(out\)\s*', '', clean_source).strip()
+        
+        # Check for explicit IPv6 keyword
+        if '(v6)' in port_info or '(v6)' in source_info:
+            return clean_source, False, True
+        
+        # IPv6 addr validate: if it contains a colon, it's IPv6
+        has_colon = ':' in clean_source
+        
+        # Common non-IP values that might contain colons (edge cases)
+        non_ip_with_colons = ['Anywhere', 'anywhere', 'ANYWHERE', 'any', 'ANY']
+        
+        if has_colon and clean_source not in non_ip_with_colons:
+            return clean_source, False, True
+        else:
+            return clean_source, True, False

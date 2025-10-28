@@ -99,7 +99,7 @@ class Firewall(Resource):
             with_direction_rule = True
 
         elif not args['direction'] and args['source']:
-            validation, src_type = self._validate_ip_or_cidr(args['source'])
+            validation, msg = self._validate_ip_or_cidr(args['source'])
             
             if validation:
                 source = args['source']
@@ -107,20 +107,20 @@ class Firewall(Resource):
             else:
                 return {
                 "success": False,
-                "error": f"Invalid {src_type} is provided"
+                "error": msg
             }, 400
 
         elif args['direction'] and args['source']:
             direction = args['direction']
             source = args['source']
-            validation, src_type = self._validate_ip_or_cidr(args['source'])
+            validation, msg = self._validate_ip_or_cidr(args['source'])
             
             if validation:
                 with_direction_source_ip_rule = True
             else:
                 return {
                 "success": False,
-                "error": f"Invalid {src_type} is provided"
+                "error": msg
             }, 400
             
 
@@ -137,20 +137,46 @@ class Firewall(Resource):
                 # Build and run the ufw command
                 cmd = ["sudo", "/usr/sbin/ufw", action, f"{target_port}/{protocol}"]
                 subprocess.run(cmd, capture_output=True, text=True)
+
+                # Remove ipv4/ipv6 rule if one of them is false
+                if (not ipv4 and ipv6) or (not ipv6 and ipv4):
+                    current_rules = self._get_current_rules()
+                    matching_rules = self._find_matching_rules(
+                        current_rules, 
+                        args['action'], 
+                        target_port, 
+                        args['protocol'], 
+                        not(ipv4), 
+                        not(ipv6)
+                    )
+                    self._delete_rules(matching_rules)
                 
                 return jsonify({
                     "success": True,
-                    "message": f"Port {target_port} is added successfully"
+                    "message": f"Rule - {action} port {target_port}/{protocol} with (IPv4:{ipv4} IPv6:{ipv6}) is added successfully"
                 })
             
             elif with_direction_rule:
                 # Build and run the ufw command
                 cmd = ["sudo", "/usr/sbin/ufw", action, direction, f"{target_port}/{protocol}"]
                 subprocess.run(cmd, capture_output=True, text=True)
+
+                # Remove ipv4/ipv6 rule if one of them is false
+                if (not ipv4 and ipv6) or (not ipv6 and ipv4):
+                    current_rules = self._get_current_rules()
+                    matching_rules = self._find_matching_rules(
+                        current_rules, 
+                        args['action'], 
+                        target_port, 
+                        args['protocol'], 
+                        not(ipv4), 
+                        not(ipv6)
+                    )
+                    self._delete_rules(matching_rules)
                 
                 return jsonify({
                     "success": True,
-                    "message": f"Port {target_port} is added successfully"
+                    "message": f"Rule - {action} {direction} to port {target_port}/{protocol} with (IPv4:{ipv4} IPv6:{ipv6}) is added successfully"
                 })
             
             elif with_source_ip_rule:
@@ -160,7 +186,7 @@ class Firewall(Resource):
                 
                 return jsonify({
                     "success": True,
-                    "message": f"Port {target_port} is added successfully"
+                    "message": f"Rule - {action} from {source} to port {target_port}/{protocol} is added successfully"
                 })
             
             elif with_direction_source_ip_rule:
@@ -170,7 +196,7 @@ class Firewall(Resource):
                 
                 return jsonify({
                     "success": True,
-                    "message": f"Port {target_port} is added successfully"
+                    "message": f"Rule - {action} {direction} from {source} to port {target_port}/{protocol} is added successfully"
                 })
 
         except Exception as e:
@@ -268,14 +294,14 @@ class Firewall(Resource):
             if not matching_rules:
                 return {
                     "success": False,
-                    "error": f"No matching rules found for {args['action']} port {target_port}/{args['protocol']} with IPv4:{ipv4} IPv6:{ipv6}"
+                    "error": f"No matching rules found for {args['action']} port {target_port}/{args['protocol']} with IPv4:{not(ipv4)} IPv6:{not(ipv6)}"
                 }, 404
             
             # Delete the matching rules
             deletion_results = self._delete_rules(matching_rules)
 
             # Calculate common details for the response
-            details = self._get_deletion_details(matching_rules, target_port, protocol, ipv4, ipv6, args['service'])
+            details = self._get_deletion_details(matching_rules, target_port, protocol, args['service'])
             
             return {
                 "success": True,
@@ -321,20 +347,55 @@ class Firewall(Resource):
         # Check for reserved addresses
         try:
             ip = ipaddress.IPv4Address(ip_str)
-            if ip.is_multicast:
+            if ip.is_multicast:     # Valid IPv4 multicast address
                 return False
-            if ip.is_private:
+            if ip.is_private:       # Valid IPv4 private address
                 return True
-            if ip.is_loopback:
+            if ip.is_loopback:      # Valid IPv4 loopback address
                 return True
-            if ip.is_link_local:
+            if ip.is_link_local:    # Valid IPv4 link-local address
                 return True
-            if ip.is_unspecified:
+            if ip.is_unspecified:   # Unspecified address (0.0.0.0) is not valid
                 return False
         except Exception as e:
             return False
         
         return True
+    
+    def _validate_ipv6_address(self, ipv6_str):
+        """
+        Validate an IPv6 address
+        """
+        if not ipv6_str or not isinstance(ipv6_str, str):
+            return False
+        
+        # Remove any surrounding whitespace
+        ipv6_str = ipv6_str.strip()
+        
+        try:
+            ip = ipaddress.IPv6Address(ipv6_str)
+            
+            # Additional information about the IPv6 address
+            if ip.is_multicast:     # Valid IPv6 multicast address
+                return True
+            if ip.is_private:       # Valid IPv6 unique local address (ULA)
+                return True
+            if ip.is_loopback:      # Valid IPv6 loopback address
+                return True
+            if ip.is_link_local:    # Valid IPv6 link-local address
+                return True
+            if ip.is_unspecified:   # Valid IPv6 unspecified address (::)
+                return True
+            if ip.is_reserved:      # Valid IPv6 reserved address
+                return True
+                
+            return True
+            
+        except ipaddress.AddressValueError as e:
+            return False
+        except Exception as e:
+            return False
+    
 
     def _validate_cidr_subnet(self, cidr_str):
         """
@@ -379,18 +440,82 @@ class Firewall(Resource):
             return False
         except Exception as e:
             return False
+        
+    def _validate_ipv6_cidr_subnet(self, ipv6_cidr_str):
+        """
+        Validate an IPv6 CIDR subnet notation
+        """
+        if not ipv6_cidr_str or not isinstance(ipv6_cidr_str, str):
+            return False
+        
+        # Check for CIDR format with slash
+        if '/' not in ipv6_cidr_str:
+            return False
+        
+        parts = ipv6_cidr_str.split('/')
+        if len(parts) != 2:
+            return False
+        
+        ip_part, prefix_part = parts
+        
+        # Validate IPv6 address part
+        is_valid_ipv6 = self._validate_ipv6_address(ip_part)
+        if not is_valid_ipv6:
+            return False
+        
+        # Validate prefix length
+        try:
+            prefix_value = int(prefix_part)
+            if not (0 <= prefix_value <= 128):
+                return False
+        except ValueError:
+            return False
+        
+        # Validate the complete IPv6 CIDR using ipaddress module
+        try:
+            network = ipaddress.IPv6Network(ipv6_cidr_str, strict=False)
+            
+            # Additional validations
+            if network.num_addresses == 0:
+                return False
+                
+            return True
+            
+        except ValueError as e:
+            return False
+        except Exception as e:
+            return False
 
     def _validate_ip_or_cidr(self,input_str):
         """
         Validate either an IP address or CIDR subnet
         Returns: (is_valid, type)
         """
+
+        # Check if it's CIDR notation (contains slash)
         if '/' in input_str:
-            is_valid = self._validate_cidr_subnet(input_str)
-            return is_valid, "CIDR subnet"
+            # Try IPv4 first, then IPv6
+            is_valid_v4= self._validate_cidr_subnet(input_str)
+            if is_valid_v4:
+                return True, "IPv4 CIDR subnet"
+            
+            is_valid_v6= self._validate_ipv6_cidr_subnet(input_str)
+            if is_valid_v6:
+                return True, "IPv4 CIDR subnet"
+            
+            return False, "Invalid IPv4/IPv6 CIDR subnet is provided"
         else:
-            is_valid = self._validate_ip_address(input_str)
-            return is_valid, "IP address"
+            # Try IPv4 first, then IPv6
+            is_valid_v4 = self._validate_ip_address(input_str)
+            if is_valid_v4:
+                return True, "IPv4 address"
+            
+            is_valid_v6 = self._validate_ipv6_address(input_str)
+            if is_valid_v6:
+                return True, "IPv6 address"
+            
+            return False, "Invalid IPv4/IPv6 address is provided"
+        
 
     def _service_to_port(self, service_name):
         """
@@ -592,7 +717,7 @@ class Firewall(Resource):
         
         return deletion_results
     
-    def _get_deletion_details(self, matching_rules, target_port, protocol, ipv4, ipv6, service):
+    def _get_deletion_details(self, matching_rules, target_port, protocol, service):
         """
         Extract common details from the deleted rules for the response
         """
@@ -616,8 +741,6 @@ class Firewall(Resource):
             "port": target_port,
             "protocol": protocol.upper(),
             "direction": common_direction,
-            "ipv4": ipv4,
-            "ipv6": ipv6,
             "source": common_source,
             "service": service.lower() if service else None
         }
@@ -645,6 +768,21 @@ class Firewall(Resource):
         """
         Determine IP version and clean source
         """
-        is_ipv6 = '(v6)' in port_info or '(v6)' in source_info
+        # Clean the source
         clean_source = re.sub(r'\s*\(v6\)\s*', '', source_info).strip()
-        return clean_source, not is_ipv6, is_ipv6
+        clean_source = re.sub(r'\s*\(out\)\s*', '', clean_source).strip()
+        
+        # Check for explicit IPv6 keyword
+        if '(v6)' in port_info or '(v6)' in source_info:
+            return clean_source, False, True
+        
+        # IPv6 addr validate: if it contains a colon, it's IPv6
+        has_colon = ':' in clean_source
+        
+        # Common non-IP values that might contain colons (edge cases)
+        non_ip_with_colons = ['Anywhere', 'anywhere', 'ANYWHERE', 'any', 'ANY']
+        
+        if has_colon and clean_source not in non_ip_with_colons:
+            return clean_source, False, True
+        else:
+            return clean_source, True, False
