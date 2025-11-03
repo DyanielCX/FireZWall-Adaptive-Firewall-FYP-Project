@@ -1,0 +1,30 @@
+2025-11-02T23:54:00.042228Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-11-02T23:54:00.771122Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-11-02T23:54:00.771221Z [-] Twisted Version 25.5.0
+2025-11-02T23:54:00.771252Z [-] Cowrie Version 2.8.1
+2025-11-02T23:54:00.771275Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-11-02T23:54:00.778954Z [-] Loaded output engine: jsonlog
+2025-11-02T23:54:00.781843Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/.venv/bin/python3 3.13.7) starting up.
+2025-11-02T23:54:00.782130Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-11-02T23:54:00.794497Z [-] CowrieSSHFactory starting on 22
+2025-11-02T23:54:00.796153Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fa296361400>
+2025-11-02T23:54:01.013917Z [-] Ready to accept SSH connections
+2025-11-02T23:54:01.015508Z [-] HoneyPotTelnetFactory starting on 23
+2025-11-02T23:54:01.015848Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fa296361d30>
+2025-11-02T23:54:01.016399Z [-] Ready to accept Telnet connections
+2025-11-02T23:56:34.269089Z [cowrie.ssh.factory.CowrieSSHFactory] New connection: 192.168.253.1:32076 (192.168.253.134:22) [session: fb166084209f]
+2025-11-02T23:56:34.271198Z [HoneyPotSSHTransport,0,192.168.253.1] Remote SSH version: SSH-2.0-OpenSSH_for_Windows_9.5
+2025-11-02T23:56:34.277624Z [HoneyPotSSHTransport,0,192.168.253.1] SSH client hassh fingerprint: 701158e75b508e76f0410d5d22ef9df0
+2025-11-02T23:56:34.280497Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] kex alg=b'curve25519-sha256' key alg=b'ssh-ed25519'
+2025-11-02T23:56:34.280811Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] outgoing: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-02T23:56:34.280993Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] incoming: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-02T23:56:34.356125Z [cowrie.ssh.transport.HoneyPotSSHTransport#info] connection lost
+2025-11-02T23:56:34.356665Z [HoneyPotSSHTransport,0,192.168.253.1] Connection lost after 0.1 seconds
+2025-11-02T23:59:09.463437Z [cowrie.ssh.factory.CowrieSSHFactory] New connection: 192.168.253.1:27464 (192.168.253.134:22) [session: bfbed56c60b6]
+2025-11-02T23:59:09.467895Z [HoneyPotSSHTransport,1,192.168.253.1] Remote SSH version: SSH-2.0-OpenSSH_for_Windows_9.5
+2025-11-02T23:59:09.475151Z [HoneyPotSSHTransport,1,192.168.253.1] SSH client hassh fingerprint: 701158e75b508e76f0410d5d22ef9df0
+2025-11-02T23:59:09.478418Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] kex alg=b'curve25519-sha256' key alg=b'ssh-ed25519'
+2025-11-02T23:59:09.478680Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] outgoing: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-02T23:59:09.478820Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] incoming: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-02T23:59:09.547452Z [cowrie.ssh.transport.HoneyPotSSHTransport#info] connection lost
+2025-11-02T23:59:09.548046Z [HoneyPotSSHTransport,1,192.168.253.1] Connection lost after 0.1 seconds
