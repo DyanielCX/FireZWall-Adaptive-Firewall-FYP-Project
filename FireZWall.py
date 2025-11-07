@@ -11,6 +11,7 @@ from source.auth import require_oauth, authorization
 from endpoints.ep_auth import Login, Register, RefreshToken, Logout, LogoutAll
 from endpoints.ep_firewall import Firewall
 from endpoints.ep_firewall_status import FirewallStatus
+from source.cowrie_conf import cowrie_start, cowrie_stop, cowrie_watcher
 
 
 # API Routes
@@ -40,8 +41,13 @@ def test_db():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    # Initialize database and create default data
-    with app.app_context():
-        init_database()
-    # app.run(host="0.0.0.0", port=5000, debug=True)
-    app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=('SSL_cert/cert.pem', 'SSL_cert/key.pem'))
+    cowrie_start()      # Start Cowrie
+    cowrie_watcher()    # cowrie Log Event Watcher
+
+    try:
+        with app.app_context():
+            init_database()
+        # Run Flask with SSL context
+        app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=('SSL_cert/cert.pem', 'SSL_cert/key.pem'))
+    finally:
+        cowrie_stop()

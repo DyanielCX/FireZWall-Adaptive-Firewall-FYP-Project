@@ -56,3 +56,13 @@ class OAuth2Token(db.Model):
     
     def get_scope(self):  # Add this method for Authlib compatibility
         return self.scope or ''
+    
+class HoneypotEvent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.String(80), nullable=False)
+    eventid = db.Column(db.String(80), nullable=False)
+    src_ip = db.Column(db.String(45), nullable=False)
+    protocol = db.Column(db.String(20), nullable=False)
+    username = db.Column(db.String(80), nullable=False)
+    password = db.Column(db.String(80), nullable=False)
+    message = db.Column(db.String(200), nullable=False)

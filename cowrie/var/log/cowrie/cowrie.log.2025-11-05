@@ -1,0 +1,295 @@
+2025-11-03T00:00:11.020745Z [cowrie.ssh.factory.CowrieSSHFactory] New connection: 192.168.253.1:8374 (192.168.253.134:22) [session: 8717c0a3e2f7]
+2025-11-03T00:00:11.025535Z [HoneyPotSSHTransport,2,192.168.253.1] Remote SSH version: SSH-2.0-OpenSSH_for_Windows_9.5
+2025-11-03T00:00:11.031099Z [HoneyPotSSHTransport,2,192.168.253.1] SSH client hassh fingerprint: 701158e75b508e76f0410d5d22ef9df0
+2025-11-03T00:00:11.033391Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] kex alg=b'curve25519-sha256' key alg=b'ssh-ed25519'
+2025-11-03T00:00:11.033572Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] outgoing: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-03T00:00:11.033852Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] incoming: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-03T00:00:11.099224Z [cowrie.ssh.transport.HoneyPotSSHTransport#info] connection lost
+2025-11-03T00:00:11.099541Z [HoneyPotSSHTransport,2,192.168.253.1] Connection lost after 0.1 seconds
+2025-11-03T00:11:26.197114Z [cowrie.ssh.factory.CowrieSSHFactory] New connection: 192.168.253.140:53856 (192.168.253.134:22) [session: 5cfa43aca84f]
+2025-11-03T00:11:26.200470Z [HoneyPotSSHTransport,3,192.168.253.140] Remote SSH version: SSH-2.0-OpenSSH_9.7p1 Debian-7
+2025-11-03T00:11:26.208458Z [HoneyPotSSHTransport,3,192.168.253.140] SSH client hassh fingerprint: aae6b9604f6f3356543709a376d7f657
+2025-11-03T00:11:26.211675Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] kex alg=b'curve25519-sha256' key alg=b'ssh-ed25519'
+2025-11-03T00:11:26.211961Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] outgoing: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-03T00:11:26.212341Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] incoming: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-03T00:11:29.172369Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] NEW KEYS
+2025-11-03T00:11:29.175333Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] starting service b'ssh-userauth'
+2025-11-03T00:11:29.177947Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'none'
+2025-11-03T00:11:32.256045Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-03T00:11:32.258447Z [HoneyPotSSHTransport,3,192.168.253.140] login attempt [b'kali'/b'test'] failed
+2025-11-03T00:11:33.261788Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' failed auth b'password'
+2025-11-03T00:11:33.262316Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] unauthorized login: ()
+2025-11-03T00:11:50.487910Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-03T00:11:50.488989Z [HoneyPotSSHTransport,3,192.168.253.140] login attempt [b'kali'/b'test'] failed
+2025-11-03T00:11:51.492273Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' failed auth b'password'
+2025-11-03T00:11:51.492762Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] unauthorized login: ()
+2025-11-03T00:12:25.214205Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-03T00:12:25.215345Z [HoneyPotSSHTransport,3,192.168.253.140] login attempt [b'kali'/b'kali'] succeeded
+2025-11-03T00:12:25.217103Z [HoneyPotSSHTransport,3,192.168.253.140] Initialized emulated server as architecture: linux-x64-lsb
+2025-11-03T00:12:25.220063Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' authenticated with b'password'
+2025-11-03T00:12:25.220830Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] starting service b'ssh-connection'
+2025-11-03T00:12:25.224100Z [cowrie.ssh.connection.CowrieSSHConnection#debug] got channel b'session' request
+2025-11-03T00:12:25.224787Z [cowrie.ssh.session.HoneyPotSSHSession#info] channel open
+2025-11-03T00:12:25.225093Z [cowrie.ssh.connection.CowrieSSHConnection#debug] got global b'no-more-sessions@openssh.com' request
+2025-11-03T00:12:25.298275Z [twisted.conch.ssh.session#info] Handling pty request: b'xterm-256color' (35, 132, 0, 0)
+2025-11-03T00:12:25.298870Z [SSHChannel session (0) on SSHService b'ssh-connection' on HoneyPotSSHTransport,3,192.168.253.140] Terminal Size: 132 35
+2025-11-03T00:12:25.301499Z [SSHChannel session (0) on SSHService b'ssh-connection' on HoneyPotSSHTransport,3,192.168.253.140] request_env: LANG=en_US.UTF-8
+2025-11-03T00:12:25.304755Z [twisted.conch.ssh.session#info] Getting shell
+2025-11-03T00:12:34.770268Z [HoneyPotSSHTransport,3,192.168.253.140] CMD: ifconfig
+2025-11-03T00:12:34.772243Z [HoneyPotSSHTransport,3,192.168.253.140] Command found: ifconfig 
+2025-11-03T00:12:38.852287Z [HoneyPotSSHTransport,3,192.168.253.140] CMD: exit
+2025-11-03T00:12:38.854029Z [HoneyPotSSHTransport,3,192.168.253.140] Command found: exit 
+2025-11-03T00:12:38.854745Z [twisted.conch.ssh.session#info] exitCode: 0
+2025-11-03T00:12:38.855030Z [cowrie.ssh.connection.CowrieSSHConnection#debug] sending request b'exit-status'
+2025-11-03T00:12:38.856171Z [HoneyPotSSHTransport,3,192.168.253.140] Closing TTY Log: var/lib/cowrie/tty/b1ab0a6a0157ea86e2742ed3e4b9345548541edcc5fe1bf511ec1b0b6ec23c54 after 13.6 seconds
+2025-11-03T00:12:38.857675Z [cowrie.ssh.connection.CowrieSSHConnection#info] sending close 0
+2025-11-03T00:12:38.863495Z [cowrie.ssh.session.HoneyPotSSHSession#info] remote close
+2025-11-03T00:12:38.864312Z [HoneyPotSSHTransport,3,192.168.253.140] Got remote error, code 11 reason: b'disconnected by user'
+2025-11-03T00:12:38.865119Z [HoneyPotSSHTransport,3,192.168.253.140] avatar kali logging out
+2025-11-03T00:12:38.865363Z [cowrie.ssh.transport.HoneyPotSSHTransport#info] connection lost
+2025-11-03T00:12:38.865497Z [HoneyPotSSHTransport,3,192.168.253.140] Connection lost after 72.7 seconds
+2025-11-03T00:14:02.302206Z [cowrie.ssh.factory.CowrieSSHFactory] New connection: 192.168.253.140:40108 (192.168.253.134:22) [session: 7ab50da0a941]
+2025-11-03T00:14:02.305408Z [HoneyPotSSHTransport,4,192.168.253.140] Remote SSH version: SSH-2.0-OpenSSH_9.7p1 Debian-7
+2025-11-03T00:14:02.308980Z [HoneyPotSSHTransport,4,192.168.253.140] SSH client hassh fingerprint: aae6b9604f6f3356543709a376d7f657
+2025-11-03T00:14:02.312170Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] kex alg=b'curve25519-sha256' key alg=b'ssh-ed25519'
+2025-11-03T00:14:02.312366Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] outgoing: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-03T00:14:02.312504Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] incoming: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-03T00:14:02.329942Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] NEW KEYS
+2025-11-03T00:14:02.332241Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] starting service b'ssh-userauth'
+2025-11-03T00:14:02.334880Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'none'
+2025-11-03T00:14:03.923453Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-03T00:14:03.924398Z [HoneyPotSSHTransport,4,192.168.253.140] login attempt [b'kali'/b'kali'] succeeded
+2025-11-03T00:14:03.926177Z [HoneyPotSSHTransport,4,192.168.253.140] Initialized emulated server as architecture: linux-x64-lsb
+2025-11-03T00:14:03.926909Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' authenticated with b'password'
+2025-11-03T00:14:03.927586Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] starting service b'ssh-connection'
+2025-11-03T00:14:03.930905Z [cowrie.ssh.connection.CowrieSSHConnection#debug] got channel b'session' request
+2025-11-03T00:14:03.931346Z [cowrie.ssh.session.HoneyPotSSHSession#info] channel open
+2025-11-03T00:14:03.931771Z [cowrie.ssh.connection.CowrieSSHConnection#debug] got global b'no-more-sessions@openssh.com' request
+2025-11-03T00:14:03.985757Z [twisted.conch.ssh.session#info] Handling pty request: b'xterm-256color' (35, 132, 0, 0)
+2025-11-03T00:14:03.986145Z [SSHChannel session (0) on SSHService b'ssh-connection' on HoneyPotSSHTransport,4,192.168.253.140] Terminal Size: 132 35
+2025-11-03T00:14:03.987458Z [SSHChannel session (0) on SSHService b'ssh-connection' on HoneyPotSSHTransport,4,192.168.253.140] request_env: LANG=en_US.UTF-8
+2025-11-03T00:14:03.988519Z [twisted.conch.ssh.session#info] Getting shell
+2025-11-03T00:14:08.544214Z [HoneyPotSSHTransport,4,192.168.253.140] CMD: exit
+2025-11-03T00:14:08.545926Z [HoneyPotSSHTransport,4,192.168.253.140] Command found: exit 
+2025-11-03T00:14:08.546445Z [twisted.conch.ssh.session#info] exitCode: 0
+2025-11-03T00:14:08.546652Z [cowrie.ssh.connection.CowrieSSHConnection#debug] sending request b'exit-status'
+2025-11-03T00:14:08.547284Z [HoneyPotSSHTransport,4,192.168.253.140] Closing TTY Log: var/lib/cowrie/tty/2638f1c1c2018567a46a4cae049dd90db2d468e1538d60d328f2707d071f73c5 after 4.6 seconds
+2025-11-03T00:14:08.548791Z [cowrie.ssh.connection.CowrieSSHConnection#info] sending close 0
+2025-11-03T00:14:08.551927Z [cowrie.ssh.session.HoneyPotSSHSession#info] remote close
+2025-11-03T00:14:08.552408Z [HoneyPotSSHTransport,4,192.168.253.140] Got remote error, code 11 reason: b'disconnected by user'
+2025-11-03T00:14:08.553182Z [HoneyPotSSHTransport,4,192.168.253.140] avatar kali logging out
+2025-11-03T00:14:08.553581Z [cowrie.ssh.transport.HoneyPotSSHTransport#info] connection lost
+2025-11-03T00:14:08.553868Z [HoneyPotSSHTransport,4,192.168.253.140] Connection lost after 6.3 seconds
+2025-11-03T00:14:39.808337Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-11-03T00:14:39.809824Z [-] (TCP Port 23 Closed)
+2025-11-03T00:14:39.810267Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fa296361d30>
+2025-11-03T00:14:39.810552Z [-] (TCP Port 22 Closed)
+2025-11-03T00:14:39.810821Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fa296361400>
+2025-11-03T00:14:39.811264Z [twisted.internet.base#info] Main loop terminated.
+2025-11-03T00:14:39.811797Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-11-03T00:14:44.362033Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-11-03T00:14:44.732602Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-11-03T00:14:44.732846Z [-] Twisted Version 25.5.0
+2025-11-03T00:14:44.733070Z [-] Cowrie Version 2.8.1
+2025-11-03T00:14:44.733161Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-11-03T00:14:44.737799Z [-] Loaded output engine: jsonlog
+2025-11-03T00:14:44.740751Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-11-03T00:14:44.741074Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-11-03T00:14:44.753229Z [-] CowrieSSHFactory starting on 22
+2025-11-03T00:14:44.756914Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7facc07912b0>
+2025-11-03T00:14:44.881717Z [-] Ready to accept SSH connections
+2025-11-03T00:14:44.883234Z [-] HoneyPotTelnetFactory starting on 23
+2025-11-03T00:14:44.883613Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7facc0791be0>
+2025-11-03T00:14:44.884184Z [-] Ready to accept Telnet connections
+2025-11-03T00:14:48.616164Z [cowrie.ssh.factory.CowrieSSHFactory] New connection: 192.168.253.140:48380 (192.168.253.134:22) [session: 6b2a0ae3de59]
+2025-11-03T00:14:48.619269Z [HoneyPotSSHTransport,0,192.168.253.140] Remote SSH version: SSH-2.0-OpenSSH_9.7p1 Debian-7
+2025-11-03T00:14:48.627097Z [HoneyPotSSHTransport,0,192.168.253.140] SSH client hassh fingerprint: aae6b9604f6f3356543709a376d7f657
+2025-11-03T00:14:48.630592Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] kex alg=b'curve25519-sha256' key alg=b'ssh-ed25519'
+2025-11-03T00:14:48.630956Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] outgoing: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-03T00:14:48.631650Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] incoming: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-03T00:14:48.646743Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] NEW KEYS
+2025-11-03T00:14:48.649480Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] starting service b'ssh-userauth'
+2025-11-03T00:14:48.653022Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'none'
+2025-11-03T00:14:50.050999Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-03T00:14:50.052449Z [HoneyPotSSHTransport,0,192.168.253.140] login attempt [b'kali'/b'kali'] succeeded
+2025-11-03T00:14:50.054248Z [HoneyPotSSHTransport,0,192.168.253.140] Initialized emulated server as architecture: linux-x64-lsb
+2025-11-03T00:14:50.055152Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' authenticated with b'password'
+2025-11-03T00:14:50.055659Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] starting service b'ssh-connection'
+2025-11-03T00:14:50.058858Z [cowrie.ssh.connection.CowrieSSHConnection#debug] got channel b'session' request
+2025-11-03T00:14:50.059509Z [cowrie.ssh.session.HoneyPotSSHSession#info] channel open
+2025-11-03T00:14:50.059863Z [cowrie.ssh.connection.CowrieSSHConnection#debug] got global b'no-more-sessions@openssh.com' request
+2025-11-03T00:14:50.116241Z [twisted.conch.ssh.session#info] Handling pty request: b'xterm-256color' (35, 132, 0, 0)
+2025-11-03T00:14:50.116624Z [SSHChannel session (0) on SSHService b'ssh-connection' on HoneyPotSSHTransport,0,192.168.253.140] Terminal Size: 132 35
+2025-11-03T00:14:50.118235Z [SSHChannel session (0) on SSHService b'ssh-connection' on HoneyPotSSHTransport,0,192.168.253.140] request_env: LANG=en_US.UTF-8
+2025-11-03T00:14:50.119940Z [twisted.conch.ssh.session#info] Getting shell
+2025-11-03T00:14:52.973764Z [HoneyPotSSHTransport,0,192.168.253.140] CMD: exit
+2025-11-03T00:14:52.975920Z [HoneyPotSSHTransport,0,192.168.253.140] Command found: exit 
+2025-11-03T00:14:52.976640Z [twisted.conch.ssh.session#info] exitCode: 0
+2025-11-03T00:14:52.976974Z [cowrie.ssh.connection.CowrieSSHConnection#debug] sending request b'exit-status'
+2025-11-03T00:14:52.977884Z [HoneyPotSSHTransport,0,192.168.253.140] Closing TTY Log: var/lib/cowrie/tty/2b709b443cc16cfab36eceabaec6a5c03116fbf3cea013e6ca7448229e1b4300 after 2.9 seconds
+2025-11-03T00:14:52.979532Z [cowrie.ssh.connection.CowrieSSHConnection#info] sending close 0
+2025-11-03T00:14:52.982798Z [cowrie.ssh.session.HoneyPotSSHSession#info] remote close
+2025-11-03T00:14:52.983301Z [HoneyPotSSHTransport,0,192.168.253.140] Got remote error, code 11 reason: b'disconnected by user'
+2025-11-03T00:14:52.984241Z [HoneyPotSSHTransport,0,192.168.253.140] avatar kali logging out
+2025-11-03T00:14:52.984531Z [cowrie.ssh.transport.HoneyPotSSHTransport#info] connection lost
+2025-11-03T00:14:52.984687Z [HoneyPotSSHTransport,0,192.168.253.140] Connection lost after 4.4 seconds
+2025-11-03T00:15:19.764340Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-11-03T00:15:19.766075Z [-] (TCP Port 23 Closed)
+2025-11-03T00:15:19.767174Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7facc0791be0>
+2025-11-03T00:15:19.768557Z [-] (TCP Port 22 Closed)
+2025-11-03T00:15:19.769220Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7facc07912b0>
+2025-11-03T00:15:19.770676Z [twisted.internet.base#info] Main loop terminated.
+2025-11-03T00:15:19.772360Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-11-05T09:29:35.352333Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-11-05T09:29:35.560274Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-11-05T09:29:35.560304Z [-] Twisted Version 25.5.0
+2025-11-05T09:29:35.560312Z [-] Cowrie Version 2.8.1
+2025-11-05T09:29:35.560317Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-11-05T09:29:35.562616Z [-] Loaded output engine: jsonlog
+2025-11-05T09:29:35.563446Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-11-05T09:29:35.563535Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-11-05T09:29:35.567730Z [-] Unhandled Error
+	Traceback (most recent call last):
+	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
+	    result = callable(*args, **kwargs)
+	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
+	    p.startListening()
+	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
+	    raise CannotListenError(self.interface, self.port, le)
+	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
+	
+2025-11-05T09:29:35.569880Z [-] HoneyPotTelnetFactory starting on 23
+2025-11-05T09:29:35.570037Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7eff66939be0>
+2025-11-05T09:29:35.570320Z [-] Ready to accept Telnet connections
+2025-11-05T09:29:45.256174Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-11-05T09:29:45.256747Z [-] (TCP Port 23 Closed)
+2025-11-05T09:29:45.256927Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7eff66939be0>
+2025-11-05T09:29:45.257097Z [twisted.internet.base#info] Main loop terminated.
+2025-11-05T09:29:45.257257Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-11-05T09:31:10.233716Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-11-05T09:31:10.327718Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-11-05T09:31:10.327742Z [-] Twisted Version 25.5.0
+2025-11-05T09:31:10.327749Z [-] Cowrie Version 2.8.1
+2025-11-05T09:31:10.327754Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-11-05T09:31:10.328414Z [-] Loaded output engine: jsonlog
+2025-11-05T09:31:10.329215Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-11-05T09:31:10.329297Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-11-05T09:31:10.334019Z [-] CowrieSSHFactory starting on 22
+2025-11-05T09:31:10.334605Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f72c19378c0>
+2025-11-05T09:31:10.399441Z [-] Ready to accept SSH connections
+2025-11-05T09:31:10.399990Z [-] HoneyPotTelnetFactory starting on 23
+2025-11-05T09:31:10.400102Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f72c18102f0>
+2025-11-05T09:31:10.400245Z [-] Ready to accept Telnet connections
+2025-11-05T09:32:55.865372Z [cowrie.ssh.factory.CowrieSSHFactory] New connection: 192.168.218.1:63804 (192.168.218.131:22) [session: b9325b0baeb0]
+2025-11-05T09:32:55.866158Z [HoneyPotSSHTransport,0,192.168.218.1] Remote SSH version: SSH-2.0-OpenSSH_for_Windows_9.5
+2025-11-05T09:32:55.874932Z [HoneyPotSSHTransport,0,192.168.218.1] SSH client hassh fingerprint: 701158e75b508e76f0410d5d22ef9df0
+2025-11-05T09:32:55.875736Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] kex alg=b'curve25519-sha256' key alg=b'ssh-ed25519'
+2025-11-05T09:32:55.875814Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] outgoing: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-05T09:32:55.875871Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] incoming: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-05T09:32:58.104550Z [cowrie.ssh.transport.HoneyPotSSHTransport#info] connection lost
+2025-11-05T09:32:58.104724Z [HoneyPotSSHTransport,0,192.168.218.1] Connection lost after 2.2 seconds
+2025-11-05T22:31:27.370791Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-11-05T22:31:27.612253Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-11-05T22:31:27.612278Z [-] Twisted Version 25.5.0
+2025-11-05T22:31:27.612287Z [-] Cowrie Version 2.8.1
+2025-11-05T22:31:27.612292Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-11-05T22:31:27.613807Z [-] Loaded output engine: jsonlog
+2025-11-05T22:31:27.615419Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-11-05T22:31:27.615513Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-11-05T22:31:27.619631Z [-] CowrieSSHFactory starting on 22
+2025-11-05T22:31:27.620199Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fe11c09b8c0>
+2025-11-05T22:31:27.668709Z [-] Ready to accept SSH connections
+2025-11-05T22:31:27.669269Z [-] HoneyPotTelnetFactory starting on 23
+2025-11-05T22:31:27.669442Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fe11bf742f0>
+2025-11-05T22:31:27.669649Z [-] Ready to accept Telnet connections
+2025-11-05T22:31:49.961248Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-11-05T22:31:49.962013Z [-] (TCP Port 23 Closed)
+2025-11-05T22:31:49.962208Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fe11bf742f0>
+2025-11-05T22:31:49.962324Z [-] (TCP Port 22 Closed)
+2025-11-05T22:31:49.962409Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fe11c09b8c0>
+2025-11-05T22:31:49.962572Z [twisted.internet.base#info] Main loop terminated.
+2025-11-05T22:31:49.962844Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-11-05T23:14:40.282073Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-11-05T23:14:40.434039Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-11-05T23:14:40.434063Z [-] Twisted Version 25.5.0
+2025-11-05T23:14:40.434071Z [-] Cowrie Version 2.8.1
+2025-11-05T23:14:40.434076Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-11-05T23:14:40.434913Z [-] Loaded output engine: jsonlog
+2025-11-05T23:14:40.436116Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-11-05T23:14:40.436204Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-11-05T23:14:40.447117Z [-] CowrieSSHFactory starting on 22
+2025-11-05T23:14:40.451097Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f70929ef8c0>
+2025-11-05T23:14:40.500037Z [-] Ready to accept SSH connections
+2025-11-05T23:14:40.500906Z [-] HoneyPotTelnetFactory starting on 23
+2025-11-05T23:14:40.501066Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f70928c42f0>
+2025-11-05T23:14:40.501257Z [-] Ready to accept Telnet connections
+2025-11-05T23:15:02.289603Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-11-05T23:15:02.290030Z [-] (TCP Port 23 Closed)
+2025-11-05T23:15:02.290174Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f70928c42f0>
+2025-11-05T23:15:02.290267Z [-] (TCP Port 22 Closed)
+2025-11-05T23:15:02.290441Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f70929ef8c0>
+2025-11-05T23:15:02.290573Z [twisted.internet.base#info] Main loop terminated.
+2025-11-05T23:15:02.290765Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-11-05T23:18:11.737236Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-11-05T23:18:11.840430Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-11-05T23:18:11.840454Z [-] Twisted Version 25.5.0
+2025-11-05T23:18:11.840462Z [-] Cowrie Version 2.8.1
+2025-11-05T23:18:11.840467Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-11-05T23:18:11.841141Z [-] Loaded output engine: jsonlog
+2025-11-05T23:18:11.842007Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-11-05T23:18:11.842087Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-11-05T23:18:11.849133Z [-] CowrieSSHFactory starting on 22
+2025-11-05T23:18:11.850055Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f7c4c9378c0>
+2025-11-05T23:18:11.892735Z [-] Ready to accept SSH connections
+2025-11-05T23:18:11.894233Z [-] HoneyPotTelnetFactory starting on 23
+2025-11-05T23:18:11.894502Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f7c4c8102f0>
+2025-11-05T23:18:11.894690Z [-] Ready to accept Telnet connections
+2025-11-05T23:18:14.603704Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-11-05T23:18:14.604136Z [-] (TCP Port 23 Closed)
+2025-11-05T23:18:14.604268Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f7c4c8102f0>
+2025-11-05T23:18:14.604367Z [-] (TCP Port 22 Closed)
+2025-11-05T23:18:14.604442Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f7c4c9378c0>
+2025-11-05T23:18:14.604570Z [twisted.internet.base#info] Main loop terminated.
+2025-11-05T23:18:14.604740Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-11-05T23:18:52.498413Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-11-05T23:18:52.618680Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-11-05T23:18:52.618706Z [-] Twisted Version 25.5.0
+2025-11-05T23:18:52.618713Z [-] Cowrie Version 2.8.1
+2025-11-05T23:18:52.618718Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-11-05T23:18:52.619370Z [-] Loaded output engine: jsonlog
+2025-11-05T23:18:52.620219Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-11-05T23:18:52.620297Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-11-05T23:18:52.624703Z [-] CowrieSSHFactory starting on 22
+2025-11-05T23:18:52.625209Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f36e38338c0>
+2025-11-05T23:18:52.665284Z [-] Ready to accept SSH connections
+2025-11-05T23:18:52.665815Z [-] HoneyPotTelnetFactory starting on 23
+2025-11-05T23:18:52.665934Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f36e370c2f0>
+2025-11-05T23:18:52.666097Z [-] Ready to accept Telnet connections
+2025-11-05T23:18:59.560553Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-11-05T23:18:59.560977Z [-] (TCP Port 23 Closed)
+2025-11-05T23:18:59.561121Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f36e370c2f0>
+2025-11-05T23:18:59.561224Z [-] (TCP Port 22 Closed)
+2025-11-05T23:18:59.561296Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f36e38338c0>
+2025-11-05T23:18:59.561460Z [twisted.internet.base#info] Main loop terminated.
+2025-11-05T23:18:59.561657Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-11-05T23:19:47.368286Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-11-05T23:19:47.496669Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-11-05T23:19:47.496696Z [-] Twisted Version 25.5.0
+2025-11-05T23:19:47.496705Z [-] Cowrie Version 2.8.1
+2025-11-05T23:19:47.496712Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-11-05T23:19:47.497589Z [-] Loaded output engine: jsonlog
+2025-11-05T23:19:47.498548Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-11-05T23:19:47.498643Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-11-05T23:19:47.504807Z [-] CowrieSSHFactory starting on 22
+2025-11-05T23:19:47.505489Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fdc547e78c0>
+2025-11-05T23:19:47.546987Z [-] Ready to accept SSH connections
+2025-11-05T23:19:47.547653Z [-] HoneyPotTelnetFactory starting on 23
+2025-11-05T23:19:47.547825Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fdc546bc2f0>
+2025-11-05T23:19:47.548017Z [-] Ready to accept Telnet connections
+2025-11-05T23:19:53.092646Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-11-05T23:19:53.093141Z [-] (TCP Port 23 Closed)
+2025-11-05T23:19:53.093296Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fdc546bc2f0>
+2025-11-05T23:19:53.093436Z [-] (TCP Port 22 Closed)
+2025-11-05T23:19:53.093524Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fdc547e78c0>
+2025-11-05T23:19:53.093669Z [twisted.internet.base#info] Main loop terminated.
+2025-11-05T23:19:53.093854Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
