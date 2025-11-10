@@ -2,6 +2,7 @@
 import time, json
 from collections import defaultdict
 from datetime import datetime, timedelta
+from dateutil import parser
 import subprocess
 
 ''' Internal File Import '''
@@ -31,78 +32,83 @@ def cowrie_watcher():
     
     seen = 0
     while True:
-        with open(LOGFILE, 'r', encoding='utf-8') as f:
-            lines = f.readlines()
-        new_lines = lines[seen:]
-        seen = len(lines)
-        
-        current_time = datetime.now()
-        
-        for line in new_lines:
-            try:
-                obj = json.loads(line)
-            except:
-                continue
-                
-            ip = obj.get('src_ip') or obj.get('peerIP') or obj.get('peer')
-            eventid = obj.get('eventid')
+        try:
+            with open(LOGFILE, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+            new_lines = lines[seen:]
+            seen = len(lines)
             
-            # Brute-Force Session
-            if eventid == 'cowrie.login.failed' and ip:
-                # Add timestamp for this failed attempt
-                failed_attempts[ip].append(current_time)
+            current_time = datetime.now()
+            
+            for line in new_lines:
+                try:
+                    obj = json.loads(line)
+                except:
+                    continue
+                    
+                ip = obj.get('src_ip') or obj.get('peerIP') or obj.get('peer')
+                eventid = obj.get('eventid')
                 
-                # Clean old attempts outside the time window
-                failed_attempts[ip] = [
-                    ts for ts in failed_attempts[ip] 
-                    if current_time - ts < timedelta(minutes=TIME_WINDOW)
-                ]
-                
-                print(f"Failed login attempt #{len(failed_attempts[ip])} from {ip} (last {TIME_WINDOW} min)")
-                
-                # Check for brute-force pattern
-                if len(failed_attempts[ip]) >= 6:
-                    print(f"🚨 BRUTE-FORCE ATTACK DETECTED from {ip} - {len(failed_attempts[ip])} failed attempts in {TIME_WINDOW} minutes!")
+                # Brute-Force Session
+                if eventid == 'cowrie.login.failed' and ip:
+                    # Add timestamp for this failed attempt
+                    failed_attempts[ip].append(current_time)
+                    
+                    # Clean old attempts outside the time window
+                    failed_attempts[ip] = [
+                        ts for ts in failed_attempts[ip] 
+                        if current_time - ts < timedelta(minutes=TIME_WINDOW)
+                    ]
+                    
+                    print(f"Failed login attempt #{len(failed_attempts[ip])} from {ip} (last {TIME_WINDOW} min)")
+                    
+                    # Check for brute-force pattern
+                    if len(failed_attempts[ip]) >= 6:
+                        print(f"🚨 BRUTE-FORCE ATTACK DETECTED from {ip} - {len(failed_attempts[ip])} failed attempts in {TIME_WINDOW} minutes!")
 
+                        # Auto block IP addr & Create Honeypot Report
+                        # _ip_auto_block(ip)
+
+                        event = HoneypotEvent(
+                            timestamp = parser.isoparse(obj.get('timestamp')),
+                            eventid = eventid,
+                            event_type = "brute-force attack",
+                            src_ip = ip,
+                            protocol = obj.get('protocol'),
+                            username = obj.get('username'),
+                            password = obj.get('password'),
+                            message = obj.get('message')
+                        )
+                        db.session.add(event)
+                        db.session.commit()
+                        
+                        # Reset after detection
+                        failed_attempts[ip] = []
+                
+                # Connected Session
+                elif eventid == 'cowrie.login.success' and ip:
+                    print(f"🚨 UNAUTHORIZED ACCESS ATTEMPT from {ip}")
+                    
                     # Auto block IP addr & Create Honeypot Report
-                    _ip_auto_block()
+                    # _ip_auto_block(ip)
 
                     event = HoneypotEvent(
-                        timestamp = obj.get('src_ip'),
-                        eventid = eventid,
-                        src_ip = ip,
-                        src_port = "null",
-                        protocol = obj.get('protocol'),
-                        username = obj.get('username'),
-                        password = obj.get('password'),
-                        message = obj.get('message')
+                            timestamp = parser.isoparse(obj.get('timestamp')),
+                            eventid = eventid,
+                            event_type = "unauthorized access attemp",
+                            src_ip = ip,
+                            protocol = obj.get('protocol'),
+                            username = obj.get('username'),
+                            password = obj.get('password'),
+                            message = obj.get('message')
                     )
                     db.session.add(event)
                     db.session.commit()
-                    
-                    # Reset after detection
-                    failed_attempts[ip] = []
+
+            time.sleep(10)
             
-            # Connected Session
-            elif eventid == 'cowrie.login.success' and ip:
-                print(f"🚨 UNAUTHORIZED ACCESS ATTEMPT from {ip}")
-                
-                # Auto block IP addr & Create Honeypot Report
-                _ip_auto_block()
-
-                event = HoneypotEvent(
-                        timestamp = obj.get('timestamp'),
-                        eventid = eventid,
-                        src_ip = ip,
-                        protocol = obj.get('protocol'),
-                        username = obj.get('username'),
-                        password = obj.get('password'),
-                        message = obj.get('message')
-                )
-                db.session.add(event)
-                db.session.commit()
-
-        time.sleep(10)
+        except:
+            break
 
 def _ip_auto_block(ip):
         """

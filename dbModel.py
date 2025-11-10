@@ -59,10 +59,11 @@ class OAuth2Token(db.Model):
     
 class HoneypotEvent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.String(80), nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)
     eventid = db.Column(db.String(80), nullable=False)
+    event_type = db.Column(db.String(120), nullable=False)
     src_ip = db.Column(db.String(45), nullable=False)
     protocol = db.Column(db.String(20), nullable=False)
-    username = db.Column(db.String(80), nullable=False)
-    password = db.Column(db.String(80), nullable=False)
-    message = db.Column(db.String(200), nullable=False)
+    username = db.Column(db.String(80))
+    password = db.Column(db.String(80))
+    message = db.Column(db.String(200))
