@@ -1,14 +1,11 @@
 ''' External Library Import '''
-from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_restful import Resource, Api, reqparse
+from flask import jsonify
 import threading
 
 ''' Internal File Import '''
 from config import app, api
 from instance.create_db import init_database
-from dbModel import db, User, OAuth2Client, OAuth2Token
-from source.auth import require_oauth, authorization
+from dbModel import User, OAuth2Client
 from source.cowrie_conf import cowrie_start, cowrie_stop, cowrie_watcher
 from endpoints.ep_auth import Login, Register, RefreshToken, Logout, LogoutAll
 from endpoints.ep_firewall import Firewall

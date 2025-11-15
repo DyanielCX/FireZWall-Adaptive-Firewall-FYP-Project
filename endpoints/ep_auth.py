@@ -6,7 +6,8 @@ import datetime
 
 ''' Internal File Import '''
 from dbModel import db, User, OAuth2Client, OAuth2Token
-from source.auth import require_oauth, authorization
+from source.auth import require_oauth
+from source.syslog_record import syslog_create, get_username_with_token
 
 
 ## Authentication Endpoints ##
@@ -24,11 +25,37 @@ class Login(Resource):
         # Get client
         client = OAuth2Client.query.filter_by(client_id=args['client_id']).first()
         if not client or client.client_secret != args['client_secret']:
+            # # Logs Record
+            # level = "WARNING"
+            # event_type = "AUTH_LOGIN_FAILED"
+            # module = "auth"
+            # message = "Invalid client"
+            # username = args['username']
+            # ip_addr = request.remote_addr
+            # method = "POST"
+            # endpoint = "/api/login"
+            # details = request.get_json
+
+            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+            
             return {'error': 'invalid_client'}, 405
         
         # Authenticate user
         user = User.query.filter_by(username=args['username']).first()
         if not user or not user.check_password(args['password']) or not user.is_active:
+            # # Logs Record
+            # level = "WARNING"
+            # event_type = "AUTH_LOGIN_FAILED"
+            # module = "auth"
+            # message = "Invalid password"
+            # username = args['username']
+            # ip_addr = request.remote_addr
+            # method = "POST"
+            # endpoint = "/api/login"
+            # details = request.get_json
+
+            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+
             return {'error': 'invalid_credentials'}, 401
         
         # Generate token
@@ -49,6 +76,19 @@ class Login(Resource):
             )
             db.session.add(token_record)
             db.session.commit()
+
+            # # Logs Record
+            # level = "INFO"
+            # event_type = "AUTH_LOGIN_SUCCESS"
+            # module = "auth"
+            # message = f"User '{args['username']}' login succeed"
+            # username = args['username']
+            # ip_addr = request.remote_addr
+            # method = "POST"
+            # endpoint = "/api/login"
+            # details = request.get_json
+
+            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
             
             return jsonify({
                 "access_token": access_token,
@@ -62,6 +102,8 @@ class Login(Resource):
 
 # Register Endpoint
 class Register(Resource):
+
+    @require_oauth()  # Requires valid OAuth token
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('username', type=str, required=True, help='Username is required')
@@ -71,6 +113,19 @@ class Register(Resource):
         
         # Check if user already exists
         if User.query.filter_by(username=args['username']).first():
+            
+            # # Logs Record
+            # level = "INFO"
+            # event_type = "USER_REGISTER_FAILED"
+            # module = "auth"
+            # message = "Register existed username user"
+            # ip_addr = request.remote_addr
+            # method = "POST"
+            # endpoint = "/api/register"
+            # details = request.get_json
+
+            # syslog_create(level, event_type, module, message, None, ip_addr, method, endpoint, details)
+            
             return {'error': 'Username already exists'}, 400
         
         # Create new user
@@ -82,6 +137,25 @@ class Register(Resource):
         try:
             db.session.add(user)
             db.session.commit()
+
+            # # Get the OAuth token & username
+            # auth_header = request.headers.get('Authorization')
+            # access_token = auth_header.split(' ')[1]
+            # Username = get_username_with_token(access_token)
+
+            # # Logs Record
+            # level = "INFO"
+            # event_type = "USER_REGISTER_SUCCESS"
+            # module = "auth"
+            # message = f"User '{args['username']}' register succeed"
+            # username = Username
+            # ip_addr = request.remote_addr
+            # method = "POST"
+            # endpoint = "/api/register"
+            # details = request.get_json
+
+            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+
             return {'message': 'User created successfully'}, 201
         except Exception as e:
             db.session.rollback()
@@ -104,7 +178,7 @@ class RefreshToken(Resource):
         
         # Verify refresh token
         token = OAuth2Token.query.filter_by(refresh_token=args['refresh_token']).first()
-        if not token or token.is_expired() or token.is_revoked():
+        if not token or token.is_revoked():
             return {'error': 'invalid_refresh_token'}, 401
         
         # Generate new token

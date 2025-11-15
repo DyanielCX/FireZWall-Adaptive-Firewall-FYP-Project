@@ -214,7 +214,7 @@ class Firewall(Resource):
         parser.add_argument('action', type=str, required=False, default='allow', help='Action (allow/deny/reject)')
         parser.add_argument('port', type=str, required=False, help='Port number (optional if service is provided)')
         parser.add_argument('service', type=str, required=False, help='Service name (optional if port is provided)')
-        parser.add_argument('protocol', type=str, required=False, default='tcp', choices=['tcp', 'udp'], help='Protocol (tcp/udp)')
+        parser.add_argument('protocol', type=str, required=False, default='tcp', choices=['tcp', 'udp', 'any'], help='Protocol (tcp/udp/any)')
         parser.add_argument('ipv4', type=str, required=False, default='true', help='Apply to IPv4 rules (true/false)')
         parser.add_argument('ipv6', type=str, required=False, default='true', help='Apply to IPv6 rules (true/false)')
         

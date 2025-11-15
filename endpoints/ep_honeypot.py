@@ -1,9 +1,10 @@
 ''' External Library Import '''
-from flask import request, jsonify
 from flask_restful import Resource, reqparse
-import subprocess
+from datetime import datetime, timedelta
+from sqlalchemy import and_
 import ipaddress
 import re
+
 
 ''' Internal File Import '''
 from dbModel import HoneypotEvent
@@ -14,7 +15,7 @@ class honeypot_report(Resource):
     def get(self):
         
         parser = reqparse.RequestParser()
-        parser.add_argument('event_type', type=str, required=False, help='Event type (brute-force attack/unauthorized access attemp)')
+        parser.add_argument('event_type', type=str, required=False, choices=['brute-force attack', 'unauthorized access attemp'], help='Event type (brute-force attack/unauthorized access attemp)')
         parser.add_argument('ip', type=str, required=False, help='Source IP address')
         parser.add_argument('protocol', type=str, required=False, choices=['ssh', 'telnet'], help='Protocol (ssh/telnet)')
         parser.add_argument('timestamp', type=str, required=False, help='Timestamp(YYYY-MM-DD/YYYY-MM/YYYY)')
@@ -51,24 +52,22 @@ class honeypot_report(Resource):
                     "success": False,
                     "error": "Invalid IP address"
                 }, 400
-        else:
-            print(ip)
 
         ## Protocol filtering ##
         protocol = args.get("protocol")
 
         if protocol:
-            query = query.filter_by(src_ip=protocol)
+            query = query.filter_by(protocol=protocol)
 
         ## Timestamp filtering ##
         timestamp = args.get("timestamp")
 
         if timestamp:
-            t_start, t_end = slef._parse_time_input(timestamp)
+            t_start, t_end = self._parse_time_input(timestamp)
             if not t_start:
                 return {
                     "success": False, 
-                    "error": "Invalid timestamp"
+                    "error": "Invalid timestamp. Timestamp format: (YYYY-MM-DD/YYYY-MM/YYYY)"
                     }, 400
 
             query = query.filter(
@@ -81,27 +80,27 @@ class honeypot_report(Resource):
         # Pagination
         limit = int(args.get("limit", 50))
         offset = int(args.get("offset", 0))
-
         items = query.order_by(HoneypotEvent.id.desc()).offset(offset).limit(limit).all()
-
         
         results = [{
                     "id": e.id,
-                    "timestamp": e.timestamp,
-                    "eventid": e.eventid,
+                    "timestamp": e.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+                    "eventid": e.event_id,
                     "event_type": e.event_type,
                     "src_ip": e.src_ip,
                     "protocol": e.protocol,
                     "username": e.username,
                     "password": e.password,
+                    "duration": e.duration,
+                    "tty_code": e.tty_code,
                     "message": e.message
                 }for e in items]
 
-        return jsonify({
+        return {
             "success": True,
             "count": len(results),
             "reports": results
-        })
+        }
 
     def _validate_ip_address(self,ip_str):
         """
@@ -154,21 +153,16 @@ class honeypot_report(Resource):
         Return (start_datetime, end_datetime) or (None, None) if invalid.
         """
         try:
-            # 1. Exact datetime (ISO)
-            if "T" in value:
-                dt = parser.isoparse(value)
-                return dt, dt
-
             parts = value.split("-")
 
-            # 2. Year only: YYYY
+            # 1. Year only: YYYY
             if len(parts) == 1:
                 year = int(parts[0])
                 start = datetime(year, 1, 1)
                 end = datetime(year, 12, 31, 23, 59, 59)
                 return start, end
 
-            # 3. Year-month: YYYY-MM
+            # 2. Year-month: YYYY-MM
             if len(parts) == 2:
                 year = int(parts[0])
                 month = int(parts[1])
@@ -180,7 +174,7 @@ class honeypot_report(Resource):
                     end = datetime(year, month + 1, 1) - timedelta(seconds=1)
                 return start, end
 
-            # 4. Full date: YYYY-MM-DD
+            # 3. Full date: YYYY-MM-DD
             if len(parts) == 3:
                 year = int(parts[0])
                 month = int(parts[1])

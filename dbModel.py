@@ -57,13 +57,29 @@ class OAuth2Token(db.Model):
     def get_scope(self):  # Add this method for Authlib compatibility
         return self.scope or ''
     
+# Honeypot Event Report Model
 class HoneypotEvent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, nullable=False)
-    eventid = db.Column(db.String(80), nullable=False)
+    event_id = db.Column(db.String(80), nullable=False)
     event_type = db.Column(db.String(120), nullable=False)
     src_ip = db.Column(db.String(45), nullable=False)
     protocol = db.Column(db.String(20), nullable=False)
     username = db.Column(db.String(80))
     password = db.Column(db.String(80))
+    duration = db.Column(db.String(20))
+    tty_code = db.Column(db.String(200))
     message = db.Column(db.String(200))
+
+class SystemLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, nullable=False)
+    level = db.Column(db.String(20), nullable=False, default="INFO")
+    event_type = db.Column(db.String(80), nullable=False)
+    module = db.Column(db.String(50), nullable=False)
+    message = db.Column(db.String(300), nullable=False)
+    username = db.Column(db.String(80))
+    ip_addr = db.Column(db.String(45), nullable=False)
+    method = db.Column(db.String(20), nullable=False)
+    endpoint = db.Column(db.String(80), nullable=False)
+    details = db.Column(db.JSON)
