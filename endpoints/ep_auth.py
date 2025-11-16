@@ -47,14 +47,13 @@ class Login(Resource):
             # level = "WARNING"
             # event_type = "AUTH_LOGIN_FAILED"
             # module = "auth"
-            # message = "Invalid password"
-            # username = args['username']
+            # message = f"Invalid password [{args['username']}/{args['password']}]"
             # ip_addr = request.remote_addr
             # method = "POST"
             # endpoint = "/api/login"
             # details = request.get_json
 
-            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+            # syslog_create(level, event_type, module, message, None, ip_addr, method, endpoint, details)
 
             return {'error': 'invalid_credentials'}, 401
         
@@ -82,13 +81,12 @@ class Login(Resource):
             # event_type = "AUTH_LOGIN_SUCCESS"
             # module = "auth"
             # message = f"User '{args['username']}' login succeed"
-            # username = args['username']
             # ip_addr = request.remote_addr
             # method = "POST"
             # endpoint = "/api/login"
             # details = request.get_json
 
-            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+            # syslog_create(level, event_type, module, message, None, ip_addr, method, endpoint, details)
             
             return jsonify({
                 "access_token": access_token,
@@ -102,7 +100,6 @@ class Login(Resource):
 
 # Register Endpoint
 class Register(Resource):
-
     @require_oauth()  # Requires valid OAuth token
     def post(self):
         parser = reqparse.RequestParser()
@@ -114,17 +111,23 @@ class Register(Resource):
         # Check if user already exists
         if User.query.filter_by(username=args['username']).first():
             
+            # # Get the OAuth token & username (Admin acc)
+            # auth_header = request.headers.get('Authorization')
+            # access_token = auth_header.split(' ')[1]
+            # Username = get_username_with_token(access_token)
+            
             # # Logs Record
             # level = "INFO"
             # event_type = "USER_REGISTER_FAILED"
             # module = "auth"
             # message = "Register existed username user"
+            # username = Username
             # ip_addr = request.remote_addr
             # method = "POST"
             # endpoint = "/api/register"
             # details = request.get_json
 
-            # syslog_create(level, event_type, module, message, None, ip_addr, method, endpoint, details)
+            # syslog_create(level, event_type, module, message, Username, ip_addr, method, endpoint, details)
             
             return {'error': 'Username already exists'}, 400
         
@@ -138,7 +141,7 @@ class Register(Resource):
             db.session.add(user)
             db.session.commit()
 
-            # # Get the OAuth token & username
+            # # Get the OAuth token & username (Admin acc)
             # auth_header = request.headers.get('Authorization')
             # access_token = auth_header.split(' ')[1]
             # Username = get_username_with_token(access_token)
@@ -163,6 +166,7 @@ class Register(Resource):
 
 # Refresh Token Endpoints
 class RefreshToken(Resource):
+    @require_oauth()
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('refresh_token', type=str, required=True, help='Refresh token is required')
@@ -174,12 +178,48 @@ class RefreshToken(Resource):
         # Verify client
         client = OAuth2Client.query.filter_by(client_id=args['client_id']).first()
         if not client or client.client_secret != args['client_secret']:
+            # # Get the OAuth token & username
+            # auth_header = request.headers.get('Authorization')
+            # access_token = auth_header.split(' ')[1]
+            # Username = get_username_with_token(access_token)
+            
+            # # Logs Record
+            # level = "WARNING"
+            # event_type = "TOKEN_REFRESH_FAILED"
+            # module = "auth"
+            # message = "Invalid client"
+            # username = Username
+            # ip_addr = request.remote_addr
+            # method = "POST"
+            # endpoint = "/api/refresh-token"
+            # details = request.get_json
+
+            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+            
             return {'error': 'invalid_client'}, 401
         
         # Verify refresh token
         token = OAuth2Token.query.filter_by(refresh_token=args['refresh_token']).first()
-        if not token or token.is_revoked():
-            return {'error': 'invalid_refresh_token'}, 401
+        if not token or token.is_revoked():         
+            # # Get the OAuth token & username
+            # auth_header = request.headers.get('Authorization')
+            # access_token = auth_header.split(' ')[1]
+            # Username = get_username_with_token(access_token)
+            
+            # # Logs Record
+            # level = "WARNING"
+            # event_type = "TOKEN_REFRESH_FAILED"
+            # module = "auth"
+            # message = "Invalid refresh token"
+            # username = Username
+            # ip_addr = request.remote_addr
+            # method = "POST"
+            # endpoint = "/api/refresh-token"
+            # details = request.get_json
+
+            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+            
+            # return {'error': 'invalid_refresh_token'}, 401
         
         # Generate new token
         new_access_token = gen_salt(48)
@@ -194,6 +234,23 @@ class RefreshToken(Resource):
         
         try:
             db.session.commit()
+
+            # # Get the username
+            # Username = get_username_with_token(new_access_token)
+
+            # # Logs Record
+            # level = "INFO"
+            # event_type = "TOKEN_REFRESH_SUCCESS"
+            # module = "auth"
+            # message = f"User {Username}'s token refresh succeed"
+            # username = Username
+            # ip_addr = request.remote_addr
+            # method = "POST"
+            # endpoint = "/api/refresh-token"
+            # details = request.get_json
+
+            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+            
             return jsonify({
                 "access_token": new_access_token,
                 "token_type": "bearer", 
@@ -206,7 +263,7 @@ class RefreshToken(Resource):
 
 # Logout Endpoints
 class Logout(Resource):
-    @require_oauth()  # Requires valid OAuth token
+    @require_oauth()
     def post(self):
         try:
             # Get the authorization header
@@ -220,10 +277,46 @@ class Logout(Resource):
             # Find and revoke the token
             token = OAuth2Token.query.filter_by(access_token=access_token).first()
             if token:
+                # Revoke token
                 token.revoked = True
                 db.session.commit()
+
+                # # Get the OAuth token & username
+                # auth_header = request.headers.get('Authorization')
+                # access_token = auth_header.split(' ')[1]
+                # Username = get_username_with_token(access_token)
+
+                # # Logs Record
+                # level = "INFO"
+                # event_type = "AUTH_LOGOUT_SUCCESS"
+                # module = "auth"
+                # message = f"User {Username}'s logout succeed [one token revoke]"
+                # username = Username
+                # ip_addr = request.remote_addr
+                # method = "POST"
+                # endpoint = "/api/logout"
+                # details = {"Authorization": f"Bearer {access_token}"}
+
+                # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+
                 return {'message': 'Successfully logged out'}, 200
             else:
+                # Get the OAuth token for logs
+                # auth_header = request.headers.get('Authorization')
+                # access_token = auth_header.split(' ')[1]
+                
+                # # Logs Record
+                # level = "WARNING"
+                # event_type = "AUTH_LOGOUT_FAILED"
+                # module = "auth"
+                # message = "Invalid token"
+                # ip_addr = request.remote_addr
+                # method = "POST"
+                # endpoint = "/api/logout"
+                # details = {"Authorization": f"Bearer {access_token}"}
+
+                # syslog_create(level, event_type, module, message, None, ip_addr, method, endpoint, details)
+                
                 return {'error': 'Token not found'}, 404
                 
         except Exception as e:
@@ -246,6 +339,22 @@ class LogoutAll(Resource):
             # Find the current token to get user_id
             current_token = OAuth2Token.query.filter_by(access_token=access_token).first()
             if not current_token:
+                # # Get the OAuth token for logs
+                # auth_header = request.headers.get('Authorization')
+                # access_token = auth_header.split(' ')[1]
+                
+                # # Logs Record
+                # level = "WARNING"
+                # event_type = "AUTH_LOGOUT_FAILED"
+                # module = "auth"
+                # message = "Invalid token"
+                # ip_addr = request.remote_addr
+                # method = "POST"
+                # endpoint = "/api/logout-all"
+                # details = {"Authorization": f"Bearer {access_token}"}
+
+                # syslog_create(level, event_type, module, message, None, ip_addr, method, endpoint, details)
+
                 return {'error': 'Token not found'}, 404
             
             user_id = current_token.user_id
@@ -256,6 +365,25 @@ class LogoutAll(Resource):
                 token.revoked = True
             
             db.session.commit()
+
+            # # Get the OAuth token & username
+            # auth_header = request.headers.get('Authorization')
+            # access_token = auth_header.split(' ')[1]
+            # Username = get_username_with_token(access_token)
+
+            # # Logs Record
+            # level = "INFO"
+            # event_type = "AUTH_LOGOUT_SUCCESS"
+            # module = "auth"
+            # message = f"User {Username}'s logout succeed [one token revoke]"
+            # username = Username
+            # ip_addr = request.remote_addr
+            # method = "POST"
+            # endpoint = "/api/logout-all"
+            # details = {"Authorization": f"Bearer {access_token}"}
+
+            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+
             return {'message': f'Successfully logged out from all devices. {len(tokens)} tokens revoked.'}, 200
                 
         except Exception as e:
