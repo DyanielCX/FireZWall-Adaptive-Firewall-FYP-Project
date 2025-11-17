@@ -25,7 +25,8 @@ class Login(Resource):
         # Get client
         client = OAuth2Client.query.filter_by(client_id=args['client_id']).first()
         if not client or client.client_secret != args['client_secret']:
-            # # Logs Record
+            # # ---Logs Record--- #
+            # # Log info
             # level = "WARNING"
             # event_type = "AUTH_LOGIN_FAILED"
             # module = "auth"
@@ -43,7 +44,8 @@ class Login(Resource):
         # Authenticate user
         user = User.query.filter_by(username=args['username']).first()
         if not user or not user.check_password(args['password']) or not user.is_active:
-            # # Logs Record
+            # # ---Logs Record--- #
+            # # Log info
             # level = "WARNING"
             # event_type = "AUTH_LOGIN_FAILED"
             # module = "auth"
@@ -76,17 +78,18 @@ class Login(Resource):
             db.session.add(token_record)
             db.session.commit()
 
-            # # Logs Record
-            # level = "INFO"
-            # event_type = "AUTH_LOGIN_SUCCESS"
-            # module = "auth"
-            # message = f"User '{args['username']}' login succeed"
-            # ip_addr = request.remote_addr
-            # method = "POST"
-            # endpoint = "/api/login"
-            # details = request.get_json
+            # ---Logs Record--- #
+            # Log info
+            level = "INFO"
+            event_type = "AUTH_LOGIN_SUCCESS"
+            module = "auth"
+            message = f"User ({args['username']}) login succeed"
+            ip_addr = request.remote_addr
+            method = "POST"
+            endpoint = "/api/login"
+            details = request.get_json()
 
-            # syslog_create(level, event_type, module, message, None, ip_addr, method, endpoint, details)
+            syslog_create(level, event_type, module, message, None, ip_addr, method, endpoint, details)
             
             return jsonify({
                 "access_token": access_token,
@@ -111,12 +114,13 @@ class Register(Resource):
         # Check if user already exists
         if User.query.filter_by(username=args['username']).first():
             
+            # # ---Logs Record--- #
             # # Get the OAuth token & username (Admin acc)
             # auth_header = request.headers.get('Authorization')
             # access_token = auth_header.split(' ')[1]
             # Username = get_username_with_token(access_token)
             
-            # # Logs Record
+            # # Log info
             # level = "INFO"
             # event_type = "USER_REGISTER_FAILED"
             # module = "auth"
@@ -125,7 +129,7 @@ class Register(Resource):
             # ip_addr = request.remote_addr
             # method = "POST"
             # endpoint = "/api/register"
-            # details = request.get_json
+            # details = request.get_json()
 
             # syslog_create(level, event_type, module, message, Username, ip_addr, method, endpoint, details)
             
@@ -141,21 +145,22 @@ class Register(Resource):
             db.session.add(user)
             db.session.commit()
 
+            # # ---Logs Record--- #
             # # Get the OAuth token & username (Admin acc)
             # auth_header = request.headers.get('Authorization')
             # access_token = auth_header.split(' ')[1]
             # Username = get_username_with_token(access_token)
 
-            # # Logs Record
+            # # Log info
             # level = "INFO"
             # event_type = "USER_REGISTER_SUCCESS"
             # module = "auth"
-            # message = f"User '{args['username']}' register succeed"
+            # message = f"User ({args['username']}) register succeed"
             # username = Username
             # ip_addr = request.remote_addr
             # method = "POST"
             # endpoint = "/api/register"
-            # details = request.get_json
+            # details = request.get_json()
 
             # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
 
@@ -178,12 +183,13 @@ class RefreshToken(Resource):
         # Verify client
         client = OAuth2Client.query.filter_by(client_id=args['client_id']).first()
         if not client or client.client_secret != args['client_secret']:
+            # # ---Logs Record--- #
             # # Get the OAuth token & username
             # auth_header = request.headers.get('Authorization')
             # access_token = auth_header.split(' ')[1]
             # Username = get_username_with_token(access_token)
             
-            # # Logs Record
+            # ## Log info
             # level = "WARNING"
             # event_type = "TOKEN_REFRESH_FAILED"
             # module = "auth"
@@ -192,7 +198,7 @@ class RefreshToken(Resource):
             # ip_addr = request.remote_addr
             # method = "POST"
             # endpoint = "/api/refresh-token"
-            # details = request.get_json
+            # details = request.get_json()
 
             # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
             
@@ -201,12 +207,13 @@ class RefreshToken(Resource):
         # Verify refresh token
         token = OAuth2Token.query.filter_by(refresh_token=args['refresh_token']).first()
         if not token or token.is_revoked():         
+            # # ---Logs Record--- #
             # # Get the OAuth token & username
             # auth_header = request.headers.get('Authorization')
             # access_token = auth_header.split(' ')[1]
             # Username = get_username_with_token(access_token)
             
-            # # Logs Record
+            # # Log info
             # level = "WARNING"
             # event_type = "TOKEN_REFRESH_FAILED"
             # module = "auth"
@@ -215,11 +222,11 @@ class RefreshToken(Resource):
             # ip_addr = request.remote_addr
             # method = "POST"
             # endpoint = "/api/refresh-token"
-            # details = request.get_json
+            # details = request.get_json()
 
             # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
             
-            # return {'error': 'invalid_refresh_token'}, 401
+            return {'error': 'invalid_refresh_token'}, 401
         
         # Generate new token
         new_access_token = gen_salt(48)
@@ -235,10 +242,11 @@ class RefreshToken(Resource):
         try:
             db.session.commit()
 
+            # # ---Logs Record--- #
             # # Get the username
             # Username = get_username_with_token(new_access_token)
 
-            # # Logs Record
+            # # Log info
             # level = "INFO"
             # event_type = "TOKEN_REFRESH_SUCCESS"
             # module = "auth"
@@ -247,7 +255,7 @@ class RefreshToken(Resource):
             # ip_addr = request.remote_addr
             # method = "POST"
             # endpoint = "/api/refresh-token"
-            # details = request.get_json
+            # details = request.get_json()
 
             # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
             
@@ -281,12 +289,13 @@ class Logout(Resource):
                 token.revoked = True
                 db.session.commit()
 
+                # # ---Logs Record--- #
                 # # Get the OAuth token & username
                 # auth_header = request.headers.get('Authorization')
                 # access_token = auth_header.split(' ')[1]
                 # Username = get_username_with_token(access_token)
 
-                # # Logs Record
+                # # Log info
                 # level = "INFO"
                 # event_type = "AUTH_LOGOUT_SUCCESS"
                 # module = "auth"
@@ -301,11 +310,12 @@ class Logout(Resource):
 
                 return {'message': 'Successfully logged out'}, 200
             else:
-                # Get the OAuth token for logs
+                # # ---Logs Record--- #
+                # # Get the OAuth token for logs
                 # auth_header = request.headers.get('Authorization')
                 # access_token = auth_header.split(' ')[1]
                 
-                # # Logs Record
+                # # Log info
                 # level = "WARNING"
                 # event_type = "AUTH_LOGOUT_FAILED"
                 # module = "auth"
@@ -339,11 +349,12 @@ class LogoutAll(Resource):
             # Find the current token to get user_id
             current_token = OAuth2Token.query.filter_by(access_token=access_token).first()
             if not current_token:
+                # # ---Logs Record--- #
                 # # Get the OAuth token for logs
                 # auth_header = request.headers.get('Authorization')
                 # access_token = auth_header.split(' ')[1]
                 
-                # # Logs Record
+                # # Log info
                 # level = "WARNING"
                 # event_type = "AUTH_LOGOUT_FAILED"
                 # module = "auth"
@@ -366,12 +377,13 @@ class LogoutAll(Resource):
             
             db.session.commit()
 
+            # # ---Logs Record--- #
             # # Get the OAuth token & username
             # auth_header = request.headers.get('Authorization')
             # access_token = auth_header.split(' ')[1]
             # Username = get_username_with_token(access_token)
 
-            # # Logs Record
+            # # Log info
             # level = "INFO"
             # event_type = "AUTH_LOGOUT_SUCCESS"
             # module = "auth"

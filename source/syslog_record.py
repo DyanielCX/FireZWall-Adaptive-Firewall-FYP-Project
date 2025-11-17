@@ -1,15 +1,13 @@
 ''' External Library Import '''
 from datetime import datetime, timezone
 from dateutil import parser
-import datetime
 
 ''' Internal File Import '''
 from dbModel import db, User, OAuth2Token, SystemLog
 
 def syslog_create(Level, Event_type, Module, Message, Username, IP_addr, Method, Endpoint, Details):
     # Convert datetime format of timestamp
-    parsed_ts = parser.isoparse(datetime.now())
-    parsed_ts = parsed_ts.astimezone(timezone.utc).replace(tzinfo=None)
+    parsed_ts = datetime.now(timezone.utc).replace(tzinfo=None)
 
     # Logs Record
     syslog = SystemLog(

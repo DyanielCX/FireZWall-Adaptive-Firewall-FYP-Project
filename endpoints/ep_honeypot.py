@@ -1,6 +1,7 @@
 ''' External Library Import '''
 from flask_restful import Resource, reqparse
 from datetime import datetime, timedelta
+from flask import request
 from sqlalchemy import and_
 import ipaddress
 import re
@@ -9,6 +10,7 @@ import re
 ''' Internal File Import '''
 from dbModel import HoneypotEvent
 from source.auth import require_oauth
+from source.syslog_record import syslog_create, get_username_with_token
 
 class honeypot_report(Resource):
     @require_oauth()
@@ -23,9 +25,9 @@ class honeypot_report(Resource):
         args = parser.parse_args()
         query = HoneypotEvent.query
 
-        # ------------
-        #  Filtering
-        # ------------
+        # =============
+        #   Filtering
+        # =============
 
         ## Event type filtering ##
         event_type = args.get("event_type")
@@ -77,7 +79,7 @@ class honeypot_report(Resource):
                 )
             )
 
-        # Pagination
+        ## Pagination ##
         limit = int(args.get("limit", 50))
         offset = int(args.get("offset", 0))
         items = query.order_by(HoneypotEvent.id.desc()).offset(offset).limit(limit).all()
@@ -95,6 +97,25 @@ class honeypot_report(Resource):
                     "tty_code": e.tty_code,
                     "message": e.message
                 }for e in items]
+        
+        # # ---Logs Record--- #
+        # # Get the OAuth token & username
+        # auth_header = request.headers.get('Authorization')
+        # access_token = auth_header.split(' ')[1]
+        # Username = get_username_with_token(access_token)
+
+        # # Log info
+        # level = "INFO"
+        # event_type = "VIEW_HONEYPOT_REPORT_SUCCESS"
+        # module = "honeypot"
+        # message = f"View the honeypot report succeed"
+        # username = Username
+        # ip_addr = request.remote_addr
+        # method = "GET"
+        # endpoint = "/api/honeypot/reports"
+        # details = request.get_json()
+
+        # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
 
         return {
             "success": True,

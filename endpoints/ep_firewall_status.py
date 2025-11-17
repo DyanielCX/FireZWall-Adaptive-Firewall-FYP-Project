@@ -1,10 +1,12 @@
 ''' External Library Import '''
 from flask_restful import Resource
+from flask import request
 import subprocess
 import re
 
 ''' Internal File Import '''
 from source.auth import require_oauth
+from source.syslog_record import syslog_create, get_username_with_token
 
 class FirewallStatus(Resource):
     @require_oauth()
@@ -18,18 +20,70 @@ class FirewallStatus(Resource):
             
             if result.returncode == 0:
                 combined_rules = self._parse_and_combine_rules_simple(result.stdout)
+
+                # # ---Logs Record--- #
+                # # Get the OAuth token & username
+                # auth_header = request.headers.get('Authorization')
+                # access_token = auth_header.split(' ')[1]
+                # Username = get_username_with_token(access_token)
+
+                # # Log info
+                # level = "INFO"
+                # event_type = "VIEW_FIREWALL_STATUS_SUCCESS"
+                # module = "firewall"
+                # message = f"View the firewall status succeed"
+                # username = Username
+                # ip_addr = request.remote_addr
+                # method = "GET"
+                # endpoint = "/api/firewall/status"
+
+                # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, None)
                 
-                # Return dictionary directly (Flask-RESTful will JSONify it)
+                # Return dictionary
                 return {
                     "Firewall-Status": combined_rules
                 }, 200
             else:
+                # # Get the OAuth token & username
+                # auth_header = request.headers.get('Authorization')
+                # access_token = auth_header.split(' ')[1]
+                # Username = get_username_with_token(access_token)
+
+                # # Logs Record
+                # level = "ERROR"
+                # event_type = "GET_UFW_STATUS_FAILED"
+                # module = "firewall"
+                # message = result.stderr
+                # username = Username
+                # ip_addr = request.remote_addr
+                # method = "GET"
+                # endpoint = "/api/firewall/status"
+
+                # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, None)
+
                 return {
                     "success": False,
                     "error": result.stderr
                 }, 500
                 
         except Exception as e:
+            # # Get the OAuth token & username
+            # auth_header = request.headers.get('Authorization')
+            # access_token = auth_header.split(' ')[1]
+            # Username = get_username_with_token(access_token)
+
+            # # Logs Record
+            # level = "ERROR"
+            # event_type = "EP_FIREWALL_STATUS_SYS_ERROR"
+            # module = "firewall"
+            # message = str(e)
+            # username = Username
+            # ip_addr = request.remote_addr
+            # method = "GET"
+            # endpoint = "/api/firewall/status"
+
+            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, None)
+            
             return {
                 "success": False,
                 "error": str(e)

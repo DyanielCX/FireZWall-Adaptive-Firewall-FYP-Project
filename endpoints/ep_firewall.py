@@ -6,8 +6,8 @@ import ipaddress
 import re
 
 ''' Internal File Import '''
-from dbModel import db, User, OAuth2Client, OAuth2Token
-from source.auth import require_oauth, authorization
+from source.auth import require_oauth
+from source.syslog_record import syslog_create, get_username_with_token
 
 # Protected Firewall Endpoint
 class Firewall(Resource):
@@ -131,7 +131,7 @@ class Firewall(Resource):
         # print(f"with_direction_source_ip_rule: {with_direction_source_ip_rule}")
         # return jsonify({"success": True})
 
-        # Add the firewall rules based on condition
+        # ---Add the firewall rules based on condition--- #
         try:
             if default_rule:
                 # Build and run the ufw command
@@ -151,6 +151,25 @@ class Firewall(Resource):
                     )
                     self._delete_rules(matching_rules)
                 
+                # # ---Logs Record--- #
+                # # Get the OAuth token & username
+                # auth_header = request.headers.get('Authorization')
+                # access_token = auth_header.split(' ')[1]
+                # Username = get_username_with_token(access_token)
+
+                # # Log info
+                # level = "INFO"
+                # event_type = "ADD_FIREWALL_RULE_SUCCESS"
+                # module = "firewall"
+                # message = f"Rule - {action} port {target_port}/{protocol} with (IPv4:{ipv4} IPv6:{ipv6}) is added successfully"
+                # username = Username
+                # ip_addr = request.remote_addr
+                # method = "POST"
+                # endpoint = "/api/firewall"
+                # details = request.get_json()
+
+                # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+
                 return jsonify({
                     "success": True,
                     "message": f"Rule - {action} port {target_port}/{protocol} with (IPv4:{ipv4} IPv6:{ipv6}) is added successfully"
@@ -173,6 +192,25 @@ class Firewall(Resource):
                         not(ipv6)
                     )
                     self._delete_rules(matching_rules)
+
+                # # ---Logs Record--- #
+                # # Get the OAuth token & username
+                # auth_header = request.headers.get('Authorization')
+                # access_token = auth_header.split(' ')[1]
+                # Username = get_username_with_token(access_token)
+
+                # # Log info
+                # level = "INFO"
+                # event_type = "ADD_FIREWALL_RULE_SUCCESS"
+                # module = "firewall"
+                # message = f"Rule - {action} {direction} to port {target_port}/{protocol} with (IPv4:{ipv4} IPv6:{ipv6}) is added successfully"
+                # username = Username
+                # ip_addr = request.remote_addr
+                # method = "POST"
+                # endpoint = "/api/firewall"
+                # details = request.get_json()
+
+                # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
                 
                 return jsonify({
                     "success": True,
@@ -183,6 +221,25 @@ class Firewall(Resource):
                 # Build and run the ufw command
                 cmd = ["sudo", "/usr/sbin/ufw", action, "from", source, "to", "any", "port", target_port, "proto", protocol]
                 subprocess.run(cmd, capture_output=True, text=True)
+
+                # # ---Logs Record--- #
+                # # Get the OAuth token & username
+                # auth_header = request.headers.get('Authorization')
+                # access_token = auth_header.split(' ')[1]
+                # Username = get_username_with_token(access_token)
+
+                # # Log info
+                # level = "INFO"
+                # event_type = "ADD_FIREWALL_RULE_SUCCESS"
+                # module = "firewall"
+                # message = f"Rule - {action} from {source} to port {target_port}/{protocol} is added successfully"
+                # username = Username
+                # ip_addr = request.remote_addr
+                # method = "POST"
+                # endpoint = "/api/firewall"
+                # details = request.get_json()
+
+                # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
                 
                 return jsonify({
                     "success": True,
@@ -193,6 +250,25 @@ class Firewall(Resource):
                 # Build and run the ufw command
                 cmd = ["sudo", "/usr/sbin/ufw", action, direction, "from", source, "to", "any", "port", target_port, "proto", protocol]
                 subprocess.run(cmd, capture_output=True, text=True)
+
+                # # ---Logs Record--- #
+                # # Get the OAuth token & username
+                # auth_header = request.headers.get('Authorization')
+                # access_token = auth_header.split(' ')[1]
+                # Username = get_username_with_token(access_token)
+
+                # # Log info
+                # level = "INFO"
+                # event_type = "ADD_FIREWALL_RULE_SUCCESS"
+                # module = "firewall"
+                # message = f"Rule - {action} {direction} from {source} to port {target_port}/{protocol} is added successfully"
+                # username = Username
+                # ip_addr = request.remote_addr
+                # method = "POST"
+                # endpoint = "/api/firewall"
+                # details = request.get_json()
+
+                # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
                 
                 return jsonify({
                     "success": True,
@@ -303,6 +379,26 @@ class Firewall(Resource):
             # Calculate common details for the response
             details = self._get_deletion_details(matching_rules, target_port, protocol, args['service'])
             
+
+            # # ---Logs Record--- #
+            # # Get the OAuth token & username
+            # auth_header = request.headers.get('Authorization')
+            # access_token = auth_header.split(' ')[1]
+            # Username = get_username_with_token(access_token)
+
+            # # Log info
+            # level = "INFO"
+            # event_type = "DELETE_FIREWALL_RULE_SUCCESS"
+            # module = "firewall"
+            # message = f"Successfully deleted {len(deletion_results)} rule(s) for port {target_port}/{args['protocol']}"
+            # username = Username
+            # ip_addr = request.remote_addr
+            # method = "DELETE"
+            # endpoint = "/api/firewall"
+            # details = request.get_json()
+
+            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+            
             return {
                 "success": True,
                 "message": f"Successfully deleted {len(deletion_results)} rule(s) for port {target_port}/{args['protocol']}",
@@ -311,6 +407,24 @@ class Firewall(Resource):
             }, 200
             
         except Exception as e:
+            # # ---Logs Record--- #
+            # # Get the OAuth token & username
+            # auth_header = request.headers.get('Authorization')
+            # access_token = auth_header.split(' ')[1]
+            # Username = get_username_with_token(access_token)
+
+            # # Log info
+            # level = "ERROR"
+            # event_type = "EP_FIREWALL_DELETE_SYS_ERROR"
+            # module = "firewall"
+            # message = str(e)
+            # username = Username
+            # ip_addr = request.remote_addr
+            # method = "DELETE"
+            # endpoint = "/api/firewall"
+
+            # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, None)
+
             return {
                 "success": False,
                 "error": str(e)
@@ -524,7 +638,6 @@ class Firewall(Resource):
         service_ports = {
             'http': '80',
             'https': '443',
-            'ssh': '22',
             'ftp': '21',
             'smtp': '25',
             'dns': '53',
@@ -625,7 +738,6 @@ class Firewall(Resource):
             }
             
         except Exception as e:
-            print(f"Error parsing rule with number: {line}, Error: {e}")
             return None
     
     def _find_matching_rules(self, rules, action, target_port, protocol, ipv4, ipv6):

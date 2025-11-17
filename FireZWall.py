@@ -1,5 +1,5 @@
 ''' External Library Import '''
-from flask import jsonify
+from flask import jsonify, request
 import threading
 
 ''' Internal File Import '''
@@ -11,6 +11,10 @@ from endpoints.ep_auth import Login, Register, RefreshToken, Logout, LogoutAll
 from endpoints.ep_firewall import Firewall
 from endpoints.ep_firewall_status import FirewallStatus
 from endpoints.ep_honeypot import honeypot_report
+from endpoints.ep_syslog import view_syslog
+
+from source.auth import require_oauth
+from source.syslog_record import get_username_with_token
 
 
 # API Routes
@@ -22,10 +26,22 @@ api.add_resource(LogoutAll, '/api/logout-all')
 api.add_resource(Firewall, '/api/firewall')
 api.add_resource(FirewallStatus, '/api/firewall/status')
 api.add_resource(honeypot_report, '/api/honeypot/reports')
+api.add_resource(view_syslog, '/api/logs')
 
 @app.route('/')
 def index():
     return '<h1>Flask REST API with OAuth 2.0</h1>'
+
+@app.route('/test')
+@require_oauth()
+def test():
+    auth_header = request.headers.get('Authorization')
+    access_token = auth_header.split(' ')[1]
+    Username = get_username_with_token(access_token)
+
+    return {
+        "result": Username
+    }
 
 @app.route('/api/test-db')
 def test_db():
