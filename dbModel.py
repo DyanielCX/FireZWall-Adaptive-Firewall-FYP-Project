@@ -11,6 +11,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(120), nullable=False)
+    role = db.Column(db.String(40), default="user")
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     is_active = db.Column(db.Boolean, default=True)
 
@@ -42,7 +43,7 @@ class OAuth2Token(db.Model):
     access_token = db.Column(db.String(255), unique=True)
     refresh_token = db.Column(db.String(255), unique=True)
     expires_at = db.Column(db.DateTime, nullable=False)
-    scope = db.Column(db.Text, default='')
+    scope = db.Column(db.Text, nullable=False)
     revoked = db.Column(db.Boolean, default=False)
     
     def is_expired(self):

@@ -10,7 +10,6 @@ cffi==2.0.0
 charset-normalizer==3.4.4
 click==8.3.0
 constantly==23.10.4
--e git+https://github.com/DyanielCX/FireZWall-Adaptive-Firewall-FYP-Project.git@c2d87acddb91532fb42f1f10e636bc9045b6f44f#egg=cowrie&subdirectory=cowrie
 cryptography==46.0.2
 Flask==3.1.2
 Flask-RESTful==0.3.10

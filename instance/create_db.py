@@ -21,19 +21,25 @@ def init_database():
                 client_metadata='{"scope": "firewall", "grant_types": ["password"]}'
             )
             db.session.add(client)
-            
-            # Create a default admin user
-            if not User.query.filter_by(username='admin').first():
-                admin_user = User(
-                    username='admin'
-                )
-                admin_user.set_password('admin123')
-                db.session.add(admin_user)
-            
             db.session.commit()
-            print("Default client and user created successfully!")
+
+            print("Default client created successfully!")
         else:
-            print("Default client and user already exist!")
+            print("Default client already exist!")
+
+        # Create a default admin user
+        if not User.query.filter_by(username='admin').first():
+            admin_user = User(
+                username = 'admin',
+                role = 'admin'
+            )
+            admin_user.set_password('admin123')
+            db.session.add(admin_user)
+            db.session.commit()
+
+            print("Default user created successfully!")
+        else:
+            print("Default user already exist!")
             
     except Exception as e:
         print(f"Error initializing database: {e}")

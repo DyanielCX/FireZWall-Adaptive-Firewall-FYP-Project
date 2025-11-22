@@ -9,11 +9,11 @@ import re
 
 ''' Internal File Import '''
 from dbModel import HoneypotEvent
-from source.auth import require_oauth
+from source.auth import require_oauth, require_oauth_with_scope
 from source.syslog_record import syslog_create, get_username_with_token
 
-class honeypot_report(Resource):
-    @require_oauth()
+class HoneypotReport(Resource):
+    @require_oauth_with_scope('admin', 'cybersec')
     def get(self):
         
         parser = reqparse.RequestParser()
@@ -98,24 +98,24 @@ class honeypot_report(Resource):
                     "message": e.message
                 }for e in items]
         
-        # # ---Logs Record--- #
-        # # Get the OAuth token & username
-        # auth_header = request.headers.get('Authorization')
-        # access_token = auth_header.split(' ')[1]
-        # Username = get_username_with_token(access_token)
+        # ---Logs Record--- #
+        # Get the OAuth token & username
+        auth_header = request.headers.get('Authorization')
+        access_token = auth_header.split(' ')[1]
+        Username = get_username_with_token(access_token)
 
-        # # Log info
-        # level = "INFO"
-        # event_type = "VIEW_HONEYPOT_REPORT_SUCCESS"
-        # module = "honeypot"
-        # message = f"View the honeypot report succeed"
-        # username = Username
-        # ip_addr = request.remote_addr
-        # method = "GET"
-        # endpoint = "/api/honeypot/reports"
-        # details = request.get_json()
+        # Log info
+        level = "INFO"
+        event_type = "VIEW_HONEYPOT_REPORT_SUCCESS"
+        module = "honeypot"
+        message = f"View the honeypot report succeed"
+        username = Username
+        ip_addr = request.remote_addr
+        method = "GET"
+        endpoint = "/api/honeypot/reports"
+        details = request.get_json()
 
-        # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+        syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
 
         return {
             "success": True,

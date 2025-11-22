@@ -13,7 +13,7 @@ from dbModel import User, SystemLog
 from source.auth import require_oauth
 from source.syslog_record import syslog_create, get_username_with_token
 
-class view_syslog(Resource):
+class ViewSyslog(Resource):
     @require_oauth()
     def get(self):
         
@@ -26,6 +26,13 @@ class view_syslog(Resource):
 
         args = parser.parse_args()
         query = SystemLog.query
+
+        # Get the OAuth token, current username & role
+        auth_header = request.headers.get('Authorization')
+        access_token = auth_header.split(' ')[1]
+        current_username = get_username_with_token(access_token)
+        current_user = User.query.filter_by(username = current_username).first()
+        current_user_role = current_user.role
 
         # =============
         #   Filtering
@@ -60,7 +67,7 @@ class view_syslog(Resource):
                     "error": "Only enter info/warning/error for level"
                 }, 400
 
-            query = query.filter_by(level=level)
+            query = query.filter_by(level=level.upper())
 
         ## Module address filtering ##
         module = args.get("module")
@@ -72,6 +79,13 @@ class view_syslog(Resource):
         username = args.get("username")
 
         if username:
+            
+            if current_user_role != 'admin':
+                return {
+                    "success": False,
+                    "error": f"Only admin can filter username"
+                }, 400
+
             # Check user either exist
             username_check = User.query.filter_by(username=username).first()
 
@@ -83,11 +97,12 @@ class view_syslog(Resource):
 
             # Check logs with username either exist
             query = query.filter_by(username=username)
+            record = query.first()
 
-            if len(query) == 0:
+            if record is None:
                 return {
                     "success": False,
-                    "error": f"Result with username ({username}) not found"
+                    "error": f"Result with username({username}) not found"
                 }, 400
             
         ## Endpoint filtering ##
@@ -103,10 +118,14 @@ class view_syslog(Resource):
             if endpoint not in endpoint_list:
                 return {
                     "success": False,
-                    "error": f"Endpoint ({endpoint}) not found"
+                    "error": f"Endpoint({endpoint}) not found"
                 }, 400
 
             query = query.filter_by(endpoint=endpoint)
+
+        ## Role-based filtering (not admin user only view own log) ##
+        if current_user_role != 'admin':
+            query = query.filter_by(username=current_username)
         
         ## Pagination ##
         limit = int(args.get("limit", 50))
@@ -127,29 +146,24 @@ class view_syslog(Resource):
                     "details": e.details
                 }for e in items]
         
-        # # ---Logs Record--- #
-        # # Get the OAuth token & username
-        auth_header = request.headers.get('Authorization')
-        access_token = auth_header.split(' ')[1]
-        Username = get_username_with_token(access_token)
+        # ---Logs Record--- #
+        # Log info
+        level = "INFO"
+        event_type = "VIEW_SYSLOGS_SUCCESS"
+        module = "syslog"
+        message = f"View the system logs succeed"
+        username = current_username
+        ip_addr = request.remote_addr
+        method = "GET"
+        endpoint = "/api/logs"
+        details = request.get_json()
 
-        # # Log info
-        # level = "INFO"
-        # event_type = "VIEW_SYSLOGS_SUCCESS"
-        # module = "syslog"
-        # message = f"View the system logs succeed"
-        # username = Username
-        # ip_addr = request.remote_addr
-        # method = "GET"
-        # endpoint = "/api/logs"
-        # details = request.get_json()
-
-        # syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+        syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
 
         return {
             "success": True,
             "count": len(results),
-            "reports": results
+            "logs": results
         }
 
     

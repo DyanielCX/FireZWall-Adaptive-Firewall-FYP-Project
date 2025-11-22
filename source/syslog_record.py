@@ -1,5 +1,5 @@
 ''' External Library Import '''
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from dateutil import parser
 
 ''' Internal File Import '''
@@ -7,7 +7,8 @@ from dbModel import db, User, OAuth2Token, SystemLog
 
 def syslog_create(Level, Event_type, Module, Message, Username, IP_addr, Method, Endpoint, Details):
     # Convert datetime format of timestamp
-    parsed_ts = datetime.now(timezone.utc).replace(tzinfo=None)
+    malaysia_tz = timezone(timedelta(hours=8))
+    parsed_ts = datetime.now(malaysia_tz).replace(tzinfo=None)
 
     # Logs Record
     syslog = SystemLog(

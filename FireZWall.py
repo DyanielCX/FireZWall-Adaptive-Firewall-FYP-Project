@@ -5,13 +5,14 @@ import threading
 ''' Internal File Import '''
 from config import app, api
 from instance.create_db import init_database
-from dbModel import User, OAuth2Client
+from dbModel import User, OAuth2Client, OAuth2Token
 from source.cowrie_conf import cowrie_start, cowrie_stop, cowrie_watcher
-from endpoints.ep_auth import Login, Register, RefreshToken, Logout, LogoutAll
+from endpoints.ep_auth import Login, RefreshToken, Logout, LogoutAll
+from endpoints.ep_user_manage import ViewUser, Register, DeleteUser
 from endpoints.ep_firewall import Firewall
 from endpoints.ep_firewall_status import FirewallStatus
-from endpoints.ep_honeypot import honeypot_report
-from endpoints.ep_syslog import view_syslog
+from endpoints.ep_honeypot import HoneypotReport
+from endpoints.ep_syslog import ViewSyslog
 
 from source.auth import require_oauth
 from source.syslog_record import get_username_with_token
@@ -19,14 +20,16 @@ from source.syslog_record import get_username_with_token
 
 # API Routes
 api.add_resource(Login, '/api/login')
-api.add_resource(Register, '/api/register')
 api.add_resource(RefreshToken, '/api/refresh-token')
 api.add_resource(Logout, '/api/logout')
 api.add_resource(LogoutAll, '/api/logout-all')
+api.add_resource(ViewUser, '/api/user/view')
+api.add_resource(Register, '/api/user/register')
+api.add_resource(DeleteUser, '/api/user/delete')
 api.add_resource(Firewall, '/api/firewall')
 api.add_resource(FirewallStatus, '/api/firewall/status')
-api.add_resource(honeypot_report, '/api/honeypot/reports')
-api.add_resource(view_syslog, '/api/logs')
+api.add_resource(HoneypotReport, '/api/honeypot/reports')
+api.add_resource(ViewSyslog, '/api/logs')
 
 @app.route('/')
 def index():
@@ -37,10 +40,19 @@ def index():
 def test():
     auth_header = request.headers.get('Authorization')
     access_token = auth_header.split(' ')[1]
-    Username = get_username_with_token(access_token)
+
+    # Get User ID
+    token = OAuth2Token.query.filter_by(access_token=access_token).first()
+    scope = token.scope
+    user_ID = token.user_id
+
+    # Get username
+    user = User.query.filter_by(id=user_ID).first()
+    role = user.role
 
     return {
-        "result": Username
+        "scope": scope,
+        "role": role
     }
 
 @app.route('/api/test-db')
