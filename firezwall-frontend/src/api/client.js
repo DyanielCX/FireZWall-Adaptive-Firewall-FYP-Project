@@ -38,6 +38,19 @@ const apiClient = {
     }
   },
 
+  // Logout - POST /api/logout
+  logout: async (token) => {
+    const response = await fetch(`${BASE_URL}/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    if (!response.ok) throw new Error('Failed to logout');
+    return response.json();
+  },
+
   // Other methods remain the same, just use BASE_URL
   refreshToken: async (refreshToken) => {
     const response = await fetch(`${BASE_URL}/refresh`, {

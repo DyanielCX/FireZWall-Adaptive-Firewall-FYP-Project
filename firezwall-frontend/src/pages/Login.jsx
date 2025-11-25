@@ -46,7 +46,7 @@ const Login = () => {
       navigate('/dashboard');
     } catch (err) {
       console.error('Login error:', err);
-      setError(`Login failed (Status: ${err.status || 'Network Error'}): ${err.message || 'Invalid credentials or server unavailable'}`);
+      setError(`Login failed: ${err.message || 'Invalid credentials or server unavailable'}`);
     } finally {
       setLoading(false);
     }

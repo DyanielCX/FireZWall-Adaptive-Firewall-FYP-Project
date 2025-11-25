@@ -34,10 +34,25 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Logout function
-  const logout = () => {
-    Cookies.remove('access_token');
-    Cookies.remove('refresh_token');
-    setUser(null);
+  const logout = async () => {
+    
+    try{
+      // Get the token from cookies
+      const token = Cookies.get('access_token');
+
+      // Call API logout
+      if(token){
+        await apiClient.logout(token);
+      }
+    } catch (error){
+      console.error('Logout API error:', error);
+    }
+    finally {
+      // Continue for frontend logout although API logout fail
+      Cookies.remove('access_token');
+      Cookies.remove('refresh_token');
+      setUser(null);
+    }
   };
 
   // Check if user is authenticated

@@ -2,124 +2,215 @@
 // Dashboard Page (Protected)
 // Location: /src/pages/dashboard.js (Next.js) or /src/pages/Dashboard.jsx (React)
 // ============================================
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock } from 'lucide-react';
+import { 
+  Shield, LogOut, Users, Settings, Server, 
+  FileText, Menu, ChevronRight 
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
-import Input from '../components/ui/Input';
-import Alert from '../components/ui/Alert';
-import { BASE_URL } from '../api/client';
 
-const Login = () => {
+const Dashboard = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { logout, isAuthenticated } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeSection, setActiveSection] = useState('overview');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    
-    // Validate inputs
-    if (!username.trim()) {
-      setError('Please enter your username');
-      return;
+  // Protect this page - redirect if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate('/login');
     }
-    if (!password.trim()) {
-      setError('Please enter your password');
-      return;
+  }, [isAuthenticated, navigate]);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  const menuItems = [
+    { id: 'overview', icon: Shield, label: 'Overview' },
+    { id: 'users', icon: Users, label: 'User Management' },
+    { id: 'firewall', icon: Settings, label: 'Firewall Rules' },
+    { id: 'honeypots', icon: Server, label: 'Honeypots' },
+    { id: 'logs', icon: FileText, label: 'System Logs' }
+  ];
+
+  const placeholders = {
+    users: { title: 'User Management', desc: 'Manage system users and permissions' },
+    firewall: { title: 'Firewall Rules', desc: 'Configure and manage firewall rules' },
+    honeypots: { title: 'Honeypots', desc: 'Deploy and monitor honeypot systems' },
+    logs: { title: 'System Logs', desc: 'View and analyze system logs' }
+  };
+
+  const renderContent = () => {
+    if (activeSection === 'overview') {
+      return (
+        <div>
+          <h2 className="text-2xl font-bold text-white mb-2">
+            Welcome to FireZWall Management Console
+          </h2>
+          <p className="text-slate-400 mb-8">
+            Monitor and manage your firewall system from this dashboard.
+          </p>
+          
+          {/* Feature Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {menuItems.slice(1).map((item) => (
+              <Card 
+                key={item.id} 
+                hoverable 
+                onClick={() => setActiveSection(item.id)}
+              >
+                <div className="bg-gradient-to-br from-orange-500/20 to-red-600/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                  <item.icon className="w-6 h-6 text-orange-500" />
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-1">
+                  {item.label}
+                </h3>
+                <p className="text-slate-400 text-sm">
+                  {placeholders[item.id]?.desc}
+                </p>
+                <div className="mt-4 flex items-center text-orange-500 text-sm font-medium">
+                  Open <ChevronRight className="w-4 h-4 ml-1" />
+                </div>
+              </Card>
+            ))}
+          </div>
+          
+          {/* Status Cards */}
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <h3 className="text-lg font-semibold text-white mb-4">System Status</h3>
+              <div className="space-y-3">
+                {['Firewall Service', 'Honeypot Service', 'Log Collector'].map((service) => (
+                  <div key={service} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+                    <span className="text-slate-300">{service}</span>
+                    <span className="flex items-center gap-2 text-green-400 text-sm">
+                      <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                      Active
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Card>
+            
+            <Card>
+              <h3 className="text-lg font-semibold text-white mb-4">Quick Stats</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { label: 'Active Rules', value: '24' },
+                  { label: 'Honeypots', value: '3' },
+                  { label: 'Blocked IPs', value: '156' },
+                  { label: 'Alerts Today', value: '12' }
+                ].map((stat) => (
+                  <div key={stat.label} className="bg-slate-700/50 rounded-lg p-4 text-center">
+                    <p className="text-2xl font-bold text-orange-500">{stat.value}</p>
+                    <p className="text-slate-400 text-sm">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+        </div>
+      );
     }
+
+    // Placeholder pages
+    const info = placeholders[activeSection];
+    const Icon = menuItems.find(m => m.id === activeSection)?.icon || Shield;
     
-    setLoading(true);
-    
-    try {
-      console.log('Attempting login to:', `${BASE_URL}/api/login`);
-      await login(username, password);
-      console.log('Login successful, redirecting to dashboard...');
-      navigate('/dashboard');
-    } catch (err) {
-      console.error('Login error:', err);
-      setError(`Login failed (Status: ${err.status || 'Network Error'}): ${err.message || 'Invalid credentials or server unavailable'}`);
-    } finally {
-      setLoading(false);
-    }
+    return (
+      <div>
+        <h2 className="text-2xl font-bold text-white mb-2">{info?.title}</h2>
+        <p className="text-slate-400 mb-8">{info?.desc}</p>
+        <Card className="border-dashed border-2 border-slate-600 bg-slate-800/50">
+          <div className="text-center py-12">
+            <div className="bg-slate-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Icon className="w-8 h-8 text-slate-400" />
+            </div>
+            <h3 className="text-lg font-medium text-slate-300 mb-2">Coming Soon</h3>
+            <p className="text-slate-500">This section is under development.</p>
+          </div>
+        </Card>
+      </div>
+    );
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col">
-      <Navbar showLogin={false} />
-      
-      <main className="flex-1 flex items-center justify-center px-6 py-12">
-        <Card className="w-full max-w-md">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="bg-gradient-to-br from-orange-500 to-red-600 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Lock className="w-8 h-8 text-white" />
-            </div>
-            <h2 className="text-2xl font-bold text-white">Welcome Back</h2>
-            <p className="text-slate-400 mt-2">
-              Sign in to FireZWall Management Console
-            </p>
+    <div className="min-h-screen bg-slate-900 flex">
+      {/* Sidebar */}
+      <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-slate-800 border-r border-slate-700 transition-all duration-300 flex flex-col`}>
+        {/* Logo */}
+        <div className="p-4 border-b border-slate-700 flex items-center gap-3">
+          <div className="bg-gradient-to-br from-orange-500 to-red-600 p-2 rounded-lg flex-shrink-0">
+            <Shield className="w-5 h-5 text-white" />
           </div>
-          
-          {/* Error Alert */}
-          {error && (
-            <Alert 
-              type="error" 
-              message={error} 
-              onClose={() => setError('')} 
-            />
-          )}
-          
-          {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-5 mt-6">
-            <Input
-              label="Username"
-              type="text"
-              placeholder="Enter your username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoComplete="username"
-            />
-            <Input
-              label="Password"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-            />
-            <Button 
-              type="submit"
-              className="w-full py-3" 
-              disabled={loading}
-            >
-              {loading ? 'Signing in...' : 'Sign In'}
-            </Button>
-          </form>
-          
-          {/* Back Link */}
-          <p className="text-center text-slate-500 text-sm mt-6">
-            <button 
-              onClick={() => navigate('/')} 
-              className="text-orange-500 hover:text-orange-400"
-            >
-              ← Back to Home
-            </button>
-          </p>
-        </Card>
-      </main>
+          {sidebarOpen && <span className="font-bold text-white">FireZWall</span>}
+        </div>
+        
+        {/* Navigation */}
+        <nav className="flex-1 p-4">
+          <ul className="space-y-2">
+            {menuItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  onClick={() => setActiveSection(item.id)}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
+                    activeSection === item.id 
+                      ? 'bg-gradient-to-r from-orange-500/20 to-red-600/20 text-orange-500 border border-orange-500/30' 
+                      : 'text-slate-400 hover:bg-slate-700 hover:text-white'
+                  }`}
+                >
+                  <item.icon className="w-5 h-5 flex-shrink-0" />
+                  {sidebarOpen && <span>{item.label}</span>}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        
+        {/* Logout Button */}
+        <div className="p-4 border-t border-slate-700">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors"
+          >
+            <LogOut className="w-5 h-5 flex-shrink-0" />
+            {sidebarOpen && <span>Logout</span>}
+          </button>
+        </div>
+      </aside>
       
-      <Footer />
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Top Bar */}
+        <header className="bg-slate-800 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
+          <button 
+            onClick={() => setSidebarOpen(!sidebarOpen)} 
+            className="text-slate-400 hover:text-white"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+          <div className="flex items-center gap-4">
+            <div className="text-right">
+              <p className="text-white font-medium">Administrator</p>
+              <p className="text-slate-400 text-sm">admin@firezwall.local</p>
+            </div>
+            <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold">A</span>
+            </div>
+          </div>
+        </header>
+        
+        {/* Page Content */}
+        <main className="flex-1 p-6 overflow-auto">
+          {renderContent()}
+        </main>
+      </div>
     </div>
   );
 };
 
-export default Login;
+export default Dashboard;
