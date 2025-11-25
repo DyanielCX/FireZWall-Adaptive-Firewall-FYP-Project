@@ -1,6 +1,8 @@
 ''' External Library Import '''
 from flask import jsonify, request
 import threading
+from flask import Flask, send_from_directory, jsonify, request
+import os
 
 ''' Internal File Import '''
 from config import app, api
@@ -31,9 +33,24 @@ api.add_resource(FirewallStatus, '/api/firewall/status')
 api.add_resource(HoneypotReport, '/api/honeypot/reports')
 api.add_resource(ViewSyslog, '/api/logs')
 
-@app.route('/')
-def index():
-    return '<h1>Flask REST API with OAuth 2.0</h1>'
+# @app.route('/')
+# def index():
+#     return '<h1>Flask REST API with OAuth 2.0</h1>'
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_react(path):
+    # If path is empty or is index.html
+    if path == '' or path == 'index.html':
+        return send_from_directory(app.static_folder, 'index.html')
+    
+    # If file exists in frontend folder, serve it
+    file_path = os.path.join(app.static_folder, path)
+    if os.path.exists(file_path):
+        return send_from_directory(app.static_folder, path)
+    
+    # For all other routes (React Router), return index.html
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/test')
 @require_oauth()
@@ -91,7 +108,8 @@ if __name__ == '__main__':
             init_database()
         
         # Run Flask with SSL context
-        app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=('SSL_cert/cert.pem', 'SSL_cert/key.pem'))
+        # app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=('SSL_cert/cert.pem', 'SSL_cert/key.pem'))
+        app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=None)
     
     finally:
         cowrie_stop()
