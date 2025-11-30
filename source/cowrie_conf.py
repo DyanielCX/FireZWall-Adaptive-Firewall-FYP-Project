@@ -127,7 +127,7 @@ def cowrie_watcher():
                     active_sessions[session]['success_event_stored'] = True
 
 
-                # Lod Closed Session - retrieve the tty code for the session #
+                # Log Closed Session - retrieve the tty code for the session #
                 elif event_id == 'cowrie.log.closed' and session:
                     if session in active_sessions:
                         # Store the tty code into tty dictionary
