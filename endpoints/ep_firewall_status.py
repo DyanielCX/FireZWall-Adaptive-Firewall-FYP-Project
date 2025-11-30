@@ -42,7 +42,7 @@ class FirewallStatus(Resource):
                 # Return dictionary
                 return {
                     "success": True,
-                    "Firewall-Status": combined_rules
+                    "Firewall-Rules": combined_rules
                 }, 200
             else:
                 # ---Logs Record--- #

@@ -6,7 +6,7 @@ import ipaddress
 import re
 
 ''' Internal File Import '''
-from source.auth import require_oauth, require_oauth_with_scope
+from source.auth import require_oauth_with_scope
 from source.syslog_record import syslog_create, get_username_with_token
 
 # Protected Firewall Endpoint
@@ -22,18 +22,17 @@ class Firewall(Resource):
         parser.add_argument('action', type=str, required=False, default='allow', help='Action (allow/deny/reject)')
         parser.add_argument('port', type=str, required=False, help='Port number (optional if service is provided)')
         parser.add_argument('service', type=str, required=False, help='Service name (optional if port is provided)')
-        parser.add_argument('protocol', type=str, required=False, default='tcp', choices=['tcp', 'udp'], help='Protocol (tcp/udp)')
-        parser.add_argument('direction', type=str, required=False, choices=['in', 'out'], help='Direction (in/out)')
+        parser.add_argument('protocol', type=str, required=False, default='tcp', help='Protocol (tcp/udp/any)')
+        parser.add_argument('direction', type=str, required=False, help='Direction (in/out)')
         parser.add_argument('ipv4', type=str, required=False, default='true', help='Apply to IPv4 rules (true/false)')
         parser.add_argument('ipv6', type=str, required=False, default='true', help='Apply to IPv6 rules (true/false)')
         parser.add_argument('source', type=str, required=False, help='Source (IP address/CIDR Subnet)')
         
         args = parser.parse_args()
         
-        # Input Cleaning & Validation #
+        #===== Input Cleaning & Validation =====#
         # Standard & validate action input
         action = args['action'].lower()
-
         if action not in ['allow', 'deny', 'reject']:
             return {
                 "success": False,
@@ -56,11 +55,61 @@ class Firewall(Resource):
                     "success": False,
                     "error": f"Service '{args['service']}' not found or has no default port"
                 }, 400
+        
+        # Validate port input if port is provided directly (not from service)
+        if args['port']:
+            # Validate port is integer (digits only, not alphabets)
+            port_validation = self._validate_port_input(args['port'])
+            if not port_validation['valid']:
+                return {
+                    "success": False,
+                    "error": port_validation['error']
+                }, 400
+            
+            # Validate port range based on user role
+            port_value = int(args['port'])
+            port_range_validation = self._validate_port_range(port_value)
+            if not port_range_validation['valid']:
+                return {
+                    "success": False,
+                    "error": port_range_validation['error']
+                }, 400
+        
+        # Validate port range when port comes from service
+        if args['service'] and target_port:
+            try:
+                port_value = int(target_port)
+                port_range_validation = self._validate_port_range(port_value)
+                if not port_range_validation['valid']:
+                    return {
+                        "success": False,
+                        "error": f"Service '{args['service']}' maps to port {port_value}, which is not allowed for your user role. {port_range_validation['error']}"
+                    }, 400
+            except ValueError:
+                return {
+                    "success": False,
+                    "error": f"Service '{args['service']}' returned an invalid port number"
+                }, 400
+
+        # Standard & validate protocol input
+        protocol = args['protocol'].lower()
+        if protocol not in ['tcp', 'udp', 'any']:
+            return {
+                "success": False,
+                "error": "Only enter tcp/udp/any for protocol"
+            }, 400
+
+        # Standard & validate direction input
+        direction = args['direction'].lower()
+        if direction not in ['in', 'out']:
+            return {
+                "success": False,
+                "error": "Only enter in/out for direction"
+            }, 400
 
         # Standard & validate ipv4 ipv6 input
         ipv4 = args['ipv4'].lower()
         ipv6 = args['ipv6'].lower()
-        protocol = args['protocol']
 
         if ipv4 not in ['true', 'false'] or ipv6 not in ['true', 'false']:
             return {
@@ -83,7 +132,8 @@ class Firewall(Resource):
         ipv4 = bool(ipv4)
         ipv6 = bool(ipv6)
 
-        # Define add rule condition #
+
+        #===== Define add rule condition =====#
         # State the condition flags
         default_rule = False
         with_direction_rule = False
@@ -146,8 +196,10 @@ class Firewall(Resource):
                         args['action'], 
                         target_port, 
                         args['protocol'], 
+                        args['direction'],
                         not(ipv4), 
-                        not(ipv6)
+                        not(ipv6),
+                        args['source']
                     )
                     self._delete_rules(matching_rules)
                 
@@ -170,10 +222,10 @@ class Firewall(Resource):
 
                 syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
 
-                return jsonify({
+                return {
                     "success": True,
                     "message": f"Rule - {action} port {target_port}/{protocol} with (IPv4:{ipv4} IPv6:{ipv6}) is added successfully"
-                }), 201
+                }, 201
             
             elif with_direction_rule:
                 # Build and run the ufw command
@@ -188,8 +240,10 @@ class Firewall(Resource):
                         args['action'], 
                         target_port, 
                         args['protocol'], 
+                        args['direction'],
                         not(ipv4), 
-                        not(ipv6)
+                        not(ipv6),
+                        args['source']
                     )
                     self._delete_rules(matching_rules)
 
@@ -212,10 +266,10 @@ class Firewall(Resource):
 
                 syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
                 
-                return jsonify({
+                return {
                     "success": True,
                     "message": f"Rule - {action} {direction} to port {target_port}/{protocol} with (IPv4:{ipv4} IPv6:{ipv6}) is added successfully"
-                }), 201
+                }, 201
             
             elif with_source_ip_rule:
                 # Build and run the ufw command
@@ -241,10 +295,10 @@ class Firewall(Resource):
 
                 syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
                 
-                return jsonify({
+                return {
                     "success": True,
                     "message": f"Rule - {action} from {source} to port {target_port}/{protocol} is added successfully"
-                }), 201
+                }, 201
             
             elif with_direction_source_ip_rule:
                 # Build and run the ufw command
@@ -270,13 +324,13 @@ class Firewall(Resource):
 
                 syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
                 
-                return jsonify({
+                return {
                     "success": True,
                     "message": f"Rule - {action} {direction} from {source} to port {target_port}/{protocol} is added successfully"
-                }), 201
+                }, 201
 
         except Exception as e:
-            return jsonify({"success": False, "error": str(e)}), 500
+            return {"success": False, "error": str(e)}, 500
 
 
 
@@ -290,13 +344,15 @@ class Firewall(Resource):
         parser.add_argument('action', type=str, required=False, default='allow', help='Action (allow/deny/reject)')
         parser.add_argument('port', type=str, required=False, help='Port number (optional if service is provided)')
         parser.add_argument('service', type=str, required=False, help='Service name (optional if port is provided)')
-        parser.add_argument('protocol', type=str, required=False, default='tcp', choices=['tcp', 'udp', 'any'], help='Protocol (tcp/udp/any)')
+        parser.add_argument('protocol', type=str, required=False, default='tcp', help='Protocol (tcp/udp/any)')
+        parser.add_argument('direction', type=str, required=False, help='Direction (in/out)')
         parser.add_argument('ipv4', type=str, required=False, default='true', help='Apply to IPv4 rules (true/false)')
         parser.add_argument('ipv6', type=str, required=False, default='true', help='Apply to IPv6 rules (true/false)')
+        parser.add_argument('source', type=str, required=False, help='Source (IP address/CIDR Subnet)')
         
         args = parser.parse_args()
         
-        # Input Cleaning & Validation #
+        #====== Input Cleaning & Validation ======#
         # Validate that at least one of port or service is provided
         if not args['port'] and not args['service']:
             return {
@@ -304,10 +360,25 @@ class Firewall(Resource):
                 "error": "Either port or service must be provided"
             }, 400
 
+        # Standard & validate protocol input
+        protocol = args['protocol'].lower()
+        if protocol not in ['tcp', 'udp', 'any']:
+            return {
+                "success": False,
+                "error": "Only enter tcp/udp/any for protocol"
+            }, 400
+
+        # Standard & validate direction input
+        direction = args['direction'].lower()
+        if direction not in ['in', 'out']:
+            return {
+                "success": False,
+                "error": "Only enter in/out for direction"
+            }, 400
+
         # Standard & validate ipv4 ipv6 input
         ipv4 = args['ipv4'].lower()
         ipv6 = args['ipv6'].lower()
-        protocol = args['protocol'].upper()
 
         if ipv4 not in ['true', 'false'] or ipv6 not in ['true', 'false']:
             return {
@@ -330,17 +401,29 @@ class Firewall(Resource):
         ipv4 = bool(ipv4)
         ipv6 = bool(ipv6)
 
+        # If service is provided, get the port number for that service
+        target_port = args['port']
+        if args['service']:
+            target_port = self._service_to_port(args['service'])
+            if not target_port:
+                return {
+                    "success": False,
+                    "error": f"Service '{args['service']}' not found or has no default port"
+                }, 400
+
+        # Source Validation
+        if args['source']:
+            source = args['source']
+            validation, msg = self._validate_ip_or_cidr(args['source'])
+            if not validation:
+                return {
+                "success": False,
+                "error": msg
+            }, 400
+
+
+        #====== Find the rule number & Delete rule ======#
         try:
-            # If service is provided, get the port number for that service
-            target_port = args['port']
-            if args['service']:
-                target_port = self._service_to_port(args['service'])
-                if not target_port:
-                    return {
-                        "success": False,
-                        "error": f"Service '{args['service']}' not found or has no default port"
-                    }, 400
-            
             # Get current firewall rules
             current_rules = self._get_current_rules()
             
@@ -358,8 +441,10 @@ class Firewall(Resource):
                 args['action'], 
                 target_port, 
                 args['protocol'], 
+                args['direction'],
                 ipv4, 
-                ipv6
+                ipv6,
+                args['source']
             )
             
             # Debug Logging
@@ -370,7 +455,7 @@ class Firewall(Resource):
             if not matching_rules:
                 return {
                     "success": False,
-                    "error": f"No matching rules found for {args['action']} port {target_port}/{args['protocol']} with IPv4:{not(ipv4)} IPv6:{not(ipv6)}"
+                    "error": f"No matching rules found for {args['action']} port {target_port}/{args['protocol']} with IPv4:{ipv4} IPv6:{ipv6}"
                 }, 404
             
             # Delete the matching rules
@@ -629,6 +714,61 @@ class Firewall(Resource):
                 return True, "IPv6 address"
             
             return False, "Invalid IPv4/IPv6 address is provided"
+    
+    def _validate_port_input(self, port_str):
+        """
+        Validate that port input is an integer (digits only, not alphabets)
+        Returns: {'valid': bool, 'error': str}
+        """
+        if not port_str or not isinstance(port_str, str):
+            return {
+                'valid': False,
+                'error': 'Port must be provided as a string'
+            }
+        
+        # Check if port contains only digits
+        if not port_str.isdigit():
+            return {
+                'valid': False,
+                'error': 'Port must be a numeric value'
+            }
+        
+        # Check if port can be converted to integer
+        try:
+            port_value = int(port_str)
+            # Basic range check (1-65535 is valid port range)
+            if port_value < 1 or port_value > 65535:
+                return {
+                    'valid': False,
+                    'error': 'Port must be between 1 and 65535'
+                }
+        except ValueError:
+            return {
+                'valid': False,
+                'error': 'Port must be a valid integer'
+            }
+        
+        return {
+            'valid': True,
+            'error': None
+        }
+    
+    def _validate_port_range(self, port_value):
+        """
+        Validate port range (1-65535)
+        Returns: {'valid': bool, 'error': str}
+        """
+        # Valid Port Range 1-65535
+        if 1 <= port_value <= 65535:
+            return {
+                'valid': True,
+                'error': None
+            }
+        else:
+            return {
+                'valid': False,
+                'error': 'Port must be between 1 and 65535'
+            }
         
 
     def _service_to_port(self, service_name):
@@ -740,7 +880,7 @@ class Firewall(Resource):
         except Exception as e:
             return None
     
-    def _find_matching_rules(self, rules, action, target_port, protocol, ipv4, ipv6):
+    def _find_matching_rules(self, rules, action, target_port, protocol, direction, ipv4, ipv6, source):
         """
         Find rules that match the specified criteria
         """
@@ -768,9 +908,18 @@ class Firewall(Resource):
             # Check if rule matches the protocol (case insensitive)
             rule_protocol = rule['protocol'].lower()
             target_protocol = protocol.lower()
-
             if rule_protocol != target_protocol and rule_protocol != 'any':
                 # print(f"  - Protocol mismatch: {rule_protocol} != {target_protocol}")
+                continue
+
+            # Check if rule matches the direction (case insensitive)
+            rule_direction = rule['direction'].lower()
+            target_direction = direction.lower()
+            if target_direction == 'none':
+                target_direction = 'in'
+
+            if rule_direction != target_direction:
+                # print(f"  - Direction mismatch: {rule_direction} != {target_direction}")
                 continue
 
            # Check IP version - THE KEY LOGIC
@@ -778,6 +927,11 @@ class Firewall(Resource):
             ipv6_ok = ipv6 and rule['ipv6']
             
             if not (ipv4_ok or ipv6_ok):
+                continue
+
+            # Check if rule matches the source
+            if rule['source'] != source and rule['source'] != 'Anywhere':
+                # print(f"  - Source mismatch: {rule['source']} != {source}")
                 continue
             
             # print(f"  - Rule MATCHED!")

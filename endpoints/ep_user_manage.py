@@ -9,6 +9,7 @@ from source.auth import require_oauth, require_oauth_with_scope
 from source.syslog_record import syslog_create, get_username_with_token
         
 
+# View User Endpoint
 class ViewUser(Resource):
     @require_oauth_with_scope('admin') # Admin only access
     def get(self):
@@ -70,7 +71,7 @@ class ViewUser(Resource):
         }
     
 
-# Register Endpoint
+# Register User Endpoint
 class Register(Resource):
     @require_oauth_with_scope('admin')
     def post(self):
@@ -148,8 +149,9 @@ class Register(Resource):
                 "success": False,
                 'error': str(e)
             }, 500
-        
-        
+
+
+# Delete User Endpoint
 class DeleteUser(Resource):
     @require_oauth_with_scope('admin')
     def delete(self):
@@ -259,4 +261,63 @@ class DeleteUser(Resource):
             return {
                 "success": False,
                 "message": f"{str(e)}"
+            }, 500
+
+
+# Get User Role Endpoint (Used for front-end)
+class GetUserRole(Resource):
+    @require_oauth()
+    def get(self):
+        """
+        Get current user role based on token
+        """
+        try:
+            # Get the OAuth token
+            auth_header = request.headers.get('Authorization')
+            access_token = auth_header.split(' ')[1]
+
+
+            # Get User ID
+            token = OAuth2Token.query.filter_by(access_token=access_token).first()
+            user_ID = token.user_id
+
+            # Get user role
+            user = User.query.filter_by(id=user_ID).first()
+            userRole = user.role
+
+            return {
+                "success": True,
+                "role": userRole
+            }, 200
+               
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e)
+            }, 500
+
+
+# Get User Name Endpoint (Used for front-end)
+class GetUserName(Resource):
+    @require_oauth()
+    def get(self):
+        """
+        Get current username based on token
+        """
+        try:
+            # Get the OAuth token & username
+            auth_header = request.headers.get('Authorization')
+            access_token = auth_header.split(' ')[1]
+            Username = get_username_with_token(access_token)
+
+            # Return dictionary
+            return {
+                "success": True,
+                "username": Username
+            }, 200
+             
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e)
             }, 500

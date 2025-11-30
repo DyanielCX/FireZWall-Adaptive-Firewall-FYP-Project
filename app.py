@@ -10,17 +10,16 @@ from instance.create_db import init_database
 from dbModel import User, OAuth2Client, OAuth2Token
 from source.cowrie_conf import cowrie_start, cowrie_stop, cowrie_watcher
 from endpoints.ep_auth import Login, RefreshToken, Logout, LogoutAll
-from endpoints.ep_user_manage import ViewUser, Register, DeleteUser
+from endpoints.ep_user_manage import ViewUser, Register, DeleteUser, GetUserRole, GetUserName
 from endpoints.ep_firewall import Firewall
 from endpoints.ep_firewall_status import FirewallStatus
+from endpoints.ep_firewall_cmn_SrvPort import CommonServicePort
 from endpoints.ep_honeypot import HoneypotReport
 from endpoints.ep_syslog import ViewSyslog
-
 from source.auth import require_oauth
-from source.syslog_record import get_username_with_token
 
 
-# API Routes
+# API Endpoint
 api.add_resource(Login, '/api/login')
 api.add_resource(RefreshToken, '/api/refresh-token')
 api.add_resource(Logout, '/api/logout')
@@ -30,8 +29,13 @@ api.add_resource(Register, '/api/user/register')
 api.add_resource(DeleteUser, '/api/user/delete')
 api.add_resource(Firewall, '/api/firewall')
 api.add_resource(FirewallStatus, '/api/firewall/status')
+api.add_resource(CommonServicePort, '/api/firewall/svc-port')
 api.add_resource(HoneypotReport, '/api/honeypot/reports')
 api.add_resource(ViewSyslog, '/api/logs')
+
+# API Endpoint for frontend
+api.add_resource(GetUserRole, '/api/user/getRole')
+api.add_resource(GetUserName, '/api/user/getUsername')
 
 
 @app.route('/test')
@@ -53,7 +57,7 @@ def test():
         "scope": scope,
         "role": role
     }
-
+# Front-End Endpoint
 @app.route('/')
 def index():
     """Serve React app for root route"""
@@ -83,6 +87,7 @@ def serve_static_files(path):
     
     # Otherwise, serve index.html for React Router
     return send_from_directory(app.static_folder, 'index.html')
+
 
 def start_cowrie_thread():
     t = threading.Thread(target=cowrie_start, daemon=True)

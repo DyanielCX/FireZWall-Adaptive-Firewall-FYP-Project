@@ -72,6 +72,7 @@ class HoneypotEvent(db.Model):
     tty_code = db.Column(db.String(200))
     message = db.Column(db.String(200))
 
+# System Log Model
 class SystemLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, nullable=False)
@@ -84,3 +85,9 @@ class SystemLog(db.Model):
     method = db.Column(db.String(20), nullable=False)
     endpoint = db.Column(db.String(80), nullable=False)
     details = db.Column(db.JSON)
+
+# Common Service Port Model
+class ServicerPort(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    service = db.Column(db.String(80), nullable=False)
+    port = db.Column(db.String(20), nullable=False)

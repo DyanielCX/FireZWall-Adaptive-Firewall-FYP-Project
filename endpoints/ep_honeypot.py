@@ -2,7 +2,7 @@
 from flask_restful import Resource, reqparse
 from datetime import datetime, timedelta
 from flask import request
-from sqlalchemy import and_
+from sqlalchemy import and_ 
 import ipaddress
 import re
 
@@ -17,9 +17,9 @@ class HoneypotReport(Resource):
     def get(self):
         
         parser = reqparse.RequestParser()
-        parser.add_argument('event_type', type=str, required=False, choices=['brute-force attack', 'unauthorized access attemp'], help='Event type (brute-force attack/unauthorized access attemp)')
+        parser.add_argument('event_type', type=str, required=False, help='Event type (brute-force attack/unauthorized access attemp)')
         parser.add_argument('ip', type=str, required=False, help='Source IP address')
-        parser.add_argument('protocol', type=str, required=False, choices=['ssh', 'telnet'], help='Protocol (ssh/telnet)')
+        parser.add_argument('protocol', type=str, required=False, help='Protocol (ssh/telnet)')
         parser.add_argument('timestamp', type=str, required=False, help='Timestamp(YYYY-MM-DD/YYYY-MM/YYYY)')
 
         args = parser.parse_args()
@@ -29,7 +29,7 @@ class HoneypotReport(Resource):
         #   Filtering
         # =============
 
-        ## Event type filtering ##
+        ## Event type validation & filtering ##
         event_type = args.get("event_type")
 
         if event_type:
@@ -40,7 +40,7 @@ class HoneypotReport(Resource):
                     "error": "Only enter brute-force attack/unauthorized access attemp for event type"
                 }, 400
 
-            query = query.filter_by(event_type=event_type)
+            query = query.filter_by(event_type=event_type.lower())
 
         ## IP address filtering ##
         ip = args.get("ip")
@@ -55,11 +55,17 @@ class HoneypotReport(Resource):
                     "error": "Invalid IP address"
                 }, 400
 
-        ## Protocol filtering ##
+        ## Protocol validation & filtering ##
         protocol = args.get("protocol")
 
         if protocol:
-            query = query.filter_by(protocol=protocol)
+            if protocol.lower() not in ['ssh', 'telnet']:
+                return {
+                    "success": False,
+                    "error": "Only enter ssh/telnet for protocol"
+                }, 400
+
+            query = query.filter_by(protocol=protocol.lower())
 
         ## Timestamp filtering ##
         timestamp = args.get("timestamp")

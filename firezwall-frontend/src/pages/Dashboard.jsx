@@ -1,6 +1,6 @@
 // ============================================
 // Dashboard Page (Protected)
-// Location: /src/pages/dashboard.js (Next.js) or /src/pages/Dashboard.jsx (React)
+// Location: /src/pages/Dashboard.jsx (React)
 // ============================================
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,20 +9,49 @@ import {
   FileText, Menu, ChevronRight 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import apiClient from '../api/client';
 import Card from '../components/ui/Card';
+import FirewallRules from './FirewallRules';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { logout, isAuthenticated } = useAuth();
+  const { logout, isAuthenticated, getToken } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeSection, setActiveSection] = useState('overview');
+  const [username, setUsername] = useState('Administrator');
+  const [userRole, setUserRole] = useState('Loading...');
 
   // Protect this page - redirect if not authenticated
   useEffect(() => {
     if (!isAuthenticated()) {
       navigate('/login');
+    } else {
+      // Fetch user info
+      fetchUserInfo();
     }
   }, [isAuthenticated, navigate]);
+
+  const fetchUserInfo = async () => {
+    try {
+      const token = getToken();
+      
+      // Fetch username
+      const usernameResponse = await apiClient.getUserName(token);
+      if (usernameResponse.success) {
+        setUsername(usernameResponse.username);
+      }
+      
+      // Fetch user role
+      const roleResponse = await apiClient.getUserRole(token);
+      if (roleResponse.success) {
+        setUserRole(roleResponse.role);
+      }
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+      setUsername('User');
+      setUserRole('Unknown');
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -42,6 +71,21 @@ const Dashboard = () => {
     firewall: { title: 'Firewall Rules', desc: 'Configure and manage firewall rules' },
     honeypots: { title: 'Honeypots', desc: 'Deploy and monitor honeypot systems' },
     logs: { title: 'System Logs', desc: 'View and analyze system logs' }
+  };
+
+  const getRoleBadgeColor = (role) => {
+    switch (role?.toLowerCase()) {
+      case 'admin':
+        return 'bg-red-500/20 text-red-400 border-red-500/30';
+      case 'dev':
+        return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+      case 'cybersec':
+        return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
+      case 'user':
+        return 'bg-green-500/20 text-green-400 border-green-500/30';
+      default:
+        return 'bg-slate-500/20 text-slate-400 border-slate-500/30';
+    }
   };
 
   const renderContent = () => {
@@ -117,7 +161,12 @@ const Dashboard = () => {
       );
     }
 
-    // Placeholder pages
+    // Firewall Rules page
+    if (activeSection === 'firewall') {
+      return <FirewallRules />;
+    }
+
+    // Placeholder pages for other sections
     const info = placeholders[activeSection];
     const Icon = menuItems.find(m => m.id === activeSection)?.icon || Shield;
     
@@ -142,7 +191,6 @@ const Dashboard = () => {
     <div className="min-h-screen bg-slate-900 flex">
       {/* Sidebar */}
       <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-slate-800 border-r border-slate-700 transition-all duration-300 flex flex-col`}>
-        {/* Logo */}
         <div className="p-4 border-b border-slate-700 flex items-center gap-3">
           <div className="bg-gradient-to-br from-orange-500 to-red-600 p-2 rounded-lg flex-shrink-0">
             <Shield className="w-5 h-5 text-white" />
@@ -150,7 +198,6 @@ const Dashboard = () => {
           {sidebarOpen && <span className="font-bold text-white">FireZWall</span>}
         </div>
         
-        {/* Navigation */}
         <nav className="flex-1 p-4">
           <ul className="space-y-2">
             {menuItems.map((item) => (
@@ -171,7 +218,6 @@ const Dashboard = () => {
           </ul>
         </nav>
         
-        {/* Logout Button */}
         <div className="p-4 border-t border-slate-700">
           <button
             onClick={handleLogout}
@@ -187,19 +233,26 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col">
         {/* Top Bar */}
         <header className="bg-slate-800 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
-          <button 
-            onClick={() => setSidebarOpen(!sidebarOpen)} 
-            className="text-slate-400 hover:text-white"
-          >
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-400 hover:text-white">
             <Menu className="w-6 h-6" />
           </button>
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <p className="text-white font-medium">Administrator</p>
-              <p className="text-slate-400 text-sm">admin@firezwall.local</p>
+              <p className="text-white font-medium">{username}</p>
+              <div className="flex items-center justify-end gap-2 mt-1">
+                <span
+                  className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getRoleBadgeColor(
+                    userRole
+                  )}`}
+                >
+                  {userRole.toUpperCase()}
+                </span>
+              </div>
             </div>
             <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold">A</span>
+              <span className="text-white font-bold text-sm">
+                {username.charAt(0).toUpperCase()}
+              </span>
             </div>
           </div>
         </header>

@@ -20,7 +20,7 @@ class ViewSyslog(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('timestamp', type=str, required=False, help='Timestamp (YYYY-MM-DD/YYYY-MM/YYYY)')
         parser.add_argument('level', type=str, required=False, help='Level (info, warning, error)')
-        parser.add_argument('module', type=str, required=False, choices=['auth', 'firewall', 'honeypot', 'syslog'], help='Module (auth/firewall/honeypot/syslog)')
+        parser.add_argument('module', type=str, required=False, help='Module (auth/firewall/honeypot/syslog)')
         parser.add_argument('username', type=str, required=False, help='Username (Action User)')
         parser.add_argument('endpoint', type=str, required=False, help='Endpoint (/api/xxx/xxx)')
 
@@ -60,7 +60,7 @@ class ViewSyslog(Resource):
         level = args.get("level")
 
         if level:
-            # Event type validation
+            # Level type validation
             if level.upper() not in ['INFO', 'WARNING', 'ERROR']:
                 return {
                     "success": False,
@@ -73,6 +73,12 @@ class ViewSyslog(Resource):
         module = args.get("module")
 
         if module:
+            # Module type validation
+            if module not in ['auth', 'firewall', 'honeypot', 'syslog']:
+                return {
+                    "success": False,
+                    "error": "Only enter auth/firewall/honeypot/syslog for module"
+                }, 400
             query = query.filter_by(module=module)
 
         ## Username filtering ##
