@@ -45,11 +45,17 @@ class ViewUser(Resource):
                     "is_active": e.is_active,
                 }for e in items]
         
-        # ---Logs Record--- #
+        # --- Logs Record --- #
         # Get the OAuth token & username
         auth_header = request.headers.get('Authorization')
         access_token = auth_header.split(' ')[1]
         Username = get_username_with_token(access_token)
+
+        # Define the webapp if ip_addr is localhost
+        if request.remote_addr == "127.0.0.1":
+            current_ip = "127.0.0.1 (webapp)"
+        else:
+            current_ip = request.remote_addr
 
         # Log info
         level = "INFO"
@@ -57,7 +63,7 @@ class ViewUser(Resource):
         module = "auth"
         message = f"View the user list succeed"
         username = Username
-        ip_addr = request.remote_addr
+        ip_addr = current_ip
         method = "GET"
         endpoint = "/api/user/view"
         details = request.get_json()
@@ -85,19 +91,25 @@ class Register(Resource):
         # Check if user already exists
         if User.query.filter_by(username=args['username']).first():
             
-            # ---Logs Record--- #
+            # --- Logs Record --- #
             # Get the OAuth token & username (Admin acc)
             auth_header = request.headers.get('Authorization')
             access_token = auth_header.split(' ')[1]
             Username = get_username_with_token(access_token)
             
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
+
             # Log info
             level = "WARNING"
             event_type = "USER_REGISTER_FAILED"
             module = "auth"
             message = "Register existed username user"
             username = Username
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "POST"
             endpoint = "/api/user/register"
             details = request.get_json()
@@ -120,11 +132,17 @@ class Register(Resource):
             db.session.add(user)
             db.session.commit()
 
-            # ---Logs Record--- #
+            # --- Logs Record --- #
             # Get the OAuth token & username (Admin acc)
             auth_header = request.headers.get('Authorization')
             access_token = auth_header.split(' ')[1]
             Username = get_username_with_token(access_token)
+
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
 
             # Log info
             level = "INFO"
@@ -132,7 +150,7 @@ class Register(Resource):
             module = "auth"
             message = f"User({args['username']}) register succeed"
             username = Username
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "POST"
             endpoint = "/api/user/register"
             details = request.get_json()
@@ -222,13 +240,19 @@ class DeleteUser(Resource):
             db.session.commit()
             
 
-            # ---Logs Record--- #
+            # --- Logs Record --- #
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
+
             # Log info
             level = "INFO"
             event_type = "DELETE_USER_SUCCESS"
             module = "auth"
             message = f"User({username_to_delete}) deleted successfully"
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "DELETE"
             endpoint = "/api/user/delete"
             details = {
@@ -246,13 +270,19 @@ class DeleteUser(Resource):
             
         except Exception as e:
             db.session.rollback()
-            
-            # Log the error
+            # --- Logs Record --- #
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
+
+            # Log info
             level = "ERROR"
             event_type = "DELETE_USER_SYS_ERROR"
             module = "auth"
             message = str(e)
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "DELETE"
             endpoint = "/api/user/delete"
             

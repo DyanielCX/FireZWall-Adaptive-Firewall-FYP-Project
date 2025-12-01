@@ -203,11 +203,17 @@ class Firewall(Resource):
                     )
                     self._delete_rules(matching_rules)
                 
-                # ---Logs Record--- #
+                # --- Logs Record --- #
                 # Get the OAuth token & username
                 auth_header = request.headers.get('Authorization')
                 access_token = auth_header.split(' ')[1]
                 Username = get_username_with_token(access_token)
+
+                # Define the webapp if ip_addr is localhost
+                if request.remote_addr == "127.0.0.1":
+                    current_ip = "127.0.0.1 (webapp)"
+                else:
+                    current_ip = request.remote_addr
 
                 # Log info
                 level = "INFO"
@@ -215,7 +221,7 @@ class Firewall(Resource):
                 module = "firewall"
                 message = f"Rule - {action} port {target_port}/{protocol} with (IPv4:{ipv4} IPv6:{ipv6}) is added successfully"
                 username = Username
-                ip_addr = request.remote_addr
+                ip_addr = current_ip
                 method = "POST"
                 endpoint = "/api/firewall"
                 details = request.get_json()
@@ -247,11 +253,17 @@ class Firewall(Resource):
                     )
                     self._delete_rules(matching_rules)
 
-                # ---Logs Record--- #
+                # --- Logs Record --- #
                 # Get the OAuth token & username
                 auth_header = request.headers.get('Authorization')
                 access_token = auth_header.split(' ')[1]
                 Username = get_username_with_token(access_token)
+
+                # Define the webapp if ip_addr is localhost
+                if request.remote_addr == "127.0.0.1":
+                    current_ip = "127.0.0.1 (webapp)"
+                else:
+                    current_ip = request.remote_addr
 
                 # Log info
                 level = "INFO"
@@ -259,7 +271,7 @@ class Firewall(Resource):
                 module = "firewall"
                 message = f"Rule - {action} {direction} to port {target_port}/{protocol} with (IPv4:{ipv4} IPv6:{ipv6}) is added successfully"
                 username = Username
-                ip_addr = request.remote_addr
+                ip_addr = current_ip
                 method = "POST"
                 endpoint = "/api/firewall"
                 details = request.get_json()
@@ -276,11 +288,17 @@ class Firewall(Resource):
                 cmd = ["sudo", "/usr/sbin/ufw", action, "from", source, "to", "any", "port", target_port, "proto", protocol]
                 subprocess.run(cmd, capture_output=True, text=True)
 
-                # ---Logs Record--- #
+                # --- Logs Record --- #
                 # Get the OAuth token & username
                 auth_header = request.headers.get('Authorization')
                 access_token = auth_header.split(' ')[1]
                 Username = get_username_with_token(access_token)
+
+                # Define the webapp if ip_addr is localhost
+                if request.remote_addr == "127.0.0.1":
+                    current_ip = "127.0.0.1 (webapp)"
+                else:
+                    current_ip = request.remote_addr
 
                 # Log info
                 level = "INFO"
@@ -288,7 +306,7 @@ class Firewall(Resource):
                 module = "firewall"
                 message = f"Rule - {action} from {source} to port {target_port}/{protocol} is added successfully"
                 username = Username
-                ip_addr = request.remote_addr
+                ip_addr = current_ip
                 method = "POST"
                 endpoint = "/api/firewall"
                 details = request.get_json()
@@ -305,11 +323,17 @@ class Firewall(Resource):
                 cmd = ["sudo", "/usr/sbin/ufw", action, direction, "from", source, "to", "any", "port", target_port, "proto", protocol]
                 subprocess.run(cmd, capture_output=True, text=True)
 
-                # ---Logs Record--- #
+                # --- Logs Record --- #
                 # Get the OAuth token & username
                 auth_header = request.headers.get('Authorization')
                 access_token = auth_header.split(' ')[1]
                 Username = get_username_with_token(access_token)
+
+                # Define the webapp if ip_addr is localhost
+                if request.remote_addr == "127.0.0.1":
+                    current_ip = "127.0.0.1 (webapp)"
+                else:
+                    current_ip = request.remote_addr
 
                 # Log info
                 level = "INFO"
@@ -317,7 +341,7 @@ class Firewall(Resource):
                 module = "firewall"
                 message = f"Rule - {action} {direction} from {source} to port {target_port}/{protocol} is added successfully"
                 username = Username
-                ip_addr = request.remote_addr
+                ip_addr = current_ip
                 method = "POST"
                 endpoint = "/api/firewall"
                 details = request.get_json()
@@ -465,18 +489,24 @@ class Firewall(Resource):
             details = self._get_deletion_details(matching_rules, target_port, protocol, args['service'])
             
 
-            # ---Logs Record--- #
+            # --- Logs Record --- #
             # Get the OAuth token & username
             auth_header = request.headers.get('Authorization')
             access_token = auth_header.split(' ')[1]
             Username = get_username_with_token(access_token)
+
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
 
             # Log info
             level = "INFO"
             event_type = "DELETE_FIREWALL_RULE_SUCCESS"
             module = "firewall"
             message = f"Successfully deleted {len(deletion_results)} rule(s) for port {target_port}/{args['protocol']}"
-            username = Username
+            username = current_ip
             ip_addr = request.remote_addr
             method = "DELETE"
             endpoint = "/api/firewall"
@@ -492,11 +522,17 @@ class Firewall(Resource):
             }, 200
             
         except Exception as e:
-            # ---Logs Record--- #
+            # --- Logs Record --- #
             # Get the OAuth token & username
             auth_header = request.headers.get('Authorization')
             access_token = auth_header.split(' ')[1]
             Username = get_username_with_token(access_token)
+
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
 
             # Log info
             level = "ERROR"
@@ -504,7 +540,7 @@ class Firewall(Resource):
             module = "firewall"
             message = str(e)
             username = Username
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "DELETE"
             endpoint = "/api/firewall"
 

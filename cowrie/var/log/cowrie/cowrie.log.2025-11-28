@@ -544,3 +544,64 @@
 	    raise CannotListenError(self.interface, self.port, le)
 	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
 	
+2025-11-30T21:41:02.096276Z [cowrie.ssh.factory.CowrieSSHFactory] New connection: 192.168.218.128:48372 (192.168.218.131:22) [session: c08ef9850f73]
+2025-11-30T21:41:02.206524Z [HoneyPotSSHTransport,0,192.168.218.128] Remote SSH version: SSH-2.0-OpenSSH_10.0p2 Debian-8
+2025-11-30T21:41:02.262644Z [HoneyPotSSHTransport,0,192.168.218.128] SSH client hassh fingerprint: eeca2460550b9ded084ecf2f70a75356
+2025-11-30T21:41:02.272721Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] kex alg=b'curve25519-sha256' key alg=b'ssh-ed25519'
+2025-11-30T21:41:02.274398Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] outgoing: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-30T21:41:02.274827Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] incoming: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-30T21:41:02.385622Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] NEW KEYS
+2025-11-30T21:41:02.397573Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] starting service b'ssh-userauth'
+2025-11-30T21:41:02.415665Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'none'
+2025-11-30T21:41:04.793597Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-30T21:41:04.803247Z [HoneyPotSSHTransport,0,192.168.218.128] login attempt [b'kali'/b'test'] failed
+2025-11-30T21:41:05.812797Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' failed auth b'password'
+2025-11-30T21:41:05.814085Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] unauthorized login: ()
+2025-11-30T21:41:09.017131Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-30T21:41:09.018919Z [HoneyPotSSHTransport,0,192.168.218.128] login attempt [b'kali'/b'test'] failed
+2025-11-30T21:41:10.021939Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' failed auth b'password'
+2025-11-30T21:41:10.023360Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] unauthorized login: ()
+2025-11-30T21:41:11.177344Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-30T21:41:11.180021Z [HoneyPotSSHTransport,0,192.168.218.128] login attempt [b'kali'/b'test'] failed
+2025-11-30T21:41:12.182200Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' failed auth b'password'
+2025-11-30T21:41:12.183161Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] unauthorized login: ()
+2025-11-30T21:41:12.201841Z [cowrie.ssh.transport.HoneyPotSSHTransport#info] connection lost
+2025-11-30T21:41:12.202820Z [HoneyPotSSHTransport,0,192.168.218.128] Connection lost after 10.0 seconds
+2025-11-30T22:11:23.775480Z [cowrie.ssh.factory.CowrieSSHFactory] New connection: 192.168.218.128:33436 (192.168.218.131:22) [session: a31e6f127972]
+2025-11-30T22:11:23.797131Z [HoneyPotSSHTransport,1,192.168.218.128] Remote SSH version: SSH-2.0-OpenSSH_10.0p2 Debian-8
+2025-11-30T22:11:23.811861Z [HoneyPotSSHTransport,1,192.168.218.128] SSH client hassh fingerprint: eeca2460550b9ded084ecf2f70a75356
+2025-11-30T22:11:23.816190Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] kex alg=b'curve25519-sha256' key alg=b'ssh-ed25519'
+2025-11-30T22:11:23.817893Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] outgoing: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-30T22:11:23.817981Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] incoming: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-30T22:11:23.895786Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] NEW KEYS
+2025-11-30T22:11:23.900531Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] starting service b'ssh-userauth'
+2025-11-30T22:11:23.904653Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'none'
+2025-11-30T22:11:26.064885Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-30T22:11:26.067700Z [HoneyPotSSHTransport,1,192.168.218.128] login attempt [b'kali'/b'testing'] failed
+2025-11-30T22:11:27.071895Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' failed auth b'password'
+2025-11-30T22:11:27.076339Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] unauthorized login: ()
+2025-11-30T22:11:29.051018Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-30T22:11:29.051570Z [HoneyPotSSHTransport,1,192.168.218.128] login attempt [b'kali'/b'testing'] failed
+2025-11-30T22:11:30.054046Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' failed auth b'password'
+2025-11-30T22:11:30.054564Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] unauthorized login: ()
+2025-11-30T22:11:32.008002Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-30T22:11:32.009634Z [HoneyPotSSHTransport,1,192.168.218.128] login attempt [b'kali'/b'testing'] failed
+2025-11-30T22:11:33.011963Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' failed auth b'password'
+2025-11-30T22:11:33.012980Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] unauthorized login: ()
+2025-11-30T22:11:33.018193Z [cowrie.ssh.transport.HoneyPotSSHTransport#info] connection lost
+2025-11-30T22:11:33.019952Z [HoneyPotSSHTransport,1,192.168.218.128] Connection lost after 9.2 seconds
+2025-11-30T23:22:20.575174Z [cowrie.ssh.factory.CowrieSSHFactory] New connection: 192.168.218.128:60428 (192.168.218.131:22) [session: a10ef7c2fcd2]
+2025-11-30T23:22:20.745688Z [HoneyPotSSHTransport,2,192.168.218.128] Remote SSH version: SSH-2.0-OpenSSH_10.0p2 Debian-8
+2025-11-30T23:22:21.011126Z [HoneyPotSSHTransport,2,192.168.218.128] SSH client hassh fingerprint: eeca2460550b9ded084ecf2f70a75356
+2025-11-30T23:22:21.023736Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] kex alg=b'curve25519-sha256' key alg=b'ssh-ed25519'
+2025-11-30T23:22:21.028907Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] outgoing: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-30T23:22:21.029003Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] incoming: b'aes128-ctr' b'hmac-sha2-256' b'none'
+2025-11-30T23:22:21.165008Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] NEW KEYS
+2025-11-30T23:22:21.175175Z [cowrie.ssh.transport.HoneyPotSSHTransport#debug] starting service b'ssh-userauth'
+2025-11-30T23:22:21.196206Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'none'
+2025-11-30T23:22:23.050444Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' trying auth b'password'
+2025-11-30T23:22:23.063751Z [HoneyPotSSHTransport,2,192.168.218.128] login attempt [b'kali'/b'test'] failed
+2025-11-30T23:22:23.971761Z [cowrie.ssh.transport.HoneyPotSSHTransport#info] connection lost
+2025-11-30T23:22:23.973316Z [HoneyPotSSHTransport,2,192.168.218.128] Connection lost after 3.3 seconds
+2025-11-30T23:22:24.069503Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] b'kali' failed auth b'password'
+2025-11-30T23:22:24.071001Z [cowrie.ssh.userauth.HoneyPotSSHUserAuthServer#debug] unauthorized login: ()

@@ -214,17 +214,11 @@ const apiClient = {
     
     const body = {}; // Only include fields that have values
     
-    // action, protocol & direction (required fields)
+    // action, protocol, direction & port (required fields)
     if (ruleData.action) body.action = ruleData.action;
     if (ruleData.protocol) body.protocol = ruleData.protocol;
     if (ruleData.direction) body.direction = ruleData.direction;
-    
-    // port OR service (only if provided)
-    if (ruleData.port && ruleData.port.trim() !== 'Anywhere') {
-      body.port = ruleData.port;
-    } else if (ruleData.service && ruleData.service.trim() !== '') {
-      body.service = ruleData.service;
-    }
+    if (ruleData.port) body.port = ruleData.port;
     
     // IPv4 & IPv6 (always include)
     body.ipv4 = ruleData.ipv4 === true;

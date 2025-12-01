@@ -104,11 +104,17 @@ class HoneypotReport(Resource):
                     "message": e.message
                 }for e in items]
         
-        # ---Logs Record--- #
+        # --- Logs Record --- #
         # Get the OAuth token & username
         auth_header = request.headers.get('Authorization')
         access_token = auth_header.split(' ')[1]
         Username = get_username_with_token(access_token)
+
+        # Define the webapp if ip_addr is localhost
+        if request.remote_addr == "127.0.0.1":
+            current_ip = "127.0.0.1 (webapp)"
+        else:
+            current_ip = request.remote_addr
 
         # Log info
         level = "INFO"
@@ -116,7 +122,7 @@ class HoneypotReport(Resource):
         module = "honeypot"
         message = f"View the honeypot report succeed"
         username = Username
-        ip_addr = request.remote_addr
+        ip_addr = current_ip
         method = "GET"
         endpoint = "/api/honeypot/reports"
         details = request.get_json()

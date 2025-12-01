@@ -24,11 +24,17 @@ class CommonServicePort(Resource):
                     "port": e.port
                 }for e in query]
         
-        # ---Logs Record--- #
+        # --- Logs Record --- #
         # Get the OAuth token & username
         auth_header = request.headers.get('Authorization')
         access_token = auth_header.split(' ')[1]
         Username = get_username_with_token(access_token)
+
+        # Define the webapp if ip_addr is localhost
+        if request.remote_addr == "127.0.0.1":
+            current_ip = "127.0.0.1 (webapp)"
+        else:
+            current_ip = request.remote_addr
 
         # Log info
         level = "INFO"
@@ -36,7 +42,7 @@ class CommonServicePort(Resource):
         module = "firewall"
         message = f"View the common service port succeed"
         username = Username
-        ip_addr = request.remote_addr
+        ip_addr = current_ip
         method = "GET"
         endpoint = "/api/firewall/svc-port"
         details = request.get_json()
@@ -91,11 +97,17 @@ class CommonServicePort(Resource):
             db.session.add(newServicerPort)
             db.session.commit()
 
-            # ---Logs Record--- #
+            # --- Logs Record --- #
             # Get the OAuth token & username (Admin acc)
             auth_header = request.headers.get('Authorization')
             access_token = auth_header.split(' ')[1]
             Username = get_username_with_token(access_token)
+
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
 
             # Log info
             level = "INFO"
@@ -103,7 +115,7 @@ class CommonServicePort(Resource):
             module = "firewall"
             message = f"Service({inp_service}) with port {inp_port} is added succeed"
             username = Username
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "POST"
             endpoint = "/api/firewall/svc-port"
             details = request.get_json()
@@ -176,13 +188,19 @@ class CommonServicePort(Resource):
                 db.session.delete(service_to_delete)
                 db.session.commit()
 
-                # ---Logs Record--- #
+                # --- Logs Record --- #
+                # Define the webapp if ip_addr is localhost
+                if request.remote_addr == "127.0.0.1":
+                    current_ip = "127.0.0.1 (webapp)"
+                else:
+                    current_ip = request.remote_addr
+
                 # Log info
                 level = "INFO"
                 event_type = "DELETE_COMMON_SERVICE_PORT_SUCCESS"
                 module = "auth"
                 message = f"Service({service_to_delete.service}) with port {service_to_delete.port} is deleted successfully"
-                ip_addr = request.remote_addr
+                ip_addr = current_ip
                 method = "DELETE"
                 endpoint = "/api/firewall/svc-port"
                 details = request.get_json()
@@ -208,13 +226,19 @@ class CommonServicePort(Resource):
                 db.session.delete(service_to_delete)
                 db.session.commit()
 
-                # ---Logs Record--- #
+                # --- Logs Record --- #
+                # Define the webapp if ip_addr is localhost
+                if request.remote_addr == "127.0.0.1":
+                    current_ip = "127.0.0.1 (webapp)"
+                else:
+                    current_ip = request.remote_addr
+
                 # Log info
                 level = "INFO"
                 event_type = "DELETE_COMMON_SERVICE_PORT_SUCCESS"
                 module = "auth"
                 message = f"Service({service_to_delete.service}) with port {service_to_delete.port} is deleted successfully"
-                ip_addr = request.remote_addr
+                ip_addr = current_ip
                 method = "DELETE"
                 endpoint = "/api/firewall/svc-port"
                 details = request.get_json()
@@ -227,14 +251,21 @@ class CommonServicePort(Resource):
                 }, 200
  
         except Exception as e:
+
             db.session.rollback()
-            
-            # Log the error
+            # --- Logs Record --- #
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
+
+            # Log info
             level = "ERROR"
             event_type = "DELETE_COMMON_SERVICE_PORT_SYS_ERROR"
             module = "firewall"
             message = str(e)
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "DELETE"
             endpoint = "/api/firewall/svc-port"
             

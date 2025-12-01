@@ -152,14 +152,20 @@ class ViewSyslog(Resource):
                     "details": e.details
                 }for e in items]
         
-        # ---Logs Record--- #
+        # --- Logs Record --- #
+        # Define the webapp if ip_addr is localhost
+        if request.remote_addr == "127.0.0.1":
+            current_ip = "127.0.0.1 (webapp)"
+        else:
+            current_ip = request.remote_addr
+
         # Log info
         level = "INFO"
         event_type = "VIEW_SYSLOGS_SUCCESS"
         module = "syslog"
         message = f"View the system logs succeed"
         username = current_username
-        ip_addr = request.remote_addr
+        ip_addr = current_ip
         method = "GET"
         endpoint = "/api/logs"
         details = request.get_json()

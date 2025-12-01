@@ -25,13 +25,19 @@ class Login(Resource):
         # Get client
         client = OAuth2Client.query.filter_by(client_id=args['client_id']).first()
         if not client or client.client_secret != args['client_secret']:
-            # ---Logs Record--- #
+            # ---  Logs Record --- #
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
+
             # Log info
             level = "WARNING"
             event_type = "AUTH_LOGIN_FAILED"
             module = "auth"
             message = "Invalid client"
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "POST"
             endpoint = "/api/login"
             details = request.get_json()
@@ -43,13 +49,19 @@ class Login(Resource):
         # Authenticate user
         user = User.query.filter_by(username=args['username']).first()
         if not user or not user.check_password(args['password']) or not user.is_active:
-            # ---Logs Record--- #
+            # --- Logs Record --- #
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
+
             # Log info
             level = "WARNING"
             event_type = "AUTH_LOGIN_FAILED"
             module = "auth"
             message = f"Invalid password [{args['username']}/{args['password']}]"
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "POST"
             endpoint = "/api/login"
             details = request.get_json()
@@ -77,13 +89,19 @@ class Login(Resource):
             db.session.add(token_record)
             db.session.commit()
 
-            # ---Logs Record--- #
+            # --- Logs Record --- #
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
+
             # Log info
             level = "INFO"
             event_type = "AUTH_LOGIN_SUCCESS"
             module = "auth"
             message = f"User({args['username']}) login succeed"
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "POST"
             endpoint = "/api/login"
             details = request.get_json()
@@ -114,11 +132,17 @@ class RefreshToken(Resource):
         # Verify client
         client = OAuth2Client.query.filter_by(client_id=args['client_id']).first()
         if not client or client.client_secret != args['client_secret']:
-            # ---Logs Record--- #
+            # --- Logs Record --- #
             # Get the OAuth token & username
             auth_header = request.headers.get('Authorization')
             access_token = auth_header.split(' ')[1]
             Username = get_username_with_token(access_token)
+
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
             
             ## Log info
             level = "WARNING"
@@ -126,7 +150,7 @@ class RefreshToken(Resource):
             module = "auth"
             message = "Invalid client"
             username = Username
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "POST"
             endpoint = "/api/refresh-token"
             details = request.get_json()
@@ -138,19 +162,25 @@ class RefreshToken(Resource):
         # Verify refresh token
         token = OAuth2Token.query.filter_by(refresh_token=args['refresh_token']).first()
         if not token or token.is_revoked():         
-            # ---Logs Record--- #
+            # --- Logs Record --- #
             # Get the OAuth token & username
             auth_header = request.headers.get('Authorization')
             access_token = auth_header.split(' ')[1]
             Username = get_username_with_token(access_token)
             
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
+
             # Log info
             level = "WARNING"
             event_type = "TOKEN_REFRESH_FAILED"
             module = "auth"
             message = "Invalid refresh token"
             username = Username
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "POST"
             endpoint = "/api/refresh-token"
             details = request.get_json()
@@ -173,9 +203,15 @@ class RefreshToken(Resource):
         try:
             db.session.commit()
 
-            # ---Logs Record--- #
+            # --- Logs Record --- #
             # Get the username
             Username = get_username_with_token(new_access_token)
+
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
 
             # Log info
             level = "INFO"
@@ -183,7 +219,7 @@ class RefreshToken(Resource):
             module = "auth"
             message = f"User({Username})'s token refresh succeed"
             username = Username
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "POST"
             endpoint = "/api/refresh-token"
             details = request.get_json()
@@ -218,11 +254,17 @@ class Logout(Resource):
                 token.revoked = True
                 db.session.commit()
 
-                # ---Logs Record--- #
+                # --- Logs Record --- #
                 # Get the OAuth token & username
                 auth_header = request.headers.get('Authorization')
                 access_token = auth_header.split(' ')[1]
                 Username = get_username_with_token(access_token)
+
+                # Define the webapp if ip_addr is localhost
+                if request.remote_addr == "127.0.0.1":
+                    current_ip = "127.0.0.1 (webapp)"
+                else:
+                    current_ip = request.remote_addr
 
                 # Log info
                 level = "INFO"
@@ -230,7 +272,7 @@ class Logout(Resource):
                 module = "auth"
                 message = f"User({Username}) logout succeed [one token revoke]"
                 username = Username
-                ip_addr = request.remote_addr
+                ip_addr = current_ip
                 method = "POST"
                 endpoint = "/api/logout"
                 details = {"Authorization": f"Bearer {access_token}"}
@@ -268,11 +310,17 @@ class LogoutAll(Resource):
             
             db.session.commit()
 
-            # ---Logs Record--- #
+            # --- Logs Record --- #
             # Get the OAuth token & username
             auth_header = request.headers.get('Authorization')
             access_token = auth_header.split(' ')[1]
             Username = get_username_with_token(access_token)
+
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
 
             # Log info
             level = "INFO"
@@ -280,7 +328,7 @@ class LogoutAll(Resource):
             module = "auth"
             message = f"User({Username}) logout succeed [{len(tokens)} token revoke]"
             username = Username
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "POST"
             endpoint = "/api/logout-all"
             details = {"Authorization": f"Bearer {access_token}"}

@@ -21,11 +21,17 @@ class FirewallStatus(Resource):
             if result.returncode == 0:
                 combined_rules = self._parse_and_combine_rules_simple(result.stdout)
 
-                # ---Logs Record--- #
+                # --- Logs Record --- #
                 # Get the OAuth token & username
                 auth_header = request.headers.get('Authorization')
                 access_token = auth_header.split(' ')[1]
                 Username = get_username_with_token(access_token)
+
+                # Define the webapp if ip_addr is localhost
+                if request.remote_addr == "127.0.0.1":
+                    current_ip = "127.0.0.1 (webapp)"
+                else:
+                    current_ip = request.remote_addr
 
                 # Log info
                 level = "INFO"
@@ -33,7 +39,7 @@ class FirewallStatus(Resource):
                 module = "firewall"
                 message = f"View the firewall status succeed"
                 username = Username
-                ip_addr = request.remote_addr
+                ip_addr = current_ip
                 method = "GET"
                 endpoint = "/api/firewall/status"
 
@@ -45,19 +51,25 @@ class FirewallStatus(Resource):
                     "Firewall-Rules": combined_rules
                 }, 200
             else:
-                # ---Logs Record--- #
+                # --- Logs Record --- #
                 # Get the OAuth token & username
                 auth_header = request.headers.get('Authorization')
                 access_token = auth_header.split(' ')[1]
                 Username = get_username_with_token(access_token)
 
-                # Logs Record
+                # Define the webapp if ip_addr is localhost
+                if request.remote_addr == "127.0.0.1":
+                    current_ip = "127.0.0.1 (webapp)"
+                else:
+                    current_ip = request.remote_addr
+
+                # Log info
                 level = "ERROR"
                 event_type = "GET_UFW_STATUS_FAILED"
                 module = "firewall"
                 message = result.stderr
                 username = Username
-                ip_addr = request.remote_addr
+                ip_addr = current_ip
                 method = "GET"
                 endpoint = "/api/firewall/status"
 
@@ -69,18 +81,25 @@ class FirewallStatus(Resource):
                 }, 500
                 
         except Exception as e:
+            # --- Logs Record --- #
             # Get the OAuth token & username
             auth_header = request.headers.get('Authorization')
             access_token = auth_header.split(' ')[1]
             Username = get_username_with_token(access_token)
+            
+            # Define the webapp if ip_addr is localhost
+            if request.remote_addr == "127.0.0.1":
+                current_ip = "127.0.0.1 (webapp)"
+            else:
+                current_ip = request.remote_addr
 
-            # Logs Record
+            # Log info
             level = "ERROR"
             event_type = "EP_FIREWALL_STATUS_SYS_ERROR"
             module = "firewall"
             message = str(e)
             username = Username
-            ip_addr = request.remote_addr
+            ip_addr = current_ip
             method = "GET"
             endpoint = "/api/firewall/status"
 

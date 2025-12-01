@@ -165,19 +165,12 @@ const FirewallRules = () => {
       // Prepare delete data object (like add rule)
       const ruleData = {
         action: ruleToDelete.action,
+        port: ruleToDelete.port,
         protocol: ruleToDelete.protocol,
         direction: ruleToDelete.direction,
         ipv4: ruleToDelete.ipv4,
         ipv6: ruleToDelete.ipv6,
       };
-  
-      // Add port or service if exists
-      if (ruleToDelete.port && ruleToDelete.port !== 'Anywhere') {
-        ruleData.port = ruleToDelete.port;
-      }
-      if (ruleToDelete.service) {
-        ruleData.service = ruleToDelete.service;
-      }
   
       // Add source only if it's not "Anywhere"
       if (ruleToDelete.source && ruleToDelete.source.toLowerCase() !== 'anywhere') {
