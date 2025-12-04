@@ -24,20 +24,47 @@ def cowrie_watcher():
 
     LOGFILE = 'cowrie/var/log/cowrie/cowrie.json'
     
+    #=====  Reconnaissance Detection Variables  ======#  
+    
+    # Reconnaissance Flag (determine whether is )
+    rateDetect = False
+    signDetect = False
+    isRecon = False
+
+    # Nmap signature keywords
+    NMAP_KEYWORDS = ["GET ", "OPTIONS ", "RTSP", "/ HTTP", "/ RTSP"]
+
+    # Track connection attempts per IP
+    connection_attempts = defaultdict(list) 
+
+    # Time window for reconnaissance detection (in seconds)
+    NMAP_TIME_WINDOW = 20
+    
+    # Typical number of rapid nmap probes
+    NMAP_THRESHOLD = 4
+
+
+    #=====  Brute-Force Detection Variables  ======#    
+    
     # Track failed login attempts per IP with timestamps
     failed_attempts = defaultdict(list)
     
     # Time window for brute-force detection (in minutes)
-    TIME_WINDOW = 10
+    BRUTE_FORCE_TIME_WINDOW = 5
 
+    # Typical number of failed login attempts
+    BRUTE_FORCE_THRESHOLD = 6
+
+
+    #=====  Session Tracking Variables  ======#    
+    
     # Dictionary to track active sessions
     active_sessions = {}
-
+    
     # Dictionary to track tty code
     tty_codes = {}
     
     seen = 0
-
     while True:
         try:
             with open(LOGFILE, 'r', encoding='utf-8') as f:
@@ -58,11 +85,66 @@ def cowrie_watcher():
                 event_id = obj.get('eventid')
                 session = obj.get('session')
                 
+                #==========================================#
+                #-------  Reconnaissance Detection  -------#
+                #==========================================#
+                # Rate-based Detection #
+                if event_id == "cowrie.session.connect":
+                    ts = datetime.now()
+                    connection_attempts[ip].append(ts)
+
+                    # keep only recent attempts
+                    connection_attempts[ip] = [
+                        t for t in connection_attempts[ip]
+                        if (ts - t).total_seconds() < NMAP_TIME_WINDOW
+                    ]
+
+                    # If reach the threshold within window time
+                    if len(connection_attempts[ip]) >= NMAP_THRESHOLD:
+                        rateDetect = True
+
+                # Signature-based Detection #
+                if event_id == "cowrie.login.failed":
+                    if is_nmap_failed_login(obj, NMAP_KEYWORDS):
+                        signDetect = True
+
+                # Only rateDetect & signDetect both trigger, only know as recon
+                if rateDetect & signDetect:
+                    isRecon = True
+                        
+                if isRecon:
+
+                    # Auto block IP addr & Create Honeypot Report
+                    event = HoneypotEvent(
+                        timestamp = parser.isoparse(obj.get('timestamp')),
+                        event_id = "cowrie.recon.scan",
+                        event_type = "reconnaissance",
+                        src_ip = ip,
+                        protocol = "",
+                        username = "",
+                        password = "",
+                        duration = None,
+                        tty_code = None,
+                        message = "Possible Nmap scan detected"
+                    )
+
+                    # Check if event exist in database (prevent duplicate)
+                    commit_flag = _check_event(event)
+                    if commit_flag:
+                        db.session.add(event)
+                        db.session.commit()
+
+                    # Block the source IP address
+                    _ip_auto_block(ip)
+
+                    # Reset after detection
+                    connection_attempts[ip] = []
+
 
                 #=====================================#
                 #-------  Brute-Force Session  -------#
                 #=====================================#
-                if event_id == 'cowrie.login.failed' and ip:
+                if event_id == 'cowrie.login.failed' and ip and not is_nmap_failed_login(obj, NMAP_KEYWORDS):
 
                     # Add timestamp for this failed attempt
                     failed_attempts[ip].append(current_time)
@@ -70,16 +152,17 @@ def cowrie_watcher():
                     # Clean old attempts outside the time window
                     failed_attempts[ip] = [
                         ts for ts in failed_attempts[ip] 
-                        if current_time - ts < timedelta(minutes=TIME_WINDOW)
+                        if current_time - ts < timedelta(minutes=BRUTE_FORCE_TIME_WINDOW)
                     ]
                     
                     # Check for brute-force pattern
-                    if len(failed_attempts[ip]) >= 6:
+                    if len(failed_attempts[ip]) >= BRUTE_FORCE_THRESHOLD:
 
                         # Convert datetime format of timestamp
                         parsed_ts = parser.isoparse(obj.get('timestamp'))
                         parsed_ts = parsed_ts.astimezone(timezone.utc).replace(tzinfo=None)
                         
+                        # Auto block IP addr & Create Honeypot Report
                         event = HoneypotEvent(
                             timestamp = parsed_ts,
                             event_id = event_id,
@@ -99,16 +182,16 @@ def cowrie_watcher():
                             db.session.add(event)
                             db.session.commit()
 
-                        # Auto block IP addr & Create Honeypot Report
+                        # Block the source IP address
                         _ip_auto_block(ip)
                         
                         # Reset after detection
                         failed_attempts[ip] = []
 
 
-                #===================================#
-                #-------  Connected Session  -------#
-                #===================================#
+                #============================================#
+                #-------  Connected Session Tracking  -------#
+                #============================================#
                 # Login Success Session - track the connected session info #
                 elif event_id == 'cowrie.login.success' and ip and session:
                     
@@ -180,11 +263,28 @@ def cowrie_watcher():
             for session in expired_sessions:
                 del active_sessions[session]
 
-
             time.sleep(10)
             
         except:
             break
+
+def is_nmap_failed_login(obj, NMAP_KEYWORDS):
+    """
+    Detect failed login events caused by Nmap scan
+    """
+    username = obj.get("username", "")
+    password = obj.get("password", "")
+
+    # Signature 1: completely empty username + password
+    if username == "" and password == "":
+        return True
+
+    # Signature 2: username contains HTTP / RTSP requests
+    for key in NMAP_KEYWORDS:
+        if key in username:
+            return True
+
+    return False
 
 def _check_event(event):
     """
@@ -194,7 +294,6 @@ def _check_event(event):
     event_query = HoneypotEvent.query
     for e in event_query:
         if all([
-            e.timestamp == event.timestamp,
             e.event_id == event.event_id,
             e.event_type == event.event_type,
             e.src_ip == event.src_ip,
@@ -209,8 +308,13 @@ def _check_event(event):
     return True
 
 def _ip_auto_block(ip):
-    """
-    Block given ip using ufw
-    """
-    cmd = ["sudo", "/usr/sbin/ufw", "deny", "from", ip, "to", "any"]
+    # First check if rule already exists
+    status_cmd = ["sudo", "/usr/sbin/ufw", "status", "numbered"]
+    status = subprocess.run(status_cmd, capture_output=True, text=True).stdout
+
+    if ip in status:
+        return
+
+    # Insert at the top
+    cmd = ["sudo", "/usr/sbin/ufw", "insert", "1", "deny", "from", ip, "to", "any"]
     subprocess.run(cmd, capture_output=True, text=True)

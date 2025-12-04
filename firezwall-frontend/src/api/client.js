@@ -71,24 +71,36 @@ const apiClient = {
 
 
   // View Users - GET /api/user/view
-  getUsers: async (token, role) => {
+  getUsers: async (token, role = null) => {
+    const body = {};
+    
+    // Only include role filter if provided
+    if (role && role !== 'all') {
+      body.role = role;
+    }
+
     const response = await fetch(`${BASE_URL}/user/view`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({
-        role: role
-      })
+      body: JSON.stringify(body)
     });
-    if (!response.ok) throw new Error('Failed to fetch users');
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw {
+        status: response.status,
+        message: errorData.message || errorData.error || 'Failed to fetch users'
+      };
+    }
     return response.json();
   },
 
 
   // Register Users - POST /api/user/register
-  registerUser: async (token, username, password, role) => {
+  registerUser: async (token, userData) => {
     const response = await fetch(`${BASE_URL}/user/register`, {
       method: 'POST',
       headers: {
@@ -96,12 +108,19 @@ const apiClient = {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        username: username,
-        password: password,
-        role: role
+        username: userData.username,
+        password: userData.password,
+        role: userData.role
       })
     });
-    if (!response.ok) throw new Error('Failed to register user');
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw {
+        status: response.status,
+        message: errorData.message || errorData.error || 'Failed to register user'
+      };
+    }
     return response.json();
   },
 
@@ -118,7 +137,14 @@ const apiClient = {
         username: username
       })
     });
-    if (!response.ok) throw new Error('Failed to delete user');
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw {
+        status: response.status,
+        message: errorData.message || errorData.error || 'Failed to delete user'
+      };
+    }
     return response.json();
   },
 

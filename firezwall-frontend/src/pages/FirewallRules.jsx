@@ -244,7 +244,7 @@ const FirewallRules = () => {
         <div>
           <h2 className="text-2xl font-bold text-white mb-2">Firewall Rules</h2>
           <p className="text-slate-400">
-            Manage network security rules and access control
+            Configure and manage firewall rules
           </p>
         </div>
         <div className="flex gap-3">

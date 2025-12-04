@@ -12,7 +12,7 @@ from source.syslog_record import syslog_create, get_username_with_token
 # View User Endpoint
 class ViewUser(Resource):
     @require_oauth_with_scope('admin') # Admin only access
-    def get(self):
+    def post(self):
         
         parser = reqparse.RequestParser()
         parser.add_argument('role', type=str, required=False, choices=['admin', 'dev', 'cybersec', 'user'], help='Role (admin, dev, cybersec, user)')

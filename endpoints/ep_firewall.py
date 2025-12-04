@@ -6,6 +6,7 @@ import ipaddress
 import re
 
 ''' Internal File Import '''
+from dbModel import db, ServicerPort
 from source.auth import require_oauth_with_scope
 from source.syslog_record import syslog_create, get_username_with_token
 
@@ -806,34 +807,17 @@ class Firewall(Resource):
                 'error': 'Port must be between 1 and 65535'
             }
         
-
     def _service_to_port(self, service_name):
         """
         Convert service name to default port number
         """
-        service_ports = {
-            'http': '80',
-            'https': '443',
-            'ftp': '21',
-            'smtp': '25',
-            'dns': '53',
-            'dhcp': '67',
-            'ntp': '123',
-            'imap': '143',
-            'pop3': '110',
-            'mysql': '3306',
-            'postgresql': '5432',
-            'redis': '6379',
-            'mongodb': '27017',
-            'elasticsearch': '9200',
-            'kibana': '5601',
-            'grafana': '3000',
-            'prometheus': '9090'
-        }
         
         # Convert to lowercase for case-insensitive matching
         service_lower = service_name.lower()
-        return service_ports.get(service_lower)
+
+        # Query the database
+        entry = ServicerPort.query.filter_by(service=service_lower).first()
+        return entry.port if entry else None
     
     def _get_current_rules(self):
         """

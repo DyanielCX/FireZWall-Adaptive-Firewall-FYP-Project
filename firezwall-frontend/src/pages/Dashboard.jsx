@@ -12,6 +12,7 @@ import { useAuth } from '../context/AuthContext';
 import apiClient from '../api/client';
 import Card from '../components/ui/Card';
 import FirewallRules from './FirewallRules';
+import UserManagement from './UserManagement';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const Dashboard = () => {
   };
 
   const menuItems = [
-    { id: 'overview', icon: Shield, label: 'Overview' },
+    { id: 'overview', icon: Shield, label: 'Dashboard' },
     { id: 'users', icon: Users, label: 'User Management' },
     { id: 'firewall', icon: Settings, label: 'Firewall Rules' },
     { id: 'honeypots', icon: Server, label: 'Honeypots' },
@@ -161,6 +162,11 @@ const Dashboard = () => {
       );
     }
 
+    // User Management Page
+    if (activeSection === 'users') {
+      return <UserManagement />;
+    }
+    
     // Firewall Rules page
     if (activeSection === 'firewall') {
       return <FirewallRules />;
