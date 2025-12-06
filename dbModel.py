@@ -65,7 +65,7 @@ class HoneypotEvent(db.Model):
     event_id = db.Column(db.String(80), nullable=False)
     event_type = db.Column(db.String(120), nullable=False)
     src_ip = db.Column(db.String(45), nullable=False)
-    protocol = db.Column(db.String(20), nullable=False)
+    protocol = db.Column(db.String(20))
     username = db.Column(db.String(80))
     password = db.Column(db.String(80))
     duration = db.Column(db.String(20))

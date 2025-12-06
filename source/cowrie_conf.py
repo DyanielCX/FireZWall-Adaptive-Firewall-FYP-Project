@@ -32,16 +32,16 @@ def cowrie_watcher():
     isRecon = False
 
     # Nmap signature keywords
-    NMAP_KEYWORDS = ["GET ", "OPTIONS ", "RTSP", "/ HTTP", "/ RTSP"]
+    NMAP_KEYWORDS = ["GET ", "OPTIONS ", "RTSP", "/ HTTP", "/ RTSP", "OPTIONS", "Contact", "\\"]
 
     # Track connection attempts per IP
     connection_attempts = defaultdict(list) 
 
     # Time window for reconnaissance detection (in seconds)
-    NMAP_TIME_WINDOW = 20
+    NMAP_TIME_WINDOW = 120
     
     # Typical number of rapid nmap probes
-    NMAP_THRESHOLD = 4
+    NMAP_THRESHOLD = 8
 
 
     #=====  Brute-Force Detection Variables  ======#    
@@ -120,9 +120,9 @@ def cowrie_watcher():
                         event_id = "cowrie.recon.scan",
                         event_type = "reconnaissance",
                         src_ip = ip,
-                        protocol = "",
-                        username = "",
-                        password = "",
+                        protocol = None,
+                        username = None,
+                        password = None,
                         duration = None,
                         tty_code = None,
                         message = "Possible Nmap scan detected"
@@ -139,6 +139,9 @@ def cowrie_watcher():
 
                     # Reset after detection
                     connection_attempts[ip] = []
+                    rateDetect = False
+                    signDetect = False
+                    isRecon = False
 
 
                 #=====================================#
@@ -234,7 +237,7 @@ def cowrie_watcher():
                         event = HoneypotEvent(
                                 timestamp = parsed_ts,
                                 event_id = "cowrie.session.completed",
-                                event_type = "unauthorized access attemp",
+                                event_type = "unauthorized access attempt",
                                 src_ip = ip,
                                 protocol = session_data.get('protocol'),
                                 username = session_data.get('username'),

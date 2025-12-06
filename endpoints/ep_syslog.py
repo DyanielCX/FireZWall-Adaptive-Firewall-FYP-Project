@@ -15,11 +15,11 @@ from source.syslog_record import syslog_create, get_username_with_token
 
 class ViewSyslog(Resource):
     @require_oauth()
-    def get(self):
+    def post(self):
         
         parser = reqparse.RequestParser()
         parser.add_argument('timestamp', type=str, required=False, help='Timestamp (YYYY-MM-DD/YYYY-MM/YYYY)')
-        parser.add_argument('level', type=str, required=False, help='Level (info, warning, error)')
+        parser.add_argument('level', type=str, required=False, help='Level (info/warning/error)')
         parser.add_argument('module', type=str, required=False, help='Module (auth/firewall/honeypot/syslog)')
         parser.add_argument('username', type=str, required=False, help='Username (Action User)')
         parser.add_argument('endpoint', type=str, required=False, help='Endpoint (/api/xxx/xxx)')
@@ -133,11 +133,6 @@ class ViewSyslog(Resource):
         if current_user_role != 'admin':
             query = query.filter_by(username=current_username)
         
-        ## Pagination ##
-        limit = int(args.get("limit", 50))
-        offset = int(args.get("offset", 0))
-        items = query.order_by(SystemLog.id.desc()).offset(offset).limit(limit).all()
-        
         results = [{
                     "id": e.id,
                     "timestamp": e.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
@@ -150,7 +145,7 @@ class ViewSyslog(Resource):
                     "method": e.method,
                     "endpoint": e.endpoint,
                     "details": e.details
-                }for e in items]
+                }for e in query]
         
         # --- Logs Record --- #
         # Define the webapp if ip_addr is localhost

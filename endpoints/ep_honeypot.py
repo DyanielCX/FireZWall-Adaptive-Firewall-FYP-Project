@@ -14,10 +14,10 @@ from source.syslog_record import syslog_create, get_username_with_token
 
 class HoneypotReport(Resource):
     @require_oauth_with_scope('admin', 'cybersec')
-    def get(self):
+    def post(self):
         
         parser = reqparse.RequestParser()
-        parser.add_argument('event_type', type=str, required=False, help='Event type (brute-force attack/unauthorized access attemp)')
+        parser.add_argument('event_type', type=str, required=False, help='Event type (reconnaissance/brute-force attack/unauthorized access attempt)')
         parser.add_argument('ip', type=str, required=False, help='Source IP address')
         parser.add_argument('protocol', type=str, required=False, help='Protocol (ssh/telnet)')
         parser.add_argument('timestamp', type=str, required=False, help='Timestamp(YYYY-MM-DD/YYYY-MM/YYYY)')

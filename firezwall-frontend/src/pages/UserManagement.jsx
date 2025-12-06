@@ -1,5 +1,10 @@
+// ============================================
+// User Management Page (Protected - Admin Only)
+// Location: /src/pages/UserManagement.jsx
+// ============================================
+
 import { useState, useEffect } from 'react';
-import { Users, UserPlus, Trash2, RefreshCw, Lock, Filter, Shield } from 'lucide-react';
+import { Users, UserPlus, Trash2, RefreshCw, Lock, Filter, Shield, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import apiClient from '../api/client';
 import Card from '../components/ui/Card';
@@ -17,7 +22,11 @@ const UserManagement = () => {
   const [submitting, setSubmitting] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [selectedRoleFilter, setSelectedRoleFilter] = useState('all');
-  const [hasAccess, setHasAccess] = useState(null); // null = checking, true = has access, false = denied
+  const [hasAccess, setHasAccess] = useState(null);
+  
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
   
   // Delete confirmation
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -27,6 +36,11 @@ const UserManagement = () => {
   useEffect(() => {
     checkAdminAccess();
   }, []);
+
+  // Reset to page 1 when users change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [users.length]);
 
   const checkAdminAccess = async () => {
     setLoading(true);
@@ -173,6 +187,28 @@ const UserManagement = () => {
     );
   };
 
+  // Pagination calculations
+  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentUsers = users.slice(startIndex, endIndex);
+
+  const goToPage = (page) => {
+    setCurrentPage(page);
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   // Show loading while checking access
   if (loading && hasAccess === null) {
     return (
@@ -215,13 +251,18 @@ const UserManagement = () => {
               <Button
                 variant="secondary"
                 onClick={() => window.location.reload()}
-                className="w-full"
+                className="flex items-center justify-center gap-2"
               >
-                Refresh Page
+                <RefreshCw className="w-4 h-4" />
+                Try Again
               </Button>
-              <p className="text-slate-500 text-xs">
-                If you believe this is an error, please contact your administrator.
-              </p>
+              <Button
+                variant="outline"
+                onClick={() => window.history.back()}
+                className="flex items-center justify-center gap-2"
+              >
+                Go Back
+              </Button>
             </div>
           </div>
         </Card>
@@ -229,17 +270,6 @@ const UserManagement = () => {
     );
   }
 
-  // Show loading while fetching users (after access granted)
-  if (loading && hasAccess === true) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <RefreshCw className="w-8 h-8 text-orange-500 animate-spin" />
-        <span className="ml-3 text-slate-300">Loading users...</span>
-      </div>
-    );
-  }
-
-  // Main content (only shown to admins)
   return (
     <div>
       {/* Header */}
@@ -248,11 +278,6 @@ const UserManagement = () => {
           <h2 className="text-2xl font-bold text-white mb-2">User Management</h2>
           <p className="text-slate-400">
             Manage system users and permissions
-            {users.length > 0 && (
-              <span className="ml-2 text-xs px-2 py-1 rounded bg-slate-700 text-slate-300">
-                {users.length} {users.length === 1 ? 'user' : 'users'}
-              </span>
-            )}
           </p>
         </div>
         <div className="flex gap-3">
@@ -313,89 +338,164 @@ const UserManagement = () => {
 
       {/* Users Table */}
       <Card className="overflow-hidden p-0">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-slate-700/50 border-b border-slate-600">
-                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  ID
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Username
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Role
-                </th>
-                <th className="px-6 py-4 text-center text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-4 text-center text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-700">
-              {users.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="px-6 py-12 text-center">
-                    <Users className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-                    <p className="text-slate-400 text-sm">
-                      {selectedRoleFilter === 'all' ? 'No users found' : `No ${selectedRoleFilter} users found`}
-                    </p>
-                    <Button
-                      variant="outline"
-                      onClick={handleAddUser}
-                      className="mt-4"
-                    >
-                      Add Your First User
-                    </Button>
-                  </td>
-                </tr>
-              ) : (
-                users.map((user) => (
-                  <tr key={user.id} className="hover:bg-slate-700/30 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
-                      {user.id}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center">
-                          <span className="text-white text-xs font-bold">
-                            {user.username.charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                        <span className="text-sm font-medium text-white">
-                          {user.username}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium border ${getRoleBadgeColor(
-                          user.role
-                        )}`}
-                      >
-                        {user.role.toUpperCase()}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {getStatusBadge(user.is_active)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
-                      <button
-                        onClick={() => handleDeleteClick(user)}
-                        className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors"
-                        title="Delete user"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
+        {loading ? (
+          <div className="text-center py-12">
+            <RefreshCw className="w-8 h-8 text-orange-500 animate-spin mx-auto" />
+            <p className="text-slate-400 mt-4">Loading users...</p>
+          </div>
+        ) : (
+          <>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-slate-700/50 border-b border-slate-600">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      ID
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Username
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Role
+                    </th>
+                    <th className="px-6 py-4 text-center text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-4 text-center text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+                </thead>
+                <tbody className="divide-y divide-slate-700">
+                  {users.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="px-6 py-12 text-center">
+                        <Users className="w-12 h-12 text-slate-600 mx-auto mb-3" />
+                        <p className="text-slate-400 text-sm">
+                          {selectedRoleFilter === 'all' ? 'No users found' : `No ${selectedRoleFilter} users found`}
+                        </p>
+                        <Button
+                          variant="outline"
+                          onClick={handleAddUser}
+                          className="mt-4"
+                        >
+                          Add Your First User
+                        </Button>
+                      </td>
+                    </tr>
+                  ) : (
+                    currentUsers.map((user) => (
+                      <tr key={user.id} className="hover:bg-slate-700/30 transition-colors">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                          {user.id}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center">
+                              <span className="text-white text-xs font-bold">
+                                {user.username.charAt(0).toUpperCase()}
+                              </span>
+                            </div>
+                            <span className="text-sm font-medium text-white">
+                              {user.username}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium border ${getRoleBadgeColor(
+                              user.role
+                            )}`}
+                          >
+                            {user.role.toUpperCase()}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                          {getStatusBadge(user.is_active)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                          <button
+                            onClick={() => handleDeleteClick(user)}
+                            className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors"
+                            title="Delete user"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between px-6 py-4 border-t border-slate-700">
+                <div className="text-sm text-slate-400">
+                  Showing {startIndex + 1}-{Math.min(endIndex, users.length)} of {users.length} users
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={goToPreviousPage}
+                    disabled={currentPage === 1}
+                    className="flex items-center gap-1"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    Previous
+                  </Button>
+
+                  <div className="flex gap-1">
+                    {[...Array(totalPages)].map((_, index) => {
+                      const pageNumber = index + 1;
+                      if (
+                        pageNumber === 1 ||
+                        pageNumber === totalPages ||
+                        (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+                      ) {
+                        return (
+                          <button
+                            key={pageNumber}
+                            onClick={() => goToPage(pageNumber)}
+                            className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                              currentPage === pageNumber
+                                ? 'bg-orange-500 text-white'
+                                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                            }`}
+                          >
+                            {pageNumber}
+                          </button>
+                        );
+                      } else if (
+                        pageNumber === currentPage - 2 ||
+                        pageNumber === currentPage + 2
+                      ) {
+                        return (
+                          <span key={pageNumber} className="px-2 text-slate-500">
+                            ...
+                          </span>
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    onClick={goToNextPage}
+                    disabled={currentPage === totalPages}
+                    className="flex items-center gap-1"
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
+          </>
+        )}
       </Card>
 
       {/* Add User Modal */}

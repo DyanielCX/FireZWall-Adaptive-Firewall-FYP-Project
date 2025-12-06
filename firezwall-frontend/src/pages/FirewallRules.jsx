@@ -1,10 +1,10 @@
 // ============================================
 // Firewall Rules Page (Protected)
-// Location: /src/pages/FirewallRules.jsx (React)
+// Location: /src/pages/FirewallRules.jsx
 // ============================================
 
 import { useState, useEffect } from 'react';
-import { Shield, Plus, Check, X, RefreshCw, AlertCircle, Lock, Trash2 } from 'lucide-react';
+import { Shield, Plus, Check, X, RefreshCw, AlertCircle, Lock, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import apiClient from '../api/client';
 import Card from '../components/ui/Card';
@@ -25,6 +25,10 @@ const FirewallRules = () => {
   const [showAccessDenied_AddRules, setShowAccessDenied_AddRules] = useState(false);
   const [showAccessDenied_DltRules, setShowAccessDenied_DltRules] = useState(false);
   
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  
   // Delete confirmation modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [ruleToDelete, setRuleToDelete] = useState(null);
@@ -35,6 +39,11 @@ const FirewallRules = () => {
     fetchRules();
     fetchUserRole();
   }, []);
+
+  // Reset to page 1 when rules change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [rules.length]);
 
   const fetchRules = async () => {
     setLoading(true);
@@ -228,14 +237,27 @@ const FirewallRules = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <RefreshCw className="w-8 h-8 text-orange-500 animate-spin" />
-        <span className="ml-3 text-slate-300">Loading firewall rules...</span>
-      </div>
-    );
-  }
+  // Pagination calculations
+  const totalPages = Math.ceil(rules.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentRules = rules.slice(startIndex, endIndex);
+
+  const goToPage = (page) => {
+    setCurrentPage(page);
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   return (
     <div>
@@ -300,128 +322,187 @@ const FirewallRules = () => {
 
       {/* Rules Table */}
       <Card className="overflow-hidden p-0">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-slate-700/50 border-b border-slate-600">
-                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Action
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Port
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Protocol
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Direction
-                </th>
-                <th className="px-6 py-4 text-center text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  IPv4
-                </th>
-                <th className="px-6 py-4 text-center text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  IPv6
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Source
-                </th>
-                <th className="px-6 py-4 text-center text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-700">
-              {rules.length === 0 ? (
-                <tr>
-                  <td colSpan="8" className="px-6 py-12 text-center">
-                    <Shield className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-                    <p className="text-slate-400 text-sm">
-                      No firewall rules configured
-                    </p>
-                    {(userRole === 'admin' || userRole === 'dev' || userRole === 'cybersec') && (
-                      <Button
-                        variant="outline"
-                        onClick={handleAddRule}
-                        className="mt-4"
-                      >
-                        Add Your First Rule
-                      </Button>
-                    )}
-                  </td>
-                </tr>
-              ) : (
-                rules.map((rule, index) => (
-                  <tr
-                    key={index}
-                    className="hover:bg-slate-700/30 transition-colors"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium border ${getActionBadgeColor(
-                          rule.action
-                        )}`}
-                      >
-                        {rule.action}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
-                      {rule.port}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex items-center px-2 py-1 rounded bg-slate-700 text-xs font-mono text-slate-300">
-                        {rule.protocol}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
-                          rule.direction === 'IN'
-                            ? 'bg-blue-500/20 text-blue-400'
-                            : 'bg-purple-500/20 text-purple-400'
-                        }`}
-                      >
-                        {rule.direction}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {renderBooleanIcon(rule.ipv4)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {renderBooleanIcon(rule.ipv6)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
-                      {rule.source}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
-                      <button
-                        onClick={() => handleDeleteClick(rule)}
-                        className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors"
-                        title="Delete rule"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Footer with stats */}
-        {rules.length > 0 && (
-          <div className="bg-slate-700/30 px-6 py-3 border-t border-slate-600">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-slate-400">
-                Total Rules: <span className="text-white font-medium">{rules.length}</span>
-              </span>
-              <span className="text-slate-400">
-                Active Rules: <span className="text-green-400 font-medium">
-                  {rules.filter(r => r.action === 'ALLOW').length}
-                </span>
-              </span>
-            </div>
+        {loading ? (
+          <div className="text-center py-12">
+            <RefreshCw className="w-8 h-8 text-orange-500 animate-spin mx-auto" />
+            <p className="text-slate-400 mt-4">Loading firewall rules...</p>
           </div>
+        ) : (
+          <>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-slate-700/50 border-b border-slate-600">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Action
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Port
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Protocol
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Direction
+                    </th>
+                    <th className="px-6 py-4 text-center text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      IPv4
+                    </th>
+                    <th className="px-6 py-4 text-center text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      IPv6
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Source
+                    </th>
+                    <th className="px-6 py-4 text-center text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-700">
+                  {rules.length === 0 ? (
+                    <tr>
+                      <td colSpan="8" className="px-6 py-12 text-center">
+                        <Shield className="w-12 h-12 text-slate-600 mx-auto mb-3" />
+                        <p className="text-slate-400 text-sm">
+                          No firewall rules configured
+                        </p>
+                        {(userRole === 'admin' || userRole === 'dev' || userRole === 'cybersec') && (
+                          <Button
+                            variant="outline"
+                            onClick={handleAddRule}
+                            className="mt-4"
+                          >
+                            Add Your First Rule
+                          </Button>
+                        )}
+                      </td>
+                    </tr>
+                  ) : (
+                    currentRules.map((rule, index) => (
+                      <tr
+                        key={index}
+                        className="hover:bg-slate-700/30 transition-colors"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium border ${getActionBadgeColor(
+                              rule.action
+                            )}`}
+                          >
+                            {rule.action}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                          {rule.port}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="inline-flex items-center px-2 py-1 rounded bg-slate-700 text-xs font-mono text-slate-300">
+                            {rule.protocol}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
+                              rule.direction === 'IN'
+                                ? 'bg-blue-500/20 text-blue-400'
+                                : 'bg-purple-500/20 text-purple-400'
+                            }`}
+                          >
+                            {rule.direction}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                          {renderBooleanIcon(rule.ipv4)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                          {renderBooleanIcon(rule.ipv6)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                          {rule.source}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                          <button
+                            onClick={() => handleDeleteClick(rule)}
+                            className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors"
+                            title="Delete rule"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between px-6 py-4 border-t border-slate-700">
+                <div className="text-sm text-slate-400">
+                  Showing {startIndex + 1}-{Math.min(endIndex, rules.length)} of {rules.length} rules
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={goToPreviousPage}
+                    disabled={currentPage === 1}
+                    className="flex items-center gap-1"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    Previous
+                  </Button>
+
+                  <div className="flex gap-1">
+                    {[...Array(totalPages)].map((_, index) => {
+                      const pageNumber = index + 1;
+                      if (
+                        pageNumber === 1 ||
+                        pageNumber === totalPages ||
+                        (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+                      ) {
+                        return (
+                          <button
+                            key={pageNumber}
+                            onClick={() => goToPage(pageNumber)}
+                            className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                              currentPage === pageNumber
+                                ? 'bg-orange-500 text-white'
+                                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                            }`}
+                          >
+                            {pageNumber}
+                          </button>
+                        );
+                      } else if (
+                        pageNumber === currentPage - 2 ||
+                        pageNumber === currentPage + 2
+                      ) {
+                        return (
+                          <span key={pageNumber} className="px-2 text-slate-500">
+                            ...
+                          </span>
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    onClick={goToNextPage}
+                    disabled={currentPage === totalPages}
+                    className="flex items-center gap-1"
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </Card>
 

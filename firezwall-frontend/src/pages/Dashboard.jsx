@@ -13,6 +13,8 @@ import apiClient from '../api/client';
 import Card from '../components/ui/Card';
 import FirewallRules from './FirewallRules';
 import UserManagement from './UserManagement';
+import Honeypot from './Honeypot';
+import SystemLogs from './SystemLogs';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -172,10 +174,20 @@ const Dashboard = () => {
       return <FirewallRules />;
     }
 
+    // Honeypot page
+    if (activeSection === 'honeypots') {
+      return <Honeypot />;
+    }
+
+    // SystemLogs page
+    if (activeSection === 'logs') {
+      return <SystemLogs />;
+    }
+
     // Placeholder pages for other sections
     const info = placeholders[activeSection];
-    const Icon = menuItems.find(m => m.id === activeSection)?.icon || Shield;
-    
+    const SectionIcon = menuItems.find(m => m.id === activeSection)?.icon || Shield;
+
     return (
       <div>
         <h2 className="text-2xl font-bold text-white mb-2">{info?.title}</h2>
@@ -183,7 +195,7 @@ const Dashboard = () => {
         <Card className="border-dashed border-2 border-slate-600 bg-slate-800/50">
           <div className="text-center py-12">
             <div className="bg-slate-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Icon className="w-8 h-8 text-slate-400" />
+              <SectionIcon className="w-8 h-8 text-slate-400" />
             </div>
             <h3 className="text-lg font-medium text-slate-300 mb-2">Coming Soon</h3>
             <p className="text-slate-500">This section is under development.</p>

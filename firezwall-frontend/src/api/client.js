@@ -278,40 +278,65 @@ const apiClient = {
   },
 
 
-  // View Honeypot Reports - GET /api/honeypot/reports
-  getHoneypots: async (token, event_type, ip, protocol, timestamp) => {
+  // View Honeypot Reports - POST /api/honeypot/reports
+  getHoneypots: async (token, filters = {}) => {
+    const body = {};
+    
+    // Only include filters that have values
+    if (filters.event_type && filters.event_type.trim() !== '') {
+      body.event_type = filters.event_type;
+    }
+    if (filters.ip && filters.ip.trim() !== '') {
+      body.ip = filters.ip;
+    }
+    if (filters.protocol && filters.protocol.trim() !== '') {
+      body.protocol = filters.protocol;
+    }
+    if (filters.timestamp && filters.timestamp.trim() !== '') {
+      body.timestamp = filters.timestamp;
+    }
+  
+    console.log('Fetching honeypot reports with filters:', body);
+  
     const response = await fetch(`${BASE_URL}/honeypot/reports`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({
-        event_type: event_type,
-        ip: ip,
-        protocol: protocol,
-        timestamp: timestamp
-      })
+      body: JSON.stringify(body)
     });
-    if (!response.ok) throw new Error('Failed to fetch honeypot reports');
+  
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw {
+        status: response.status,
+        message: errorData.message || errorData.error || 'Failed to fetch honeypot reports'
+      };
+    }
+  
     return response.json();
   },
 
   // View Syslogs - GET /api/logs
-  getSyslogs: async (token, timestamp, level, module, username, endpoint) => {  
+  getSystemLogs: async (token, filters = {}) => {  
     const response = await fetch(`${BASE_URL}/logs`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        timestamp: timestamp,
-        level: level,
-        module: module,
-        username: username,
-        endpoint: endpoint
-      })
-    });
-    if (!response.ok) throw new Error('Failed to fetch syslogs');
+      method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(filters)
+      });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw {
+        status: response.status,
+        message: errorData.message || errorData.error || 'Failed to fetch honeypot reports'
+      };
+    }
+  
     return response.json();
   }
 };
