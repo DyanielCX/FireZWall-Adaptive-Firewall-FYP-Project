@@ -12,7 +12,7 @@ import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Input from '../components/ui/Input';
 import Alert from '../components/ui/Alert';
-import { BASE_URL } from '../api/client';
+import { API_BASE_URL } from '../api/client';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ const Login = () => {
     setLoading(true);
     
     try {
-      console.log('Attempting login to:', `${BASE_URL}/api/login`);
+      console.log('Attempting login to:', `${API_BASE_URL}/api/login`);
       await login(username, password);
       console.log('Login successful, redirecting to dashboard...');
       navigate('/dashboard');

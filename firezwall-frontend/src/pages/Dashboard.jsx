@@ -1,12 +1,12 @@
 // ============================================
 // Dashboard Page (Protected)
-// Location: /src/pages/Dashboard.jsx (React)
+// Location: /src/pages/Dashboard.jsx
 // ============================================
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Shield, LogOut, Users, Settings, Server, 
-  FileText, Menu, ChevronRight 
+  FileText, Menu, ChevronRight, GraduationCap 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import apiClient from '../api/client';
@@ -15,6 +15,7 @@ import FirewallRules from './FirewallRules';
 import UserManagement from './UserManagement';
 import Honeypot from './Honeypot';
 import SystemLogs from './SystemLogs';
+import LabDashboard from './lab/LabDashboard';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -23,28 +24,41 @@ const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('overview');
   const [username, setUsername] = useState('Administrator');
   const [userRole, setUserRole] = useState('Loading...');
+  const [mode, setMode] = useState('real-system'); // 'real-system' or 'lab'
+  
+  // Quick Stats data
+  const [stats, setStats] = useState({
+    activeRules: 0,
+    honeypots: null,
+    blockedIPs: null,
+    alertsToday: 0,
+    loading: true
+  });
 
-  // Protect this page - redirect if not authenticated
   useEffect(() => {
     if (!isAuthenticated()) {
       navigate('/login');
     } else {
-      // Fetch user info
       fetchUserInfo();
     }
   }, [isAuthenticated, navigate]);
+
+  // Fetch stats after user role is determined
+  useEffect(() => {
+    if (userRole && userRole !== 'Loading...') {
+      fetchQuickStats();
+    }
+  }, [userRole]);
 
   const fetchUserInfo = async () => {
     try {
       const token = getToken();
       
-      // Fetch username
       const usernameResponse = await apiClient.getUserName(token);
       if (usernameResponse.success) {
         setUsername(usernameResponse.username);
       }
       
-      // Fetch user role
       const roleResponse = await apiClient.getUserRole(token);
       if (roleResponse.success) {
         setUserRole(roleResponse.role);
@@ -53,6 +67,59 @@ const Dashboard = () => {
       console.error('Error fetching user info:', error);
       setUsername('User');
       setUserRole('Unknown');
+    }
+  };
+
+  const fetchQuickStats = async () => {
+    try {
+      const token = getToken();
+      
+      // Fetch firewall rules and logs for all users
+      const [rulesResponse, logsResponse] = await Promise.all([
+        apiClient.getFirewallRules(token),
+        apiClient.getSystemLogs(token, {})
+      ]);
+
+      // Count active firewall rules
+      const activeRules = rulesResponse.success ? (rulesResponse['Firewall-Rules'] || []).length : 0;
+      
+      // Count ERROR/WARNING logs from today
+      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+      const alertsToday = logsResponse.success
+        ? (logsResponse.logs || []).filter(log => 
+            (log.level === 'ERROR' || log.level === 'WARNING') && 
+            log.timestamp.startsWith(today)
+          ).length
+        : 0;
+
+      // Only fetch honeypot data for admin and cybersec roles
+      let honeypots = null;
+      let blockedIPs = null;
+      
+      if (userRole === 'admin' || userRole === 'cybersec') {
+        try {
+          const honeypotResponse = await apiClient.getHoneypots(token);
+          
+          if (honeypotResponse.success) {
+            honeypots = (honeypotResponse.reports || []).length;
+            blockedIPs = new Set((honeypotResponse.reports || []).map(r => r.src_ip)).size;
+          }
+        } catch (error) {
+          // If honeypot access fails, just set to null (will be hidden in UI)
+          console.log('No access to honeypot data');
+        }
+      }
+
+      setStats({
+        activeRules,
+        honeypots,
+        blockedIPs,
+        alertsToday,
+        loading: false
+      });
+    } catch (error) {
+      console.error('Error fetching quick stats:', error);
+      setStats(prev => ({ ...prev, loading: false }));
     }
   };
 
@@ -68,13 +135,6 @@ const Dashboard = () => {
     { id: 'honeypots', icon: Server, label: 'Honeypots' },
     { id: 'logs', icon: FileText, label: 'System Logs' }
   ];
-
-  const placeholders = {
-    users: { title: 'User Management', desc: 'Manage system users and permissions' },
-    firewall: { title: 'Firewall Rules', desc: 'Configure and manage firewall rules' },
-    honeypots: { title: 'Honeypots', desc: 'Deploy and monitor honeypot systems' },
-    logs: { title: 'System Logs', desc: 'View and analyze system logs' }
-  };
 
   const getRoleBadgeColor = (role) => {
     switch (role?.toLowerCase()) {
@@ -117,7 +177,10 @@ const Dashboard = () => {
                   {item.label}
                 </h3>
                 <p className="text-slate-400 text-sm">
-                  {placeholders[item.id]?.desc}
+                  {item.id === 'users' && 'Manage system users and permissions'}
+                  {item.id === 'firewall' && 'Configure and manage firewall rules'}
+                  {item.id === 'honeypots' && 'Deploy and monitor honeypot systems'}
+                  {item.id === 'logs' && 'View and analyze system logs'}
                 </p>
                 <div className="mt-4 flex items-center text-orange-500 text-sm font-medium">
                   Open <ChevronRight className="w-4 h-4 ml-1" />
@@ -146,17 +209,41 @@ const Dashboard = () => {
             <Card>
               <h3 className="text-lg font-semibold text-white mb-4">Quick Stats</h3>
               <div className="grid grid-cols-2 gap-4">
-                {[
-                  { label: 'Active Rules', value: '24' },
-                  { label: 'Honeypots', value: '3' },
-                  { label: 'Blocked IPs', value: '156' },
-                  { label: 'Alerts Today', value: '12' }
-                ].map((stat) => (
-                  <div key={stat.label} className="bg-slate-700/50 rounded-lg p-4 text-center">
-                    <p className="text-2xl font-bold text-orange-500">{stat.value}</p>
-                    <p className="text-slate-400 text-sm">{stat.label}</p>
+                {/* Active Rules - show for all users */}
+                <div className="bg-slate-700/50 rounded-lg p-4 text-center">
+                  <p className="text-2xl font-bold text-orange-500">
+                    {stats.loading ? '...' : stats.activeRules}
+                  </p>
+                  <p className="text-slate-400 text-sm">Active Rules</p>
+                </div>
+
+                {/* Honeypot Reports - only show for admin/cybersec */}
+                {(userRole === 'admin' || userRole === 'cybersec') && (
+                  <div className="bg-slate-700/50 rounded-lg p-4 text-center">
+                    <p className="text-2xl font-bold text-orange-500">
+                      {stats.loading ? '...' : (stats.honeypots ?? 0)}
+                    </p>
+                    <p className="text-slate-400 text-sm">Honeypot Reports</p>
                   </div>
-                ))}
+                )}
+
+                {/* Blocked IPs - only show for admin/cybersec */}
+                {(userRole === 'admin' || userRole === 'cybersec') && (
+                  <div className="bg-slate-700/50 rounded-lg p-4 text-center">
+                    <p className="text-2xl font-bold text-orange-500">
+                      {stats.loading ? '...' : (stats.blockedIPs ?? 0)}
+                    </p>
+                    <p className="text-slate-400 text-sm">Blocked IPs</p>
+                  </div>
+                )}
+
+                {/* Alerts Today - show for all users */}
+                <div className="bg-slate-700/50 rounded-lg p-4 text-center">
+                  <p className="text-2xl font-bold text-orange-500">
+                    {stats.loading ? '...' : stats.alertsToday}
+                  </p>
+                  <p className="text-slate-400 text-sm">Alerts Today</p>
+                </div>
               </div>
             </Card>
           </div>
@@ -184,31 +271,25 @@ const Dashboard = () => {
       return <SystemLogs />;
     }
 
-    // Placeholder pages for other sections
-    const info = placeholders[activeSection];
-    const SectionIcon = menuItems.find(m => m.id === activeSection)?.icon || Shield;
-
-    return (
-      <div>
-        <h2 className="text-2xl font-bold text-white mb-2">{info?.title}</h2>
-        <p className="text-slate-400 mb-8">{info?.desc}</p>
-        <Card className="border-dashed border-2 border-slate-600 bg-slate-800/50">
-          <div className="text-center py-12">
-            <div className="bg-slate-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <SectionIcon className="w-8 h-8 text-slate-400" />
-            </div>
-            <h3 className="text-lg font-medium text-slate-300 mb-2">Coming Soon</h3>
-            <p className="text-slate-500">This section is under development.</p>
-          </div>
-        </Card>
-      </div>
-    );
+    return null;
   };
 
   return (
     <div className="min-h-screen bg-slate-900 flex">
-      {/* Sidebar */}
-      <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-slate-800 border-r border-slate-700 transition-all duration-300 flex flex-col`}>
+      {/* Lab Mode */}
+      {mode === 'lab' && (
+        <LabDashboard 
+          onSwitchToRealSystem={() => setMode('real-system')}
+          username={username}
+          userRole={userRole}
+        />
+      )}
+
+      {/* Real System Mode */}
+      {mode === 'real-system' && (
+        <>
+          {/* Sidebar */}
+          <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-slate-800 border-r border-slate-700 transition-all duration-300 flex flex-col`}>
         <div className="p-4 border-b border-slate-700 flex items-center gap-3">
           <div className="bg-gradient-to-br from-orange-500 to-red-600 p-2 rounded-lg flex-shrink-0">
             <Shield className="w-5 h-5 text-white" />
@@ -246,40 +327,51 @@ const Dashboard = () => {
           </button>
         </div>
       </aside>
-      
+
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Top Bar */}
         <header className="bg-slate-800 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-400 hover:text-white">
-            <Menu className="w-6 h-6" />
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="text-slate-400 hover:text-white transition-colors"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+            
+            {/* Mode Switch Button */}
+            <button
+              onClick={() => setMode('lab')}
+              className="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-all flex items-center gap-2 text-sm border border-slate-600"
+            >
+              <GraduationCap className="w-4 h-4" />
+              <span>Switch to Lab Mode</span>
+            </button>
+          </div>
+          
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <p className="text-white font-medium">{username}</p>
-              <div className="flex items-center justify-end gap-2 mt-1">
-                <span
-                  className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getRoleBadgeColor(
-                    userRole
-                  )}`}
-                >
-                  {userRole.toUpperCase()}
-                </span>
-              </div>
+              <p className="text-sm font-medium text-white">{username}</p>
+              <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getRoleBadgeColor(userRole)}`}>
+                {userRole}
+              </span>
             </div>
             <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm">
+              <span className="text-white font-bold">
                 {username.charAt(0).toUpperCase()}
               </span>
             </div>
           </div>
         </header>
-        
+
         {/* Page Content */}
         <main className="flex-1 p-6 overflow-auto">
           {renderContent()}
         </main>
       </div>
+      </>
+      )}
     </div>
   );
 };

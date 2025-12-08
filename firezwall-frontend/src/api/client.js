@@ -2,16 +2,16 @@
 //             API CONFIGURATION
 // ============================================
 
-export const BASE_URL = "/api";
+export const API_BASE_URL = "/api";
 
 const apiClient = {
   
   // Login - POST /api/login
   login: async (username, password) => {
     try {
-      console.log('Making request to:', `${BASE_URL}/login`);
+      console.log('Making request to:', `${API_BASE_URL}/login`);
       
-      const response = await fetch(`${BASE_URL}/login`, {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const apiClient = {
   
   // Logout - POST /api/logout
   logout: async (token) => {
-    const response = await fetch(`${BASE_URL}/logout`, {
+    const response = await fetch(`${API_BASE_URL}/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const apiClient = {
 
   // Refresh Token - POST /api/refresh-token
   refreshToken: async (refreshToken) => {
-    const response = await fetch(`${BASE_URL}/refresh-token`, {
+    const response = await fetch(`${API_BASE_URL}/refresh-token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ const apiClient = {
   },
 
 
-  // View Users - GET /api/user/view
+  // View Users - POST /api/user/view
   getUsers: async (token, role = null) => {
     const body = {};
     
@@ -79,7 +79,7 @@ const apiClient = {
       body.role = role;
     }
 
-    const response = await fetch(`${BASE_URL}/user/view`, {
+    const response = await fetch(`${API_BASE_URL}/user/view`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const apiClient = {
 
   // Register Users - POST /api/user/register
   registerUser: async (token, userData) => {
-    const response = await fetch(`${BASE_URL}/user/register`, {
+    const response = await fetch(`${API_BASE_URL}/user/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ const apiClient = {
 
   // Delete Users - DELETE /api/user/delete
   deleteUser: async (token, username) => {
-    const response = await fetch(`${BASE_URL}/user/delete`, {
+    const response = await fetch(`${API_BASE_URL}/user/delete`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ const apiClient = {
 
   // Get User Role - GET /api/user/getRole
   getUserRole: async (token) => {
-    const response = await fetch(`${BASE_URL}/user/getRole`, {
+    const response = await fetch(`${API_BASE_URL}/user/getRole`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -164,7 +164,7 @@ const apiClient = {
 
   // Get Username - GET /api/user/getUsername
   getUserName: async (token) => {
-    const response = await fetch(`${BASE_URL}/user/getUsername`, {
+    const response = await fetch(`${API_BASE_URL}/user/getUsername`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -177,7 +177,7 @@ const apiClient = {
 
   // View Firewall Rules - GET /api/firewall/status
   getFirewallRules: async (token) => {
-    const response = await fetch(`${BASE_URL}/firewall/status`, {
+    const response = await fetch(`${API_BASE_URL}/firewall/status`, {
       method: 'GET',
       headers: { 'Authorization': `Bearer ${token}` }
     });
@@ -214,7 +214,7 @@ const apiClient = {
 
     console.log('Sending firewall rule:', body);
 
-    const response = await fetch(`${BASE_URL}/firewall`, {
+    const response = await fetch(`${API_BASE_URL}/firewall`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -257,7 +257,7 @@ const apiClient = {
 
     console.log('Deleting firewall rule:', body);
 
-    const response = await fetch(`${BASE_URL}/firewall`, {
+    const response = await fetch(`${API_BASE_URL}/firewall`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -298,7 +298,7 @@ const apiClient = {
   
     console.log('Fetching honeypot reports with filters:', body);
   
-    const response = await fetch(`${BASE_URL}/honeypot/reports`, {
+    const response = await fetch(`${API_BASE_URL}/honeypot/reports`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -318,9 +318,9 @@ const apiClient = {
     return response.json();
   },
 
-  // View Syslogs - GET /api/logs
+  // View Syslogs - POST /api/logs
   getSystemLogs: async (token, filters = {}) => {  
-    const response = await fetch(`${BASE_URL}/logs`, {
+    const response = await fetch(`${API_BASE_URL}/logs`, {
       method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -337,6 +337,22 @@ const apiClient = {
       };
     }
   
+    return response.json();
+  },
+
+// ========================================================================================= //
+// == Lab Section
+// ========================================================================================= //
+
+  // Get Common Service Ports
+  getServicePorts: async (token) => {
+    const response = await fetch(`${API_BASE_URL}/firewall/svc-port`, {
+      method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+    if (!response.ok) throw new Error('Failed to fetch common service port');
     return response.json();
   }
 };

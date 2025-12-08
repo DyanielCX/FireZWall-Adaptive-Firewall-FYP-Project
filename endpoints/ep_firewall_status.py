@@ -50,6 +50,7 @@ class FirewallStatus(Resource):
                     "success": True,
                     "Firewall-Rules": combined_rules
                 }, 200
+                
             else:
                 # --- Logs Record --- #
                 # Get the OAuth token & username

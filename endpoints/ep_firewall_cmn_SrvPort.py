@@ -5,14 +5,14 @@ from flask import request
 
 ''' Internal File Import '''
 from dbModel import db, ServicerPort
-from source.auth import require_oauth_with_scope
+from source.auth import require_oauth, require_oauth_with_scope
 from source.syslog_record import syslog_create, get_username_with_token
 
 # Common Service Port Endpoint
 class CommonServicePort(Resource):
 
     #===== View Common Service Port =====#
-    @require_oauth_with_scope('admin') # Admin access only
+    @require_oauth()
     def get(self):
         """
         Get the common port list
@@ -45,9 +45,8 @@ class CommonServicePort(Resource):
         ip_addr = current_ip
         method = "GET"
         endpoint = "/api/firewall/svc-port"
-        details = request.get_json()
 
-        syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
+        syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, None)
 
         return {
             "success": True,

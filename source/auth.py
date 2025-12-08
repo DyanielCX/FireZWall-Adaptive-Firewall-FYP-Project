@@ -64,6 +64,12 @@ def require_oauth_with_scope(*scopes):
                 auth_header = request.headers.get('Authorization')
                 access_token = auth_header.split(' ')[1]
                 Username = get_username_with_token(access_token)
+
+                # Define the webapp if ip_addr is localhost
+                if request.remote_addr == "127.0.0.1":
+                    current_ip = "127.0.0.1 (webapp)"
+                else:
+                    current_ip = request.remote_addr
                 
                 # Log info
                 level = "WARNING"
@@ -71,7 +77,7 @@ def require_oauth_with_scope(*scopes):
                 module = "auth"
                 message = f"Access denied for endpoint({request.path})"
                 username = Username
-                ip_addr = request.remote_addr
+                ip_addr = current_ip
                 method = request.method
                 endpoint = request.path
                 details = {"Authorization": f"Bearer {access_token}"}
