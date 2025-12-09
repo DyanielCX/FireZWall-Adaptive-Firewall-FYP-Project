@@ -8,9 +8,10 @@ import {
   FileText, Menu, GraduationCap
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import Card from '../../components/ui/Card';
 import LabIntroduction from './LabIntroduction';
 import FirewallLearning from './FirewallLearning';
-import Card from '../../components/ui/Card';
+
 
 const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
   const { logout } = useAuth();
@@ -25,6 +26,7 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
   const menuItems = [
     { id: 'introduction', icon: BookOpen, label: 'Lab Introduction' },
     { id: 'firewall-learning', icon: Shield, label: 'Firewall Rules Learning' },
+    { id: 'api-learning', icon: Code, label: 'API Learning' },
     { 
       id: 'cli-config', 
       icon: Terminal, 
@@ -42,8 +44,7 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
         { id: 'api-steps', label: 'Steps in Real-System' },
         { id: 'api-practice', label: 'API Request Practice' }
       ]
-    },
-    { id: 'exercises', icon: FileText, label: 'Hands-On Exercises' }
+    }
   ];
 
   const getRoleBadgeColor = (role) => {

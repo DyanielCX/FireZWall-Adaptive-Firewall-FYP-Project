@@ -1,1045 +1,245 @@
-2025-12-08T04:39:22.561746Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T04:39:22.824495Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T04:39:22.902736Z [twisted.internet.base#critical] while calling from thread
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/base.py", line 1064, in runUntilCurrent
-	    f(*a, **kw)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/base.py", line 790, in stop
-	    raise error.ReactorNotRunning("Can't stop reactor that isn't running.")
-	twisted.internet.error.ReactorNotRunning: Can't stop reactor that isn't running.
-	
-2025-12-08T04:39:23.075995Z [-] (TCP Port 23 Closed)
-2025-12-08T04:39:23.104303Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f53f2fc8440>
-2025-12-08T04:39:23.124769Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T04:39:23.146109Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T05:06:40.349123Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T05:06:40.706610Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T05:06:40.706645Z [-] Twisted Version 25.5.0
-2025-12-08T05:06:40.706656Z [-] Cowrie Version 2.8.1
-2025-12-08T05:06:40.706662Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T05:06:40.707588Z [-] Loaded output engine: jsonlog
-2025-12-08T05:06:40.709071Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T05:06:40.709151Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T05:06:40.715943Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T05:06:40.726371Z [-] HoneyPotTelnetFactory starting on 23
-2025-12-08T05:06:40.726649Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7facf250c440>
-2025-12-08T05:06:40.727043Z [-] Ready to accept Telnet connections
-/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T05:32:38.895829Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T05:32:38.898122Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T05:32:38.899085Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T05:32:51.270716Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T05:32:51.407765Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T05:32:51.407792Z [-] Twisted Version 25.5.0
-2025-12-08T05:32:51.407800Z [-] Cowrie Version 2.8.1
-2025-12-08T05:32:51.407805Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T05:32:51.408583Z [-] Loaded output engine: jsonlog
-2025-12-08T05:32:51.409480Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T05:32:51.409578Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T05:32:51.414080Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T05:32:51.415905Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T05:39:57.722566Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T05:39:57.723290Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T05:39:57.723601Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T05:40:01.776049Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T05:40:01.891977Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T05:40:01.892004Z [-] Twisted Version 25.5.0
-2025-12-08T05:40:01.892012Z [-] Cowrie Version 2.8.1
-2025-12-08T05:40:01.892017Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T05:40:01.892757Z [-] Loaded output engine: jsonlog
-2025-12-08T05:40:01.893487Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T05:40:01.893552Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T05:40:01.904444Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T05:40:01.906208Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T05:40:17.824236Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T05:40:17.824756Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T05:40:17.825039Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T05:41:13.756305Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T05:41:13.870659Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T05:41:13.870692Z [-] Twisted Version 25.5.0
-2025-12-08T05:41:13.870703Z [-] Cowrie Version 2.8.1
-2025-12-08T05:41:13.870711Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T05:41:13.871427Z [-] Loaded output engine: jsonlog
-2025-12-08T05:41:13.872529Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T05:41:13.872646Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T05:41:13.877503Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T05:41:13.879130Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T05:41:29.157620Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T05:41:29.158134Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T05:41:29.158327Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T05:42:04.156153Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T05:42:04.290303Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T05:42:04.290332Z [-] Twisted Version 25.5.0
-2025-12-08T05:42:04.290341Z [-] Cowrie Version 2.8.1
-2025-12-08T05:42:04.290346Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T05:42:04.291109Z [-] Loaded output engine: jsonlog
-2025-12-08T05:42:04.292944Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T05:42:04.293052Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T05:42:04.300531Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T05:42:04.302298Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T05:45:30.974364Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T05:45:30.974934Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T05:45:30.975236Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T05:45:41.732891Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T05:45:41.871867Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T05:45:41.871897Z [-] Twisted Version 25.5.0
-2025-12-08T05:45:41.871906Z [-] Cowrie Version 2.8.1
-2025-12-08T05:45:41.871911Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T05:45:41.872864Z [-] Loaded output engine: jsonlog
-2025-12-08T05:45:41.873952Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T05:45:41.874048Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T05:45:41.880136Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T05:45:41.882084Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T05:46:17.199650Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T05:46:17.200185Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T05:46:17.200427Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T05:46:46.801074Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T05:46:46.912526Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T05:46:46.912564Z [-] Twisted Version 25.5.0
-2025-12-08T05:46:46.912576Z [-] Cowrie Version 2.8.1
-2025-12-08T05:46:46.912585Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T05:46:46.913673Z [-] Loaded output engine: jsonlog
-2025-12-08T05:46:46.915426Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T05:46:46.915586Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T05:46:46.919453Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T05:46:46.921244Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T05:52:58.193735Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T05:52:58.195502Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T05:52:58.195988Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T05:52:59.447643Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T05:52:59.695058Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T05:52:59.695084Z [-] Twisted Version 25.5.0
-2025-12-08T05:52:59.695092Z [-] Cowrie Version 2.8.1
-2025-12-08T05:52:59.695097Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T05:52:59.695807Z [-] Loaded output engine: jsonlog
-2025-12-08T05:52:59.700923Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T05:52:59.700992Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T05:52:59.705801Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T05:52:59.708047Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T05:56:33.096972Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T05:56:33.097941Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T05:56:33.098253Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T05:56:34.789593Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T05:56:35.140876Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T05:56:35.140907Z [-] Twisted Version 25.5.0
-2025-12-08T05:56:35.140916Z [-] Cowrie Version 2.8.1
-2025-12-08T05:56:35.140921Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T05:56:35.141668Z [-] Loaded output engine: jsonlog
-2025-12-08T05:56:35.142473Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T05:56:35.142548Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T05:56:35.168554Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T05:56:35.170243Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T05:56:35.400257Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T05:56:35.400851Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T05:56:35.401071Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T05:56:36.299607Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T05:56:36.490980Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T05:56:36.491014Z [-] Twisted Version 25.5.0
-2025-12-08T05:56:36.491025Z [-] Cowrie Version 2.8.1
-2025-12-08T05:56:36.491033Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T05:56:36.492045Z [-] Loaded output engine: jsonlog
-2025-12-08T05:56:36.492967Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T05:56:36.493125Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T05:56:36.512592Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T05:56:36.521693Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T05:57:18.344494Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T05:57:18.345734Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T05:57:18.346096Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T05:57:25.874653Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T05:57:25.993259Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T05:57:25.993287Z [-] Twisted Version 25.5.0
-2025-12-08T05:57:25.993295Z [-] Cowrie Version 2.8.1
-2025-12-08T05:57:25.993300Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T05:57:25.994375Z [-] Loaded output engine: jsonlog
-2025-12-08T05:57:25.997309Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T05:57:25.997391Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T05:57:26.001073Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T05:57:26.002549Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T06:10:00.001914Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T06:10:00.003906Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T06:10:00.004623Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T06:10:01.897706Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T06:10:02.022241Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T06:10:02.022274Z [-] Twisted Version 25.5.0
-2025-12-08T06:10:02.022283Z [-] Cowrie Version 2.8.1
-2025-12-08T06:10:02.022288Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T06:10:02.023536Z [-] Loaded output engine: jsonlog
-2025-12-08T06:10:02.025080Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T06:10:02.025208Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T06:10:02.029202Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T06:10:02.030933Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T06:10:17.949754Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T06:10:17.950309Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T06:10:17.950537Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T06:10:23.589586Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T06:10:23.734550Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T06:10:23.734585Z [-] Twisted Version 25.5.0
-2025-12-08T06:10:23.734593Z [-] Cowrie Version 2.8.1
-2025-12-08T06:10:23.734599Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T06:10:23.735490Z [-] Loaded output engine: jsonlog
-2025-12-08T06:10:23.736997Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T06:10:23.737097Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T06:10:23.742086Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T06:10:23.743651Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T06:10:44.056850Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T06:10:44.057441Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T06:10:44.057736Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T06:11:05.322165Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T06:11:05.436713Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T06:11:05.436744Z [-] Twisted Version 25.5.0
-2025-12-08T06:11:05.436753Z [-] Cowrie Version 2.8.1
-2025-12-08T06:11:05.436759Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T06:11:05.437563Z [-] Loaded output engine: jsonlog
-2025-12-08T06:11:05.438419Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T06:11:05.438495Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T06:11:05.443531Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T06:11:05.445376Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T06:11:26.588603Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T06:11:26.589295Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T06:11:26.589555Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T08:28:18.111793Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T08:28:19.336281Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T08:28:19.336308Z [-] Twisted Version 25.5.0
-2025-12-08T08:28:19.336316Z [-] Cowrie Version 2.8.1
-2025-12-08T08:28:19.336321Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T08:28:19.341916Z [-] Loaded output engine: jsonlog
-2025-12-08T08:28:19.345090Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T08:28:19.346168Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T08:28:19.358624Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T08:28:19.369954Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T08:45:14.641134Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T08:45:14.642988Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T08:45:14.644774Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T08:46:06.483184Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T08:46:06.634940Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T08:46:06.634965Z [-] Twisted Version 25.5.0
-2025-12-08T08:46:06.634974Z [-] Cowrie Version 2.8.1
-2025-12-08T08:46:06.634978Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T08:46:06.635858Z [-] Loaded output engine: jsonlog
-2025-12-08T08:46:06.636747Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T08:46:06.636840Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T08:46:06.641950Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T08:46:06.644434Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T08:46:29.481766Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T08:46:29.482263Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T08:46:29.482476Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T08:48:42.318957Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T08:48:42.484860Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T08:48:42.484909Z [-] Twisted Version 25.5.0
-2025-12-08T08:48:42.484921Z [-] Cowrie Version 2.8.1
-2025-12-08T08:48:42.484929Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T08:48:42.486652Z [-] Loaded output engine: jsonlog
-2025-12-08T08:48:42.488083Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T08:48:42.488166Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T08:48:42.495198Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T08:48:42.497080Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T08:54:31.813076Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T08:54:31.814568Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T08:54:31.814978Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:05:51.912918Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:05:52.042060Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:05:52.042092Z [-] Twisted Version 25.5.0
-2025-12-08T09:05:52.042149Z [-] Cowrie Version 2.8.1
-2025-12-08T09:05:52.042164Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:05:52.043957Z [-] Loaded output engine: jsonlog
-2025-12-08T09:05:52.045627Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:05:52.045857Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:05:52.053302Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:05:52.055944Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:06:24.091876Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:06:24.092412Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:06:24.092758Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:07:16.335143Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:07:16.461773Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:07:16.461799Z [-] Twisted Version 25.5.0
-2025-12-08T09:07:16.461807Z [-] Cowrie Version 2.8.1
-2025-12-08T09:07:16.461812Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:07:16.462466Z [-] Loaded output engine: jsonlog
-2025-12-08T09:07:16.463788Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:07:16.463942Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:07:16.469616Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:07:16.471746Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:07:37.255626Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:07:37.256027Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:07:37.256239Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:08:27.981262Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:08:28.121563Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:08:28.121590Z [-] Twisted Version 25.5.0
-2025-12-08T09:08:28.121598Z [-] Cowrie Version 2.8.1
-2025-12-08T09:08:28.121603Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:08:28.122459Z [-] Loaded output engine: jsonlog
-2025-12-08T09:08:28.123563Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:08:28.123664Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:08:28.127874Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:08:28.129424Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:09:32.093823Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:09:32.094342Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:09:32.094578Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:09:41.322610Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:09:41.482021Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:09:41.482048Z [-] Twisted Version 25.5.0
-2025-12-08T09:09:41.482055Z [-] Cowrie Version 2.8.1
-2025-12-08T09:09:41.482061Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:09:41.483344Z [-] Loaded output engine: jsonlog
-2025-12-08T09:09:41.484606Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:09:41.484730Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:09:41.493455Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:09:41.495542Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:09:53.862212Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:09:53.862635Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:09:53.862811Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:16:19.195806Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:16:19.309255Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:16:19.309282Z [-] Twisted Version 25.5.0
-2025-12-08T09:16:19.309290Z [-] Cowrie Version 2.8.1
-2025-12-08T09:16:19.309296Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:16:19.310093Z [-] Loaded output engine: jsonlog
-2025-12-08T09:16:19.311158Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:16:19.311236Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:16:19.315900Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:16:19.318103Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:17:30.029223Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:17:30.029928Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:17:30.030225Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:17:33.256222Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:17:33.367629Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:17:33.367656Z [-] Twisted Version 25.5.0
-2025-12-08T09:17:33.367664Z [-] Cowrie Version 2.8.1
-2025-12-08T09:17:33.367669Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:17:33.368486Z [-] Loaded output engine: jsonlog
-2025-12-08T09:17:33.369718Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:17:33.369816Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:17:33.374547Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:17:33.376816Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:18:58.195997Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:18:58.196700Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:18:58.196984Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:19:02.327542Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:19:02.444948Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:19:02.444976Z [-] Twisted Version 25.5.0
-2025-12-08T09:19:02.444985Z [-] Cowrie Version 2.8.1
-2025-12-08T09:19:02.444991Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:19:02.445751Z [-] Loaded output engine: jsonlog
-2025-12-08T09:19:02.446545Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:19:02.446614Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:19:02.453609Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:19:02.455391Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:19:18.592810Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:19:18.593389Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:19:18.593692Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:19:47.594925Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:19:47.714423Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:19:47.714454Z [-] Twisted Version 25.5.0
-2025-12-08T09:19:47.714463Z [-] Cowrie Version 2.8.1
-2025-12-08T09:19:47.714468Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:19:47.715779Z [-] Loaded output engine: jsonlog
-2025-12-08T09:19:47.716604Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:19:47.716675Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:19:47.725919Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:19:47.727800Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:20:15.729807Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:20:15.730274Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:20:15.730507Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:20:42.813999Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:20:42.925885Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:20:42.925911Z [-] Twisted Version 25.5.0
-2025-12-08T09:20:42.925919Z [-] Cowrie Version 2.8.1
-2025-12-08T09:20:42.925924Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:20:42.926750Z [-] Loaded output engine: jsonlog
-2025-12-08T09:20:42.928284Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:20:42.928490Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:20:42.935645Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:20:42.937181Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:21:15.424743Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:21:15.425326Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:21:15.425788Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:24:37.743684Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:24:37.902550Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:24:37.902580Z [-] Twisted Version 25.5.0
-2025-12-08T09:24:37.902588Z [-] Cowrie Version 2.8.1
-2025-12-08T09:24:37.902594Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:24:37.903636Z [-] Loaded output engine: jsonlog
-2025-12-08T09:24:37.904759Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:24:37.904849Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:24:37.911465Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:24:37.913697Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:24:45.574371Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:24:45.574823Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:24:45.575018Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:24:57.251127Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:24:57.370807Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:24:57.370833Z [-] Twisted Version 25.5.0
-2025-12-08T09:24:57.370841Z [-] Cowrie Version 2.8.1
-2025-12-08T09:24:57.370846Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:24:57.371987Z [-] Loaded output engine: jsonlog
-2025-12-08T09:24:57.373159Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:24:57.373252Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:24:57.379417Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:24:57.381224Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:24:58.562548Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:24:58.563138Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:24:58.563367Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:25:01.349788Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:25:01.472114Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:25:01.472140Z [-] Twisted Version 25.5.0
-2025-12-08T09:25:01.472147Z [-] Cowrie Version 2.8.1
-2025-12-08T09:25:01.472153Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:25:01.472919Z [-] Loaded output engine: jsonlog
-2025-12-08T09:25:01.474221Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:25:01.474376Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:25:01.480329Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:25:01.481816Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:26:03.555684Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:26:03.556183Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:26:03.556391Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:26:17.702734Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:26:17.836126Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:26:17.836156Z [-] Twisted Version 25.5.0
-2025-12-08T09:26:17.836165Z [-] Cowrie Version 2.8.1
-2025-12-08T09:26:17.836171Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:26:17.836915Z [-] Loaded output engine: jsonlog
-2025-12-08T09:26:17.837745Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:26:17.837857Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:26:17.841724Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:26:17.844764Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:27:04.058471Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:27:04.059084Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:27:04.059421Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:33:21.535581Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:33:21.661620Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:33:21.661648Z [-] Twisted Version 25.5.0
-2025-12-08T09:33:21.661657Z [-] Cowrie Version 2.8.1
-2025-12-08T09:33:21.661662Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:33:21.662360Z [-] Loaded output engine: jsonlog
-2025-12-08T09:33:21.663388Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:33:21.663461Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:33:21.668590Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:33:21.670944Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:33:54.845863Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:33:54.846332Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:33:54.846594Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:34:03.137408Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:34:03.256172Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:34:03.256200Z [-] Twisted Version 25.5.0
-2025-12-08T09:34:03.256207Z [-] Cowrie Version 2.8.1
-2025-12-08T09:34:03.256212Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:34:03.256991Z [-] Loaded output engine: jsonlog
-2025-12-08T09:34:03.258125Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:34:03.258227Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:34:03.264795Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:34:03.267429Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:43:06.540396Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:43:06.608635Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:43:06.616373Z [twisted.internet.base#critical] while calling from thread
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/base.py", line 1064, in runUntilCurrent
-	    f(*a, **kw)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/base.py", line 790, in stop
-	    raise error.ReactorNotRunning("Can't stop reactor that isn't running.")
-	twisted.internet.error.ReactorNotRunning: Can't stop reactor that isn't running.
-	
-2025-12-08T09:43:06.665652Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:43:06.688380Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2025-12-08T09:43:15.318024Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
-2025-12-08T09:43:15.522608Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
-2025-12-08T09:43:15.522606Z [-] Twisted Version 25.5.0
-2025-12-08T09:43:15.522614Z [-] Cowrie Version 2.8.1
-2025-12-08T09:43:15.522620Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
-2025-12-08T09:43:15.523413Z [-] Loaded output engine: jsonlog
-2025-12-08T09:43:15.524385Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
-2025-12-08T09:43:15.524457Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2025-12-08T09:43:15.532869Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:22: [Errno 98] Address already in use.
-	
-2025-12-08T09:43:15.535263Z [-] Unhandled Error
-	Traceback (most recent call last):
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
-	    result = callable(*args, **kwargs)
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
-	    p.startListening()
-	  File "/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1360, in startListening
-	    raise CannotListenError(self.interface, self.port, le)
-	twisted.internet.error.CannotListenError: Couldn't listen on 0.0.0.0:23: [Errno 98] Address already in use.
-	
-2025-12-08T09:44:08.170126Z [twisted.internet.base#info] Received SIGTERM, shutting down.
-2025-12-08T09:44:08.171038Z [twisted.internet.base#info] Main loop terminated.
-2025-12-08T09:44:08.171375Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:02:33.206754Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:02:35.043348Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:02:35.043759Z [-] Twisted Version 25.5.0
+2025-12-09T00:02:35.043836Z [-] Cowrie Version 2.8.1
+2025-12-09T00:02:35.043908Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:02:35.053523Z [-] Loaded output engine: jsonlog
+2025-12-09T00:02:35.074147Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:02:35.074589Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:02:35.209117Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:02:35.226349Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f5100397a10>
+2025-12-09T00:02:35.605211Z [-] Ready to accept SSH connections
+2025-12-09T00:02:35.611203Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:02:35.613004Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f510026c440>
+2025-12-09T00:02:35.614437Z [-] Ready to accept Telnet connections
+2025-12-09T00:14:57.091797Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-09T00:14:57.095043Z [-] (TCP Port 23 Closed)
+2025-12-09T00:14:57.095565Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f510026c440>
+2025-12-09T00:14:57.095816Z [-] (TCP Port 22 Closed)
+2025-12-09T00:14:57.096249Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f5100397a10>
+2025-12-09T00:14:57.096580Z [twisted.internet.base#info] Main loop terminated.
+2025-12-09T00:14:57.097290Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:16:07.967675Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:16:09.904924Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:16:09.905046Z [-] Twisted Version 25.5.0
+2025-12-09T00:16:09.905121Z [-] Cowrie Version 2.8.1
+2025-12-09T00:16:09.905193Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:16:09.920859Z [-] Loaded output engine: jsonlog
+2025-12-09T00:16:09.933556Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:16:09.936105Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:16:10.088661Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:16:10.106666Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fed76caba10>
+2025-12-09T00:16:10.592528Z [-] Ready to accept SSH connections
+2025-12-09T00:16:10.599708Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:16:10.600586Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fed76b80440>
+2025-12-09T00:16:10.603639Z [-] Ready to accept Telnet connections
+2025-12-09T00:16:54.667083Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-09T00:16:54.670299Z [-] (TCP Port 23 Closed)
+2025-12-09T00:16:54.671235Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fed76b80440>
+2025-12-09T00:16:54.671896Z [-] (TCP Port 22 Closed)
+2025-12-09T00:16:54.672555Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fed76caba10>
+2025-12-09T00:16:54.673571Z [twisted.internet.base#info] Main loop terminated.
+2025-12-09T00:16:54.674768Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:18:48.399811Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:18:51.883475Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:18:51.883613Z [-] Twisted Version 25.5.0
+2025-12-09T00:18:51.883687Z [-] Cowrie Version 2.8.1
+2025-12-09T00:18:51.883757Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:18:51.919030Z [-] Loaded output engine: jsonlog
+2025-12-09T00:18:51.941990Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:18:51.948657Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:18:52.226156Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:18:52.269512Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f1bc612fa10>
+2025-12-09T00:18:53.289037Z [-] Ready to accept SSH connections
+2025-12-09T00:18:53.295666Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:18:53.298689Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f1bc6008440>
+2025-12-09T00:18:53.299919Z [-] Ready to accept Telnet connections
+2025-12-09T00:19:04.349394Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-09T00:19:04.381783Z [-] (TCP Port 23 Closed)
+2025-12-09T00:19:04.385322Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f1bc6008440>
+2025-12-09T00:19:04.386090Z [-] (TCP Port 22 Closed)
+2025-12-09T00:19:04.386695Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f1bc612fa10>
+2025-12-09T00:19:04.393281Z [twisted.internet.base#info] Main loop terminated.
+2025-12-09T00:19:04.398665Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:20:05.289108Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:20:07.035317Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:20:07.035443Z [-] Twisted Version 25.5.0
+2025-12-09T00:20:07.035517Z [-] Cowrie Version 2.8.1
+2025-12-09T00:20:07.035589Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:20:07.057718Z [-] Loaded output engine: jsonlog
+2025-12-09T00:20:07.070524Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:20:07.074471Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:20:07.196501Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:20:07.214190Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f57e2aa3a10>
+2025-12-09T00:20:07.543433Z [-] Ready to accept SSH connections
+2025-12-09T00:20:07.549280Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:20:07.549941Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f57e2978440>
+2025-12-09T00:20:07.552999Z [-] Ready to accept Telnet connections
+2025-12-09T00:30:05.317055Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-09T00:30:05.320684Z [-] (TCP Port 23 Closed)
+2025-12-09T00:30:05.321600Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f57e2978440>
+2025-12-09T00:30:05.322345Z [-] (TCP Port 22 Closed)
+2025-12-09T00:30:05.322860Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f57e2aa3a10>
+2025-12-09T00:30:05.323467Z [twisted.internet.base#info] Main loop terminated.
+2025-12-09T00:30:05.324947Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:30:15.668246Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:30:16.879384Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:30:16.879512Z [-] Twisted Version 25.5.0
+2025-12-09T00:30:16.879586Z [-] Cowrie Version 2.8.1
+2025-12-09T00:30:16.879658Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:30:16.890017Z [-] Loaded output engine: jsonlog
+2025-12-09T00:30:16.901478Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:30:16.901894Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:30:17.005350Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:30:17.034916Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fb17e997a10>
+2025-12-09T00:30:17.597299Z [-] Ready to accept SSH connections
+2025-12-09T00:30:17.608841Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:30:17.613035Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fb17e86c440>
+2025-12-09T00:30:17.621043Z [-] Ready to accept Telnet connections
+2025-12-09T00:32:18.777297Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-09T00:32:18.781538Z [-] (TCP Port 23 Closed)
+2025-12-09T00:32:18.782260Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fb17e86c440>
+2025-12-09T00:32:18.782711Z [-] (TCP Port 22 Closed)
+2025-12-09T00:32:18.783038Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fb17e997a10>
+2025-12-09T00:32:18.784257Z [twisted.internet.base#info] Main loop terminated.
+2025-12-09T00:32:18.785374Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:32:25.375620Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:32:26.782044Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:32:26.782162Z [-] Twisted Version 25.5.0
+2025-12-09T00:32:26.782235Z [-] Cowrie Version 2.8.1
+2025-12-09T00:32:26.782304Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:32:26.798301Z [-] Loaded output engine: jsonlog
+2025-12-09T00:32:26.812334Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:32:26.812792Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:32:26.927452Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:32:26.937473Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7ff9ca6efa10>
+2025-12-09T00:32:27.257821Z [-] Ready to accept SSH connections
+2025-12-09T00:32:27.265281Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:32:27.265866Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7ff9ca5c4440>
+2025-12-09T00:32:27.269643Z [-] Ready to accept Telnet connections
+2025-12-09T00:42:16.738595Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-09T00:42:16.741127Z [-] (TCP Port 23 Closed)
+2025-12-09T00:42:16.741618Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7ff9ca5c4440>
+2025-12-09T00:42:16.741857Z [-] (TCP Port 22 Closed)
+2025-12-09T00:42:16.742139Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7ff9ca6efa10>
+2025-12-09T00:42:16.742639Z [twisted.internet.base#info] Main loop terminated.
+2025-12-09T00:42:16.743103Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:42:33.028761Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:42:36.451022Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:42:36.451169Z [-] Twisted Version 25.5.0
+2025-12-09T00:42:36.451251Z [-] Cowrie Version 2.8.1
+2025-12-09T00:42:36.451323Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:42:36.484880Z [-] Loaded output engine: jsonlog
+2025-12-09T00:42:36.519363Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:42:36.539772Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:42:36.729108Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:42:36.866268Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fd178937a10>
+2025-12-09T00:42:37.879361Z [-] Ready to accept SSH connections
+2025-12-09T00:42:37.897881Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:42:37.911167Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fd178810440>
+2025-12-09T00:42:37.915319Z [-] Ready to accept Telnet connections
+2025-12-09T00:42:40.330166Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-09T00:42:40.343369Z [-] (TCP Port 23 Closed)
+2025-12-09T00:42:40.355097Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fd178810440>
+2025-12-09T00:42:40.359110Z [-] (TCP Port 22 Closed)
+2025-12-09T00:42:40.362695Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fd178937a10>
+2025-12-09T00:42:40.370198Z [twisted.internet.base#info] Main loop terminated.
+2025-12-09T00:42:40.375484Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:44:21.003782Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:44:22.768846Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:44:22.768973Z [-] Twisted Version 25.5.0
+2025-12-09T00:44:22.769049Z [-] Cowrie Version 2.8.1
+2025-12-09T00:44:22.769121Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:44:22.780480Z [-] Loaded output engine: jsonlog
+2025-12-09T00:44:22.797823Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:44:22.798271Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:44:22.888651Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:44:22.913559Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f2c12d97a10>
+2025-12-09T00:44:23.327511Z [-] Ready to accept SSH connections
+2025-12-09T00:44:23.335764Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:44:23.338157Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f2c12c6c440>
+2025-12-09T00:44:23.341593Z [-] Ready to accept Telnet connections
+2025-12-09T00:44:44.636454Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-09T00:44:44.647706Z [-] (TCP Port 23 Closed)
+2025-12-09T00:44:44.649704Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f2c12c6c440>
+2025-12-09T00:44:44.650462Z [-] (TCP Port 22 Closed)
+2025-12-09T00:44:44.651685Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f2c12d97a10>
+2025-12-09T00:44:44.653555Z [twisted.internet.base#info] Main loop terminated.
+2025-12-09T00:44:44.658286Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:46:02.379817Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:46:04.011078Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:46:04.011205Z [-] Twisted Version 25.5.0
+2025-12-09T00:46:04.011279Z [-] Cowrie Version 2.8.1
+2025-12-09T00:46:04.011350Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:46:04.028754Z [-] Loaded output engine: jsonlog
+2025-12-09T00:46:04.040948Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:46:04.041431Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:46:04.130239Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:46:04.146473Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fbc2ef67a10>
+2025-12-09T00:46:04.629255Z [-] Ready to accept SSH connections
+2025-12-09T00:46:04.635635Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:46:04.637932Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fbc2ee40440>
+2025-12-09T00:46:04.639373Z [-] Ready to accept Telnet connections
+2025-12-09T00:46:25.435754Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-09T00:46:25.439415Z [-] (TCP Port 23 Closed)
+2025-12-09T00:46:25.440541Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7fbc2ee40440>
+2025-12-09T00:46:25.441270Z [-] (TCP Port 22 Closed)
+2025-12-09T00:46:25.441683Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7fbc2ef67a10>
+2025-12-09T00:46:25.442695Z [twisted.internet.base#info] Main loop terminated.
+2025-12-09T00:46:25.443579Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:46:41.383200Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:46:43.617925Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:46:43.618249Z [-] Twisted Version 25.5.0
+2025-12-09T00:46:43.618459Z [-] Cowrie Version 2.8.1
+2025-12-09T00:46:43.618538Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:46:43.639527Z [-] Loaded output engine: jsonlog
+2025-12-09T00:46:43.670936Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:46:43.671375Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:46:43.866334Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:46:43.885494Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f98bb8a3a10>
+2025-12-09T00:46:44.480871Z [-] Ready to accept SSH connections
+2025-12-09T00:46:44.489574Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:46:44.492589Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f98bb778440>
+2025-12-09T00:46:44.494446Z [-] Ready to accept Telnet connections
+2025-12-09T00:46:48.722180Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-09T00:46:48.742167Z [-] (TCP Port 23 Closed)
+2025-12-09T00:46:48.747291Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f98bb778440>
+2025-12-09T00:46:48.754453Z [-] (TCP Port 22 Closed)
+2025-12-09T00:46:48.755249Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f98bb8a3a10>
+2025-12-09T00:46:48.764415Z [twisted.internet.base#info] Main loop terminated.
+2025-12-09T00:46:48.769453Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:48:30.601715Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:48:32.147012Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:48:32.147140Z [-] Twisted Version 25.5.0
+2025-12-09T00:48:32.147213Z [-] Cowrie Version 2.8.1
+2025-12-09T00:48:32.147285Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:48:32.158725Z [-] Loaded output engine: jsonlog
+2025-12-09T00:48:32.166480Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:48:32.167446Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:48:32.248976Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:48:32.258508Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f4d26c47a10>
+2025-12-09T00:48:32.683560Z [-] Ready to accept SSH connections
+2025-12-09T00:48:32.690202Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:48:32.691932Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f4d26b24440>
+2025-12-09T00:48:32.693552Z [-] Ready to accept Telnet connections
+2025-12-09T00:48:53.036626Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-09T00:48:53.045392Z [-] (TCP Port 23 Closed)
+2025-12-09T00:48:53.046458Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f4d26b24440>
+2025-12-09T00:48:53.049550Z [-] (TCP Port 22 Closed)
+2025-12-09T00:48:53.050203Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f4d26c47a10>
+2025-12-09T00:48:53.052888Z [twisted.internet.base#info] Main loop terminated.
+2025-12-09T00:48:53.055678Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-09T00:49:46.034161Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-09T00:49:47.913739Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-09T00:49:47.913862Z [-] Twisted Version 25.5.0
+2025-12-09T00:49:47.913937Z [-] Cowrie Version 2.8.1
+2025-12-09T00:49:47.914009Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-09T00:49:47.925200Z [-] Loaded output engine: jsonlog
+2025-12-09T00:49:47.939617Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-09T00:49:47.940489Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-09T00:49:48.030258Z [-] CowrieSSHFactory starting on 22
+2025-12-09T00:49:48.043132Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f150798ba10>
+2025-12-09T00:49:48.511257Z [-] Ready to accept SSH connections
+2025-12-09T00:49:48.526149Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-09T00:49:48.529400Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f1507860440>
+2025-12-09T00:49:48.535252Z [-] Ready to accept Telnet connections

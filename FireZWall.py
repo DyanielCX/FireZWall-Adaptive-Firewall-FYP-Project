@@ -112,8 +112,8 @@ if __name__ == '__main__':
             init_database()
         
         # Run Flask with SSL context
-        # app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=('SSL_cert/cert.pem', 'SSL_cert/key.pem'))
-        app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=None)
+        app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=('SSL_cert/cert.pem', 'SSL_cert/key.pem'))
+        # app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=None)
     
     finally:
         cowrie_stop()

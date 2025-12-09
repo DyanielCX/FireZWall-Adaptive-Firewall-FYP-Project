@@ -620,12 +620,31 @@ const FirewallLearning = () => {
       {/* Service Ports Modal */}
       {showPortsModal && (
         <div 
-          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-black/70 flex items-start justify-center z-50 p-4 overflow-y-auto"
           onClick={() => setShowPortsModal(false)}
         >
+          <style>{`
+            .custom-scrollbar::-webkit-scrollbar {
+              width: 8px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+              background: transparent;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+              background-color: rgba(148, 163, 184, 0.3);
+              border-radius: 4px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+              background-color: rgba(148, 163, 184, 0.5);
+            }
+          `}</style>
           <Card 
-            className="w-full max-w-2xl max-h-[80vh] overflow-y-auto"
+            className="w-full max-w-2xl max-h-[80vh] overflow-y-auto custom-scrollbar pt-8"
             onClick={(e) => e.stopPropagation()}
+            style={{
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(148, 163, 184, 0.3) transparent'
+            }}
           >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-bold text-white">Common Service Ports</h3>
