@@ -580,15 +580,17 @@ const FirewallLearning = () => {
     <div className="w-full">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+        <div className="flex items-center gap-3 mb-2">
           <div className="bg-gradient-to-br from-orange-500 to-red-600 p-3 rounded-lg">
             <Shield className="w-8 h-8 text-white" />
           </div>
-          Firewall Rules Learning
-        </h1>
-        <p className="text-slate-400">
-          Master UFW firewall configuration with hands-on examples and best practices
-        </p>
+          <div>
+            <h1 className="text-3xl font-bold text-white">Firewall Rules Learning</h1>
+            <p className="text-slate-400 mt-1">
+            Master UFW firewall configuration with hands-on examples and best practices
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Tabs */}

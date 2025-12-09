@@ -5,22 +5,32 @@
 import { useState } from 'react';
 import { 
   Shield, LogOut, BookOpen, Terminal, Code, 
-  FileText, Menu, GraduationCap
+  FileText, Menu, GraduationCap, ChevronDown
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import Card from '../../components/ui/Card';
 import LabIntroduction from './LabIntroduction';
 import FirewallLearning from './FirewallLearning';
+import APILearning from './APILearning';
 
 
 const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
   const { logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeSection, setActiveSection] = useState('introduction');
+  const [expandedItems, setExpandedItems] = useState([]); // Track which items are expanded
 
   const handleLogout = () => {
     logout();
     window.location.href = '/login';
+  };
+
+  const toggleExpand = (itemId) => {
+    setExpandedItems(prev => 
+      prev.includes(itemId) 
+        ? prev.filter(id => id !== itemId)
+        : [...prev, itemId]
+    );
   };
 
   const menuItems = [
@@ -71,6 +81,10 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
       return <FirewallLearning />;
     }
 
+    if (activeSection === 'api-learning') {
+      return <APILearning />;
+    }
+
     // Placeholder for other sections
     return (
       <div className="w-full">
@@ -110,7 +124,13 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
             {menuItems.map((item) => (
               <li key={item.id}>
                 <button
-                  onClick={() => setActiveSection(item.id)}
+                  onClick={() => {
+                    if (item.subItems) {
+                      toggleExpand(item.id);
+                    } else {
+                      setActiveSection(item.id);
+                    }
+                  }}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
                     activeSection === item.id 
                       ? 'bg-gradient-to-r from-orange-500/20 to-red-600/20 text-orange-500 border border-orange-500/30' 
@@ -118,11 +138,22 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
                   }`}
                 >
                   <item.icon className="w-5 h-5 flex-shrink-0" />
-                  {sidebarOpen && <span className="text-sm">{item.label}</span>}
+                  {sidebarOpen && (
+                    <>
+                      <span className="text-sm flex-1 text-left">{item.label}</span>
+                      {item.subItems && (
+                        <ChevronDown 
+                          className={`w-4 h-4 transition-transform ${
+                            expandedItems.includes(item.id) ? 'rotate-180' : ''
+                          }`}
+                        />
+                      )}
+                    </>
+                  )}
                 </button>
                 
                 {/* Sub-items */}
-                {sidebarOpen && item.subItems && (
+                {sidebarOpen && item.subItems && expandedItems.includes(item.id) && (
                   <ul className="ml-8 mt-1 space-y-1">
                     {item.subItems.map((subItem) => (
                       <li key={subItem.id}>

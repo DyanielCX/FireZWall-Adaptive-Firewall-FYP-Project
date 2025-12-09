@@ -275,7 +275,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex">
+    <>
       {/* Lab Mode */}
       {mode === 'lab' && (
         <LabDashboard 
@@ -287,7 +287,7 @@ const Dashboard = () => {
 
       {/* Real System Mode */}
       {mode === 'real-system' && (
-        <>
+        <div className="min-h-screen bg-slate-900 flex">
           {/* Sidebar */}
           <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-slate-800 border-r border-slate-700 transition-all duration-300 flex flex-col`}>
         <div className="p-4 border-b border-slate-700 flex items-center gap-3">
@@ -370,9 +370,9 @@ const Dashboard = () => {
           {renderContent()}
         </main>
       </div>
-      </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
