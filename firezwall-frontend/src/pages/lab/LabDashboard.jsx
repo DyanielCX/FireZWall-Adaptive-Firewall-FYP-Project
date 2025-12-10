@@ -12,6 +12,8 @@ import Card from '../../components/ui/Card';
 import LabIntroduction from './LabIntroduction';
 import FirewallLearning from './FirewallLearning';
 import APILearning from './APILearning';
+import CLIStepRealSystem from './CLIStepRealSystem';
+import CLICommandPractice from './CLICommandPractice';
 
 
 const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
@@ -23,6 +25,12 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
   const handleLogout = () => {
     logout();
     window.location.href = '/login';
+  };
+
+  // Scroll to top of the page content
+  const handleNavigate = (section) => {
+    setActiveSection(section);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleExpand = (itemId) => {
@@ -42,7 +50,7 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
       icon: Terminal, 
       label: 'CLI-Based Configuration',
       subItems: [
-        { id: 'cli-steps', label: 'Steps in Real-System' },
+        { id: 'cli-step', label: 'Step into Real-System' },
         { id: 'cli-practice', label: 'Command Practice' }
       ]
     },
@@ -51,7 +59,7 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
       icon: Code, 
       label: 'API-Based Configuration',
       subItems: [
-        { id: 'api-steps', label: 'Steps in Real-System' },
+        { id: 'api-step', label: 'Steps in Real-System' },
         { id: 'api-practice', label: 'API Request Practice' }
       ]
     }
@@ -72,17 +80,30 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
     }
   };
 
+  // Lab Introduction Page
   const renderContent = () => {
     if (activeSection === 'introduction') {
-      return <LabIntroduction onNavigate={setActiveSection} />;
+      return <LabIntroduction onNavigate={handleNavigate} />;
     }
 
+    // Firewall Rules Learning Page
     if (activeSection === 'firewall-learning') {
       return <FirewallLearning />;
     }
 
+    // API Learning Page
     if (activeSection === 'api-learning') {
       return <APILearning />;
+    }
+
+    // Step into Real System Page (CLI-Based Configuration)
+    if (activeSection === 'cli-step') {
+      return <CLIStepRealSystem onNavigate={handleNavigate} />;
+    }
+
+    // Command Practice Page (CLI-Based Configuration)
+    if (activeSection === 'cli-practice') {
+      return <CLICommandPractice />;
     }
 
     // Placeholder for other sections
@@ -128,7 +149,7 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
                     if (item.subItems) {
                       toggleExpand(item.id);
                     } else {
-                      setActiveSection(item.id);
+                      handleNavigate(item.id);
                     }
                   }}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
@@ -158,7 +179,7 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
                     {item.subItems.map((subItem) => (
                       <li key={subItem.id}>
                         <button
-                          onClick={() => setActiveSection(subItem.id)}
+                          onClick={() => handleNavigate(subItem.id)}
                           className={`w-full text-left px-3 py-1.5 rounded text-xs transition-colors ${
                             activeSection === subItem.id
                               ? 'text-orange-500 bg-orange-500/10'

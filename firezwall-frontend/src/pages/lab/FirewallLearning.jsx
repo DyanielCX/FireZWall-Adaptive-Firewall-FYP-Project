@@ -284,6 +284,7 @@ const FirewallLearning = () => {
           <Code className="w-6 h-6 text-orange-500" />
           Add Firewall Rules
         </h3>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <h4 className="text-white font-semibold mb-2 text-sm">Basic Rule (Port + Protocol)</h4>
@@ -301,7 +302,7 @@ const FirewallLearning = () => {
               <code className="text-green-400 font-mono text-sm">
                 sudo ufw &lt;action&gt; &lt;direction&gt; &lt;port&gt;/&lt;protocol&gt;
               </code>
-              <p className="text-slate-400 text-xs mt-2">Example: <code className="text-orange-400">sudo ufw deny in 23/tcp</code></p>
+              <p className="text-slate-400 text-xs mt-2">Example: <code className="text-orange-400">sudo ufw deny in 22/tcp</code></p>
             </div>
           </div>
 
@@ -316,12 +317,52 @@ const FirewallLearning = () => {
           </div>
 
           <div>
+            <h4 className="text-white font-semibold mb-2 text-sm">With Direction & Source Address</h4>
+            <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+              <code className="text-green-400 font-mono text-sm">
+                sudo ufw &lt;action&gt; &lt;direction&gt; from &lt;source&gt; to any port &lt;port&gt; proto &lt;protocol&gt;
+              </code>
+              <p className="text-slate-400 text-xs mt-2">Example: <code className="text-orange-400">sudo ufw allow in from 192.168.1.100 to any port 22 proto tcp</code></p>
+            </div>
+          </div>
+
+          <div>
             <h4 className="text-white font-semibold mb-2 text-sm">Insert at Specific Position</h4>
             <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
               <code className="text-green-400 font-mono text-sm">
                 sudo ufw insert &lt;rule_num&gt; &lt;action&gt; &lt;port&gt;/&lt;protocol&gt;
               </code>
               <p className="text-slate-400 text-xs mt-2">Example: <code className="text-orange-400">sudo ufw insert 1 deny 80/tcp</code></p>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-white font-semibold mb-2 text-sm">Insert at Specific Position with Direction</h4>
+            <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+              <code className="text-green-400 font-mono text-sm">
+                sudo ufw insert &lt;rule_num&gt; &lt;action&gt; &lt;direction&gt; &lt;port&gt;/&lt;protocol&gt;
+              </code>
+              <p className="text-slate-400 text-xs mt-2">Example: <code className="text-orange-400">sudo ufw insert 1 deny in 80/tcp</code></p>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-white font-semibold mb-2 text-sm">Insert at Specific Position with Source</h4>
+            <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+              <code className="text-green-400 font-mono text-sm">
+                sudo ufw insert &lt;rule_num&gt; &lt;action&gt; from &lt;source&gt; to any port &lt;port&gt; proto &lt;protocol&gt;
+              </code>
+              <p className="text-slate-400 text-xs mt-2">Example: <code className="text-orange-400">sudo ufw insert 1 deny from 192.168.1.100 to any port 80 proto tcp</code></p>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-white font-semibold mb-2 text-sm">Insert at Specific Position with Direction & Source</h4>
+            <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+              <code className="text-green-400 font-mono text-sm">
+                sudo ufw insert &lt;rule_num&gt; &lt;action&gt; &lt;direction&gt; from &lt;source&gt; to any port &lt;port&gt; proto &lt;protocol&gt;
+              </code>
+              <p className="text-slate-400 text-xs mt-2">Example: <code className="text-orange-400">sudo ufw insert 1 deny in from 192.168.1.100 to any port 80 proto tcp</code></p>
             </div>
           </div>
         </div>

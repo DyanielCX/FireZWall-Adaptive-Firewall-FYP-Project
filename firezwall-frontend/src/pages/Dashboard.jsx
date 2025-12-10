@@ -128,6 +128,12 @@ const Dashboard = () => {
     navigate('/login');
   };
 
+  // Scroll to top of the page content
+  const handleNavigate = (section) => {
+    setActiveSection(section);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const menuItems = [
     { id: 'overview', icon: Shield, label: 'Dashboard' },
     { id: 'users', icon: Users, label: 'User Management' },
@@ -168,7 +174,7 @@ const Dashboard = () => {
               <Card 
                 key={item.id} 
                 hoverable 
-                onClick={() => setActiveSection(item.id)}
+                onClick={() => handleNavigate(item.id)}
               >
                 <div className="bg-gradient-to-br from-orange-500/20 to-red-600/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                   <item.icon className="w-6 h-6 text-orange-500" />
@@ -302,7 +308,7 @@ const Dashboard = () => {
             {menuItems.map((item) => (
               <li key={item.id}>
                 <button
-                  onClick={() => setActiveSection(item.id)}
+                  onClick={() => handleNavigate(item.id)}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
                     activeSection === item.id 
                       ? 'bg-gradient-to-r from-orange-500/20 to-red-600/20 text-orange-500 border border-orange-500/30' 
