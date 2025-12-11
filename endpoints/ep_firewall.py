@@ -101,12 +101,13 @@ class Firewall(Resource):
             }, 400
 
         # Standard & validate direction input
-        direction = args['direction'].lower()
-        if direction not in ['in', 'out']:
-            return {
-                "success": False,
-                "error": "Only enter in/out for direction"
-            }, 400
+        if args['direction']:
+            direction = args['direction'].lower()
+            if direction not in ['in', 'out']:
+                return {
+                    "success": False,
+                    "error": "Only enter in/out for direction"
+                }, 400
 
         # Standard & validate ipv4 ipv6 input
         ipv4 = args['ipv4'].lower()

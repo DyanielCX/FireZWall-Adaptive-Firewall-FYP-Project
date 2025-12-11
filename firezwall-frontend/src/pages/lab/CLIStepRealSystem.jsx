@@ -1,6 +1,6 @@
 // ============================================
 // CLI Steps in Real-System Page
-// Location: /src/pages/lab/CLIStepsRealSystem.jsx
+// Location: /src/pages/lab/CLIStepRealSystem.jsx
 // ============================================
 import { 
     Server, Terminal, Shield, AlertTriangle, 

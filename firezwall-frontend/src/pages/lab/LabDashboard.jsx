@@ -14,6 +14,8 @@ import FirewallLearning from './FirewallLearning';
 import APILearning from './APILearning';
 import CLIStepRealSystem from './CLIStepRealSystem';
 import CLICommandPractice from './CLICommandPractice';
+import APIStepRealSystem from './APIStepRealSystem';
+import APIRequestPractice from './APIRequestPractice';
 
 
 const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
@@ -59,7 +61,7 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
       icon: Code, 
       label: 'API-Based Configuration',
       subItems: [
-        { id: 'api-step', label: 'Steps in Real-System' },
+        { id: 'api-step', label: 'Step into Real-System' },
         { id: 'api-practice', label: 'API Request Practice' }
       ]
     }
@@ -104,6 +106,16 @@ const LabDashboard = ({ onSwitchToRealSystem, username, userRole }) => {
     // Command Practice Page (CLI-Based Configuration)
     if (activeSection === 'cli-practice') {
       return <CLICommandPractice />;
+    }
+    
+    // Step into Real System Page (API-Based Configuration)
+    if (activeSection === 'api-step') {
+      return <APIStepRealSystem onNavigate={handleNavigate} />;
+    }
+    
+    // API Requesr Practice Page (API-Based Configuration)
+    if (activeSection === 'api-practice') {
+      return <APIRequestPractice />;
     }
 
     // Placeholder for other sections
