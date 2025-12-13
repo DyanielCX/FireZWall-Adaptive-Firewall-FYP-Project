@@ -1,6 +1,7 @@
 // ============================================
 //             API CONFIGURATION
 // ============================================
+import apiFetch from '../utils/api';
 
 export const API_BASE_URL = "/api";
 
@@ -11,7 +12,7 @@ const apiClient = {
     try {
       console.log('Making request to:', `${API_BASE_URL}/login`);
       
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      const response = await apiFetch(`${API_BASE_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +43,7 @@ const apiClient = {
   
   // Logout - POST /api/logout
   logout: async (token) => {
-    const response = await fetch(`${API_BASE_URL}/logout`, {
+    const response = await apiFetch(`${API_BASE_URL}/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,7 +57,7 @@ const apiClient = {
 
   // Refresh Token - POST /api/refresh-token
   refreshToken: async (refreshToken) => {
-    const response = await fetch(`${API_BASE_URL}/refresh-token`, {
+    const response = await apiFetch(`${API_BASE_URL}/refresh-token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -79,7 +80,7 @@ const apiClient = {
       body.role = role;
     }
 
-    const response = await fetch(`${API_BASE_URL}/user/view`, {
+    const response = await apiFetch(`${API_BASE_URL}/user/view`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -127,7 +128,7 @@ const apiClient = {
 
   // Delete Users - DELETE /api/user/delete
   deleteUser: async (token, username) => {
-    const response = await fetch(`${API_BASE_URL}/user/delete`, {
+    const response = await apiFetch(`${API_BASE_URL}/user/delete`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -151,7 +152,7 @@ const apiClient = {
 
   // Get User Role - GET /api/user/getRole
   getUserRole: async (token) => {
-    const response = await fetch(`${API_BASE_URL}/user/getRole`, {
+    const response = await apiFetch(`${API_BASE_URL}/user/getRole`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -164,7 +165,7 @@ const apiClient = {
 
   // Get Username - GET /api/user/getUsername
   getUserName: async (token) => {
-    const response = await fetch(`${API_BASE_URL}/user/getUsername`, {
+    const response = await apiFetch(`${API_BASE_URL}/user/getUsername`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -177,7 +178,7 @@ const apiClient = {
 
   // View Firewall Rules - GET /api/firewall/status
   getFirewallRules: async (token) => {
-    const response = await fetch(`${API_BASE_URL}/firewall/status`, {
+    const response = await apiFetch(`${API_BASE_URL}/firewall/status`, {
       method: 'GET',
       headers: { 'Authorization': `Bearer ${token}` }
     });
@@ -214,7 +215,7 @@ const apiClient = {
 
     console.log('Sending firewall rule:', body);
 
-    const response = await fetch(`${API_BASE_URL}/firewall`, {
+    const response = await apiFetch(`${API_BASE_URL}/firewall`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -257,7 +258,7 @@ const apiClient = {
 
     console.log('Deleting firewall rule:', body);
 
-    const response = await fetch(`${API_BASE_URL}/firewall`, {
+    const response = await apiFetch(`${API_BASE_URL}/firewall`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -298,7 +299,7 @@ const apiClient = {
   
     console.log('Fetching honeypot reports with filters:', body);
   
-    const response = await fetch(`${API_BASE_URL}/honeypot/reports`, {
+    const response = await apiFetch(`${API_BASE_URL}/honeypot/reports`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -320,7 +321,7 @@ const apiClient = {
 
   // View Syslogs - POST /api/logs
   getSystemLogs: async (token, filters = {}) => {  
-    const response = await fetch(`${API_BASE_URL}/logs`, {
+    const response = await apiFetch(`${API_BASE_URL}/logs`, {
       method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -346,7 +347,7 @@ const apiClient = {
 
   // Get Common Service Ports
   getServicePorts: async (token) => {
-    const response = await fetch(`${API_BASE_URL}/firewall/svc-port`, {
+    const response = await apiFetch(`${API_BASE_URL}/firewall/svc-port`, {
       method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`

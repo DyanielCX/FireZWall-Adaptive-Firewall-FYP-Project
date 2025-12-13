@@ -1,85 +1,79 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import Cookies from '../utils/cookies';
-import apiClient from '../api/client';
+// ============================================
+// Updated AuthContext with Token Auto-Refresh
+// Location: /src/contexts/AuthContext.jsx
+// ============================================
+import { createContext, useState, useContext, useEffect } from 'react';
+import tokenManager from '../utils/tokenManager';
 
-// Create Auth Context
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
-// Auth Provider Component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check for existing token on mount
+  // Initialize on mount
   useEffect(() => {
-    const token = Cookies.get('access_token');
+    // Initialize token manager (will set up auto-refresh if token exists)
+    tokenManager.initialize();
+    
+    // Check if user is logged in
+    const token = tokenManager.getAccessToken();
     if (token) {
-      setUser({ token });
+      // You might want to fetch user info here
+      setUser({ token }); // Simplified, replace with actual user data
     }
+    
     setLoading(false);
   }, []);
 
-  // Login function
   const login = async (username, password) => {
-    const data = await apiClient.login(username, password);
-    
-    // Save tokens to cookies
-    Cookies.set('access_token', data.access_token);
-    Cookies.set('refresh_token', data.refresh_token);
-    
-    // Update user state
-    setUser({ token: data.access_token });
-    
-    return data;
-  };
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-  // Logout function
-  const logout = async () => {
-    
-    try{
-      // Get the token from cookies
-      const token = Cookies.get('access_token');
-
-      // Call API logout
-      if(token){
-        await apiClient.logout(token);
+      if (!response.ok) {
+        throw new Error('Login failed');
       }
-    } catch (error){
-      console.error('Logout API error:', error);
+
+      const data = await response.json();
+      
+      // Store tokens using token manager (will set up auto-refresh)
+      tokenManager.setTokens(
+        data.access_token,
+        data.refresh_token,
+        data.expires_in
+      );
+
+      setUser({ username, token: data.access_token });
+      return { success: true };
+    } catch (error) {
+      console.error('Login error:', error);
+      return { success: false, error: error.message };
     }
-    finally {
-      // Continue for frontend logout although API logout fail
-      Cookies.remove('access_token');
-      Cookies.remove('refresh_token');
-      setUser(null);
-    }
   };
 
-  // Check if user is authenticated
-  const isAuthenticated = () => {
-    return !!Cookies.get('access_token');
+  const logout = () => {
+    tokenManager.clearTokens();
+    setUser(null);
+    window.location.href = '/login';
   };
 
-  // Get access token
-  const getToken = () => {
-    return Cookies.get('access_token');
+  const value = {
+    user,
+    login,
+    logout,
+    loading,
+    isAuthenticated: !!user,
   };
 
-  return (
-    <AuthContext.Provider value={{ 
-      user, 
-      login, 
-      logout, 
-      isAuthenticated, 
-      getToken,
-      loading 
-    }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Custom hook to use auth context
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -87,5 +81,3 @@ export const useAuth = () => {
   }
   return context;
 };
-
-export default AuthContext;

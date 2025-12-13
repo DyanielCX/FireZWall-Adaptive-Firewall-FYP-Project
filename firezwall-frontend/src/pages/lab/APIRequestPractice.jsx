@@ -22,7 +22,7 @@ const APIRequestPractice = () => {
     service: '',
     protocol: 'tcp',
     direction: '',
-    ipv4: false,
+    ipv4: true,
     ipv6: false,
     source: ''
   });
@@ -282,7 +282,7 @@ const APIRequestPractice = () => {
       service: '',
       protocol: 'tcp',
       direction: '',
-      ipv4: false,
+      ipv4: true,
       ipv6: false,
       source: ''
     });
@@ -347,8 +347,8 @@ const APIRequestPractice = () => {
       service: '',
       protocol: protocols[Math.floor(Math.random() * protocols.length)],
       direction: difficulty === 'easy' ? '' : directions[Math.floor(Math.random() * directions.length)],
-      ipv4: false,
-      ipv6: false,
+      ipv4: true,
+      ipv6: true,
       source: ''
     };
 
@@ -406,6 +406,7 @@ const APIRequestPractice = () => {
     if (config.portOrService === 'port' && !config.port) return false;
     if (config.portOrService === 'service' && !config.service) return false;
     if (config.source && !validateIPAddress(config.source)) return false;
+    if (!config.ipv4 && !config.ipv6) return false;
     
     return true;
   };
@@ -764,10 +765,10 @@ const APIRequestPractice = () => {
           )}
 
           {/* IPv4/IPv6 checkboxes (only for add/delete) */}
-          {config.requestType !== 'view rule' && (
+          {config.requestType !== 'view' && (
             <div className="lg:col-span-2">
               <label className="block text-sm font-semibold text-white mb-2">
-                IP Version <span className="text-slate-400 text-xs">(Optional - Auto-detected from source)</span>
+                IP Version <span className="text-red-400">* (Select at least one)</span>
               </label>
               <div className="flex gap-4">
                 <label className={`flex items-center gap-2 ${config.source ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
@@ -794,6 +795,12 @@ const APIRequestPractice = () => {
               {config.source && (
                 <p className="text-slate-400 text-xs mt-1">
                   💡 IP version is automatically detected from the source address
+                </p>
+              )}
+              {!config.ipv4 && !config.ipv6 && !config.source && (
+                <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                  <XCircle className="w-3 h-3" />
+                  Please select at least one IP version
                 </p>
               )}
             </div>
