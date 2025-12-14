@@ -10,13 +10,10 @@ const apiClient = {
   // Login - POST /api/login
   login: async (username, password) => {
     try {
-      console.log('Making request to:', `${API_BASE_URL}/login`);
-      
-      const response = await apiFetch(`${API_BASE_URL}/login`, {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           username: username,

@@ -9,6 +9,8 @@ import {
   FileText, Menu, ChevronRight, GraduationCap 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import tokenManager from '../utils/tokenManager';
+
 import apiClient from '../api/client';
 import Card from '../components/ui/Card';
 import FirewallRules from './FirewallRules';
@@ -19,12 +21,12 @@ import LabDashboard from './lab/LabDashboard';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { logout, isAuthenticated, getToken } = useAuth();
+  const { logout, isAuthenticated, user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeSection, setActiveSection] = useState('overview');
   const [username, setUsername] = useState('Administrator');
   const [userRole, setUserRole] = useState('Loading...');
-  const [mode, setMode] = useState('real-system'); // 'real-system' or 'lab'
+  const [mode, setMode] = useState('real-system');
   
   // Quick Stats data
   const [stats, setStats] = useState({
@@ -36,7 +38,7 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    if (!isAuthenticated()) {
+    if (!isAuthenticated) {
       navigate('/login');
     } else {
       fetchUserInfo();
@@ -52,7 +54,7 @@ const Dashboard = () => {
 
   const fetchUserInfo = async () => {
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       
       const usernameResponse = await apiClient.getUserName(token);
       if (usernameResponse.success) {
@@ -72,7 +74,7 @@ const Dashboard = () => {
 
   const fetchQuickStats = async () => {
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       
       // Fetch firewall rules and logs for all users
       const [rulesResponse, logsResponse] = await Promise.all([

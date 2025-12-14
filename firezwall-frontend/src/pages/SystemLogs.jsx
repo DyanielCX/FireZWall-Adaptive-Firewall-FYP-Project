@@ -9,6 +9,7 @@ import {
   User, Server
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import tokenManager from '../utils/tokenManager';
 import apiClient from '../api/client';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -56,7 +57,7 @@ const SystemLogs = () => {
 
   const fetchUserRole = async () => {
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.getUserRole(token);
       
       if (response.success) {
@@ -72,7 +73,7 @@ const SystemLogs = () => {
     setError('');
     
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.getSystemLogs(token, {});
       
       if (response.success) {

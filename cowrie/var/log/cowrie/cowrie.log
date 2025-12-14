@@ -68,3 +68,339 @@
 2025-12-13T05:06:48.447685Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f2532197a10>
 2025-12-13T05:06:48.448166Z [twisted.internet.base#info] Main loop terminated.
 2025-12-13T05:06:48.448676Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T05:42:45.495082Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T05:42:45.911082Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T05:42:45.911131Z [-] Twisted Version 25.5.0
+2025-12-13T05:42:45.911173Z [-] Cowrie Version 2.8.1
+2025-12-13T05:42:45.911191Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T05:42:45.914236Z [-] Loaded output engine: jsonlog
+2025-12-13T05:42:45.917298Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T05:42:45.917559Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T05:42:45.929369Z [-] CowrieSSHFactory starting on 22
+2025-12-13T05:42:45.931220Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f258c323a10>
+2025-12-13T05:42:46.091133Z [-] Ready to accept SSH connections
+2025-12-13T05:42:46.092604Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T05:42:46.092993Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f258c1fc440>
+2025-12-13T05:42:46.093539Z [-] Ready to accept Telnet connections
+2025-12-13T05:43:55.257084Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T05:43:55.258602Z [-] (TCP Port 23 Closed)
+2025-12-13T05:43:55.259004Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f258c1fc440>
+2025-12-13T05:43:55.259383Z [-] (TCP Port 22 Closed)
+2025-12-13T05:43:55.259645Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f258c323a10>
+2025-12-13T05:43:55.260037Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T05:43:55.260600Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T05:44:44.114604Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T05:44:44.510920Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T05:44:44.511031Z [-] Twisted Version 25.5.0
+2025-12-13T05:44:44.511067Z [-] Cowrie Version 2.8.1
+2025-12-13T05:44:44.511089Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T05:44:44.514326Z [-] Loaded output engine: jsonlog
+2025-12-13T05:44:44.518371Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T05:44:44.518792Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T05:44:44.532690Z [-] CowrieSSHFactory starting on 22
+2025-12-13T05:44:44.534558Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f6af225ba10>
+2025-12-13T05:44:44.692340Z [-] Ready to accept SSH connections
+2025-12-13T05:44:44.694041Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T05:44:44.694544Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f6af2134440>
+2025-12-13T05:44:44.695100Z [-] Ready to accept Telnet connections
+2025-12-13T05:59:17.574296Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T05:59:17.576858Z [-] (TCP Port 23 Closed)
+2025-12-13T05:59:17.577397Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f6af2134440>
+2025-12-13T05:59:17.577794Z [-] (TCP Port 22 Closed)
+2025-12-13T05:59:17.578168Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f6af225ba10>
+2025-12-13T05:59:17.578649Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T05:59:17.579331Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T05:59:22.922729Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T05:59:23.311101Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T05:59:23.311196Z [-] Twisted Version 25.5.0
+2025-12-13T05:59:23.311228Z [-] Cowrie Version 2.8.1
+2025-12-13T05:59:23.311249Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T05:59:23.313701Z [-] Loaded output engine: jsonlog
+2025-12-13T05:59:23.316705Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T05:59:23.316929Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T05:59:23.330454Z [-] CowrieSSHFactory starting on 22
+2025-12-13T05:59:23.332512Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f6199ce7a10>
+2025-12-13T05:59:23.476922Z [-] Ready to accept SSH connections
+2025-12-13T05:59:23.478768Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T05:59:23.479144Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f6199bc0440>
+2025-12-13T05:59:23.479686Z [-] Ready to accept Telnet connections
+2025-12-13T06:05:25.574168Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:05:25.576260Z [-] (TCP Port 23 Closed)
+2025-12-13T06:05:25.576837Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f6199bc0440>
+2025-12-13T06:05:25.577266Z [-] (TCP Port 22 Closed)
+2025-12-13T06:05:25.577708Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f6199ce7a10>
+2025-12-13T06:05:25.578326Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:05:25.579146Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:05:30.578515Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:05:30.994408Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:05:30.994498Z [-] Twisted Version 25.5.0
+2025-12-13T06:05:30.994529Z [-] Cowrie Version 2.8.1
+2025-12-13T06:05:30.994551Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:05:30.997468Z [-] Loaded output engine: jsonlog
+2025-12-13T06:05:31.000811Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:05:31.001088Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:05:31.013891Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:05:31.015952Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f6b69363a10>
+2025-12-13T06:05:31.175880Z [-] Ready to accept SSH connections
+2025-12-13T06:05:31.177689Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:05:31.178293Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f6b6923c440>
+2025-12-13T06:05:31.179000Z [-] Ready to accept Telnet connections
+2025-12-13T06:13:44.970030Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:13:44.972293Z [-] (TCP Port 23 Closed)
+2025-12-13T06:13:44.972839Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f6b6923c440>
+2025-12-13T06:13:44.973241Z [-] (TCP Port 22 Closed)
+2025-12-13T06:13:44.973556Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f6b69363a10>
+2025-12-13T06:13:44.974123Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:13:44.974855Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:14:14.837952Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:14:15.242169Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:14:15.242274Z [-] Twisted Version 25.5.0
+2025-12-13T06:14:15.242305Z [-] Cowrie Version 2.8.1
+2025-12-13T06:14:15.242327Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:14:15.245868Z [-] Loaded output engine: jsonlog
+2025-12-13T06:14:15.248809Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:14:15.249099Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:14:15.262885Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:14:15.264704Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f2c6c537a10>
+2025-12-13T06:14:15.429504Z [-] Ready to accept SSH connections
+2025-12-13T06:14:15.430878Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:14:15.431327Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f2c6c410440>
+2025-12-13T06:14:15.431915Z [-] Ready to accept Telnet connections
+2025-12-13T06:27:17.882855Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:27:17.884997Z [-] (TCP Port 23 Closed)
+2025-12-13T06:27:17.885495Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f2c6c410440>
+2025-12-13T06:27:17.885806Z [-] (TCP Port 22 Closed)
+2025-12-13T06:27:17.886081Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f2c6c537a10>
+2025-12-13T06:27:17.886588Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:27:17.887200Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:27:34.498072Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:27:35.153452Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:27:35.153627Z [-] Twisted Version 25.5.0
+2025-12-13T06:27:35.153659Z [-] Cowrie Version 2.8.1
+2025-12-13T06:27:35.153686Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:27:35.157342Z [-] Loaded output engine: jsonlog
+2025-12-13T06:27:35.162053Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:27:35.162529Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:27:35.188780Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:27:35.191025Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f9028ee7a10>
+2025-12-13T06:27:35.382201Z [-] Ready to accept SSH connections
+2025-12-13T06:27:35.385266Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:27:35.385787Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f9028dc0440>
+2025-12-13T06:27:35.386410Z [-] Ready to accept Telnet connections
+2025-12-13T06:28:21.366210Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:28:21.368048Z [-] (TCP Port 23 Closed)
+2025-12-13T06:28:21.368683Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f9028dc0440>
+2025-12-13T06:28:21.369057Z [-] (TCP Port 22 Closed)
+2025-12-13T06:28:21.369370Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f9028ee7a10>
+2025-12-13T06:28:21.369913Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:28:21.370564Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:29:29.820095Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:29:30.184885Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:29:30.184980Z [-] Twisted Version 25.5.0
+2025-12-13T06:29:30.185011Z [-] Cowrie Version 2.8.1
+2025-12-13T06:29:30.185035Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:29:30.188049Z [-] Loaded output engine: jsonlog
+2025-12-13T06:29:30.191112Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:29:30.191372Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:29:30.204899Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:29:30.206748Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f057cd63a10>
+2025-12-13T06:29:30.352234Z [-] Ready to accept SSH connections
+2025-12-13T06:29:30.353552Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:29:30.353894Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f057cc40440>
+2025-12-13T06:29:30.354491Z [-] Ready to accept Telnet connections
+2025-12-13T06:33:01.558032Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:33:01.560216Z [-] (TCP Port 23 Closed)
+2025-12-13T06:33:01.560784Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f057cc40440>
+2025-12-13T06:33:01.561192Z [-] (TCP Port 22 Closed)
+2025-12-13T06:33:01.561585Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f057cd63a10>
+2025-12-13T06:33:01.562156Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:33:01.562864Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:33:53.683524Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:33:54.079556Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:33:54.079637Z [-] Twisted Version 25.5.0
+2025-12-13T06:33:54.079667Z [-] Cowrie Version 2.8.1
+2025-12-13T06:33:54.079687Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:33:54.082694Z [-] Loaded output engine: jsonlog
+2025-12-13T06:33:54.086079Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:33:54.086396Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:33:54.098875Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:33:54.100619Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f18c9ea7a10>
+2025-12-13T06:33:54.303810Z [-] Ready to accept SSH connections
+2025-12-13T06:33:54.305403Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:33:54.305793Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f18c9d80440>
+2025-12-13T06:33:54.306243Z [-] Ready to accept Telnet connections
+2025-12-13T06:36:30.589411Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:36:30.591266Z [-] (TCP Port 23 Closed)
+2025-12-13T06:36:30.592011Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f18c9d80440>
+2025-12-13T06:36:30.592522Z [-] (TCP Port 22 Closed)
+2025-12-13T06:36:30.593020Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f18c9ea7a10>
+2025-12-13T06:36:30.593671Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:36:30.594522Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:36:35.129159Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:36:35.518817Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:36:35.518917Z [-] Twisted Version 25.5.0
+2025-12-13T06:36:35.518949Z [-] Cowrie Version 2.8.1
+2025-12-13T06:36:35.518970Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:36:35.522077Z [-] Loaded output engine: jsonlog
+2025-12-13T06:36:35.525707Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:36:35.526081Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:36:35.538101Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:36:35.540483Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f7f51bf7a10>
+2025-12-13T06:36:35.714186Z [-] Ready to accept SSH connections
+2025-12-13T06:36:35.715874Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:36:35.716303Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f7f51acc440>
+2025-12-13T06:36:35.716859Z [-] Ready to accept Telnet connections
+2025-12-13T06:38:08.050417Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:38:08.052534Z [-] (TCP Port 23 Closed)
+2025-12-13T06:38:08.053132Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f7f51acc440>
+2025-12-13T06:38:08.053591Z [-] (TCP Port 22 Closed)
+2025-12-13T06:38:08.053981Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f7f51bf7a10>
+2025-12-13T06:38:08.054563Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:38:08.055365Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:42:19.244176Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:42:19.637024Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:42:19.637119Z [-] Twisted Version 25.5.0
+2025-12-13T06:42:19.637153Z [-] Cowrie Version 2.8.1
+2025-12-13T06:42:19.637177Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:42:19.640209Z [-] Loaded output engine: jsonlog
+2025-12-13T06:42:19.644339Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:42:19.644742Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:42:19.656839Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:42:19.658796Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f086d96ba10>
+2025-12-13T06:42:19.811233Z [-] Ready to accept SSH connections
+2025-12-13T06:42:19.812824Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:42:19.813246Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f086d844440>
+2025-12-13T06:42:19.813872Z [-] Ready to accept Telnet connections
+2025-12-13T06:49:19.858403Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:49:19.860069Z [-] (TCP Port 23 Closed)
+2025-12-13T06:49:19.860687Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f086d844440>
+2025-12-13T06:49:19.861188Z [-] (TCP Port 22 Closed)
+2025-12-13T06:49:19.861637Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f086d96ba10>
+2025-12-13T06:49:19.862290Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:49:19.863173Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:49:45.738005Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:49:46.291831Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:49:46.291929Z [-] Twisted Version 25.5.0
+2025-12-13T06:49:46.291960Z [-] Cowrie Version 2.8.1
+2025-12-13T06:49:46.291983Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:49:46.296549Z [-] Loaded output engine: jsonlog
+2025-12-13T06:49:46.300963Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:49:46.303277Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:49:46.325949Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:49:46.328374Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f596db83a10>
+2025-12-13T06:49:46.532690Z [-] Ready to accept SSH connections
+2025-12-13T06:49:46.534832Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:49:46.535442Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f596da58440>
+2025-12-13T06:49:46.536070Z [-] Ready to accept Telnet connections
+2025-12-13T06:52:31.653172Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:52:31.655545Z [-] (TCP Port 23 Closed)
+2025-12-13T06:52:31.656217Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f596da58440>
+2025-12-13T06:52:31.656728Z [-] (TCP Port 22 Closed)
+2025-12-13T06:52:31.657664Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f596db83a10>
+2025-12-13T06:52:31.658578Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:52:31.659651Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:52:37.022335Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:52:37.401290Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:52:37.401381Z [-] Twisted Version 25.5.0
+2025-12-13T06:52:37.401413Z [-] Cowrie Version 2.8.1
+2025-12-13T06:52:37.401436Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:52:37.404466Z [-] Loaded output engine: jsonlog
+2025-12-13T06:52:37.407061Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:52:37.407249Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:52:37.418971Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:52:37.420344Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f05c5d23a10>
+2025-12-13T06:52:37.560753Z [-] Ready to accept SSH connections
+2025-12-13T06:52:37.562068Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:52:37.562458Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f05c5bfc440>
+2025-12-13T06:52:37.562862Z [-] Ready to accept Telnet connections
+2025-12-13T06:55:25.081674Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:55:25.083152Z [-] (TCP Port 23 Closed)
+2025-12-13T06:55:25.083793Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f05c5bfc440>
+2025-12-13T06:55:25.084207Z [-] (TCP Port 22 Closed)
+2025-12-13T06:55:25.084544Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f05c5d23a10>
+2025-12-13T06:55:25.084986Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:55:25.085650Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:55:30.552252Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:55:30.945364Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:55:30.945461Z [-] Twisted Version 25.5.0
+2025-12-13T06:55:30.945495Z [-] Cowrie Version 2.8.1
+2025-12-13T06:55:30.945520Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:55:30.949019Z [-] Loaded output engine: jsonlog
+2025-12-13T06:55:30.953521Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:55:30.953926Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:55:30.968812Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:55:30.970824Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f3302ceba10>
+2025-12-13T06:55:31.187722Z [-] Ready to accept SSH connections
+2025-12-13T06:55:31.189635Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:55:31.190069Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f3302bc4440>
+2025-12-13T06:55:31.190712Z [-] Ready to accept Telnet connections
+2025-12-13T06:55:42.428511Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:55:42.429749Z [-] (TCP Port 23 Closed)
+2025-12-13T06:55:42.430212Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f3302bc4440>
+2025-12-13T06:55:42.430543Z [-] (TCP Port 22 Closed)
+2025-12-13T06:55:42.430822Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f3302ceba10>
+2025-12-13T06:55:42.431137Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:55:42.431485Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:56:31.746804Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:56:32.138549Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:56:32.138623Z [-] Twisted Version 25.5.0
+2025-12-13T06:56:32.138647Z [-] Cowrie Version 2.8.1
+2025-12-13T06:56:32.138661Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:56:32.141154Z [-] Loaded output engine: jsonlog
+2025-12-13T06:56:32.145151Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:56:32.145366Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:56:32.160310Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:56:32.161712Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f3ce14f3a10>
+2025-12-13T06:56:32.332736Z [-] Ready to accept SSH connections
+2025-12-13T06:56:32.334424Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:56:32.334856Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f3ce13cc440>
+2025-12-13T06:56:32.335543Z [-] Ready to accept Telnet connections
+2025-12-13T06:56:45.502994Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:56:45.506563Z [-] (TCP Port 23 Closed)
+2025-12-13T06:56:45.507685Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f3ce13cc440>
+2025-12-13T06:56:45.508614Z [-] (TCP Port 22 Closed)
+2025-12-13T06:56:45.509072Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f3ce14f3a10>
+2025-12-13T06:56:45.509843Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:56:45.510641Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T06:57:20.457189Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T06:57:20.877524Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T06:57:20.877602Z [-] Twisted Version 25.5.0
+2025-12-13T06:57:20.877628Z [-] Cowrie Version 2.8.1
+2025-12-13T06:57:20.877645Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T06:57:20.880091Z [-] Loaded output engine: jsonlog
+2025-12-13T06:57:20.883908Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T06:57:20.884241Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T06:57:20.898432Z [-] CowrieSSHFactory starting on 22
+2025-12-13T06:57:20.900259Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f88c495fa10>
+2025-12-13T06:57:21.078661Z [-] Ready to accept SSH connections
+2025-12-13T06:57:21.082386Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T06:57:21.083464Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f88c4838440>
+2025-12-13T06:57:21.084291Z [-] Ready to accept Telnet connections
+2025-12-13T06:58:02.209975Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T06:58:02.210826Z [-] (TCP Port 23 Closed)
+2025-12-13T06:58:02.211126Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f88c4838440>
+2025-12-13T06:58:02.211363Z [-] (TCP Port 22 Closed)
+2025-12-13T06:58:02.211488Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f88c495fa10>
+2025-12-13T06:58:02.211718Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T06:58:02.212357Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-12-13T07:02:32.827230Z [-] Reading configuration from ['/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg.dist', '/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/cowrie/etc/cowrie.cfg']
+2025-12-13T07:02:33.219666Z [-] Python Version 3.13.7 (main, Aug 20 2025, 22:17:40) [GCC 14.3.0]
+2025-12-13T07:02:33.219758Z [-] Twisted Version 25.5.0
+2025-12-13T07:02:33.219790Z [-] Cowrie Version 2.8.1
+2025-12-13T07:02:33.219811Z [-] Sensor UUID: 1d1b53c6-b871-11f0-9214-000c2997816a
+2025-12-13T07:02:33.223059Z [-] Loaded output engine: jsonlog
+2025-12-13T07:02:33.226893Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 25.5.0 (/home/kali/Desktop/FireZWall-Adaptive-Firewall-FYP-Project/.venv/bin/python3 3.13.7) starting up.
+2025-12-13T07:02:33.227358Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-12-13T07:02:33.241015Z [-] CowrieSSHFactory starting on 22
+2025-12-13T07:02:33.242582Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f276996ba10>
+2025-12-13T07:02:33.393014Z [-] Ready to accept SSH connections
+2025-12-13T07:02:33.394419Z [-] HoneyPotTelnetFactory starting on 23
+2025-12-13T07:02:33.394765Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Starting factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f2769844440>
+2025-12-13T07:02:33.395323Z [-] Ready to accept Telnet connections
+2025-12-13T07:03:45.400995Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-12-13T07:03:45.401958Z [-] (TCP Port 23 Closed)
+2025-12-13T07:03:45.402202Z [cowrie.telnet.factory.HoneyPotTelnetFactory#info] Stopping factory <cowrie.telnet.factory.HoneyPotTelnetFactory object at 0x7f2769844440>
+2025-12-13T07:03:45.402511Z [-] (TCP Port 22 Closed)
+2025-12-13T07:03:45.402832Z [cowrie.ssh.factory.CowrieSSHFactory#info] Stopping factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f276996ba10>
+2025-12-13T07:03:45.403497Z [twisted.internet.base#info] Main loop terminated.
+2025-12-13T07:03:45.404786Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.

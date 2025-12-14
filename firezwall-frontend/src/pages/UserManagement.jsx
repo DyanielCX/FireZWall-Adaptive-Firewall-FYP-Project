@@ -6,6 +6,7 @@
 import { useState, useEffect } from 'react';
 import { Users, UserPlus, Trash2, RefreshCw, Lock, Filter, Shield, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import tokenManager from '../utils/tokenManager';
 import apiClient from '../api/client';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -45,7 +46,7 @@ const UserManagement = () => {
   const checkAdminAccess = async () => {
     setLoading(true);
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.getUserRole(token);
       
       if (response.success) {
@@ -76,7 +77,7 @@ const UserManagement = () => {
     setError('');
     
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.getUsers(token, roleFilter);
       
       if (response.success) {
@@ -107,7 +108,7 @@ const UserManagement = () => {
     setSuccess('');
 
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.registerUser(token, userData);
       
       if (response.success) {
@@ -137,7 +138,7 @@ const UserManagement = () => {
     setSuccess('');
 
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.deleteUser(token, userToDelete.username);
       
       if (response.success) {

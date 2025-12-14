@@ -6,7 +6,6 @@ import Cookies from './cookies';
 
 const TOKEN_COOKIE_NAME = 'access_token';
 const REFRESH_TOKEN_COOKIE_NAME = 'refresh_token';
-const TOKEN_EXPIRY_COOKIE_NAME = 'token_expiry';
 const REFRESH_BUFFER_TIME = 300; // Refresh 5 minutes before expiry
 
 class TokenManager {
@@ -14,24 +13,24 @@ class TokenManager {
     this.refreshTimeout = null;
     this.isRefreshing = false;
     this.refreshPromise = null;
+    this.tokenExpiryTime = null; // Store expiry time in memory, not in cookie
   }
 
   /**
    * Store tokens and set up auto-refresh
    */
   setTokens(accessToken, refreshToken, expiresIn) {
-    // Store tokens in cookies (expiresIn is already in seconds)
+    // Store tokens in cookies (expiresIn is in seconds from API)
     Cookies.set(TOKEN_COOKIE_NAME, accessToken, expiresIn);
     Cookies.set(REFRESH_TOKEN_COOKIE_NAME, refreshToken, expiresIn * 2); // Refresh token lasts longer
     
-    // Calculate and store expiry time (current time + expires_in seconds)
-    const expiryTime = Date.now() + (expiresIn * 1000);
-    Cookies.set(TOKEN_EXPIRY_COOKIE_NAME, expiryTime.toString(), expiresIn);
+    // Calculate and store expiry time in memory (current time + expires_in seconds)
+    this.tokenExpiryTime = Date.now() + (expiresIn * 1000);
     
     // Schedule token refresh
     this.scheduleTokenRefresh(expiresIn);
     
-    console.log(`Token stored in cookies. Expires in ${expiresIn} seconds (${new Date(expiryTime).toLocaleString()})`);
+    console.log(`Token stored in cookies. Expires in ${expiresIn} seconds (${new Date(this.tokenExpiryTime).toLocaleString()})`);
   }
 
   /**
@@ -52,8 +51,7 @@ class TokenManager {
    * Get token expiry time
    */
   getTokenExpiry() {
-    const expiry = Cookies.get(TOKEN_EXPIRY_COOKIE_NAME);
-    return expiry ? parseInt(expiry) : null;
+    return this.tokenExpiryTime;
   }
 
   /**
@@ -140,7 +138,7 @@ class TokenManager {
       return response.json();
     })
     .then((data) => {
-      // Store new tokens
+      // Store new tokens (data.expires_in is in seconds)
       this.setTokens(data.access_token, data.refresh_token, data.expires_in);
       console.log('Token refreshed successfully');
       
@@ -177,7 +175,8 @@ class TokenManager {
   clearTokens() {
     Cookies.remove(TOKEN_COOKIE_NAME);
     Cookies.remove(REFRESH_TOKEN_COOKIE_NAME);
-    Cookies.remove(TOKEN_EXPIRY_COOKIE_NAME);
+    
+    this.tokenExpiryTime = null;
     
     if (this.refreshTimeout) {
       clearTimeout(this.refreshTimeout);
@@ -203,27 +202,22 @@ class TokenManager {
 
   /**
    * Initialize token manager on app load
+   * Note: Since we don't store expiry in cookie, we can't recover it after page refresh
+   * User will need to make an API call which will trigger refresh if token is expired
    */
   initialize() {
     const accessToken = this.getAccessToken();
-    const expiry = this.getTokenExpiry();
     
-    if (!accessToken || !expiry) {
+    if (!accessToken) {
       console.log('No valid token found in cookies');
       return;
     }
 
-    // Check if token is already expired
-    if (this.isTokenExpired()) {
-      console.log('Token expired, attempting refresh...');
-      this.refreshToken();
-      return;
-    }
-
-    // Calculate remaining time and schedule refresh
-    const remainingTime = Math.floor((expiry - Date.now()) / 1000);
-    console.log(`Token valid for ${remainingTime} more seconds`);
-    this.scheduleTokenRefresh(remainingTime);
+    console.log('Token found in cookies. Will check validity on first API call.');
+    
+    // We can't know the exact expiry time after page refresh
+    // But the token will be checked on first API call via getValidToken()
+    // If it's expired (401), it will auto-refresh
   }
 }
 

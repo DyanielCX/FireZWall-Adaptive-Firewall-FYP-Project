@@ -6,6 +6,7 @@
 import { useState, useEffect } from 'react';
 import { Shield, Plus, Check, X, RefreshCw, AlertCircle, Lock, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import tokenManager from '../utils/tokenManager';
 import apiClient from '../api/client';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -50,7 +51,7 @@ const FirewallRules = () => {
     setError('');
     
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.getFirewallRules(token);
       
       if (response.success) {
@@ -68,7 +69,7 @@ const FirewallRules = () => {
 
   const fetchUserRole = async () => {
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.getUserRole(token);
       
       if (response.success) {
@@ -84,7 +85,7 @@ const FirewallRules = () => {
     setCheckingRole(true);
     
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.getUserRole(token);
       
       if (response.success) {
@@ -111,7 +112,7 @@ const FirewallRules = () => {
     setSuccess('');
 
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.addFirewallRule(token, ruleData);
       
       console.log('Rule added successfully:', response);
@@ -139,7 +140,7 @@ const FirewallRules = () => {
     setCheckingRole(true);
     
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.getUserRole(token);
       
       if (response.success) {
@@ -169,7 +170,7 @@ const FirewallRules = () => {
     setSuccess('');
   
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       
       // Prepare delete data object (like add rule)
       const ruleData = {

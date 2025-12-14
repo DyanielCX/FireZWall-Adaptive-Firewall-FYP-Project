@@ -8,6 +8,7 @@ import {
   Calendar, Shield, Globe, Activity, RefreshCw, Lock, ChevronLeft, ChevronRight 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import tokenManager from '../utils/tokenManager';
 import apiClient from '../api/client';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -46,7 +47,7 @@ const Honeypot = () => {
   const checkAccess = async () => {
     setLoading(true);
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.getUserRole(token);
       
       if (response.success) {
@@ -98,7 +99,7 @@ const Honeypot = () => {
     setError('');
     
     try {
-      const token = getToken();
+      const token = tokenManager.getAccessToken();
       const response = await apiClient.getHoneypots(token);
       
       if (response.success) {

@@ -15,6 +15,7 @@ import tokenManager from './tokenManager';
  *     body: JSON.stringify(data)
  *   });
  */
+
 export const apiFetch = async (url, options = {}) => {
   // Get valid token (will refresh if needed)
   const token = await tokenManager.getValidToken();
