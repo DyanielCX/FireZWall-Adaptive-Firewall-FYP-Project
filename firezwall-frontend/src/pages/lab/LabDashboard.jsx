@@ -5,7 +5,7 @@
 import { useState } from 'react';
 import { 
   Shield, LogOut, BookOpen, Terminal, Code, 
-  FileText, Menu, GraduationCap, ChevronDown
+  Menu, GraduationCap, ChevronDown
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import Card from '../../components/ui/Card';

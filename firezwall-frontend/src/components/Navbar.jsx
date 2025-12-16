@@ -1,5 +1,8 @@
+// ============================================
 // Navbar Component
-import { Shield } from 'lucide-react';
+// Location: /src/components/Navbar.jsx
+// ============================================
+import { Shield, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from './ui/Button';
 
@@ -20,12 +23,24 @@ const Navbar = ({ showLogin = true }) => {
           <span className="text-xl font-bold text-white">FireZWall</span>
         </div>
 
-        {/* Login Button */}
-        {showLogin && (
-          <Button onClick={() => navigate('/login')}>
-            Login
-          </Button>
-        )}
+        {/* Right Side - API Docs + Login */}
+        <div className="flex items-center gap-4">
+          {/* API Documentation Link */}
+          <button
+            onClick={() => navigate('/api-docs')}
+            className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors"
+          >
+            <BookOpen className="w-5 h-5" />
+            <span className="hidden sm:inline">API Docs</span>
+          </button>
+
+          {/* Login Button */}
+          {showLogin && (
+            <Button onClick={() => navigate('/login')}>
+              Login
+            </Button>
+          )}
+        </div>
       </div>
     </nav>
   );

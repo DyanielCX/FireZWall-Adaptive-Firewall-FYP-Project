@@ -119,7 +119,7 @@ import {
                 </h2>
                 <p className="text-slate-300 leading-relaxed">
                   Most modern firewalls (cloud-based, enterprise, microservices) no longer rely solely on GUI 
-                  or manual CLI operations. Instead, they expose <span className="text-orange-500 font-semibold">REST APIs for automation</span> 
+                  or manual CLI operations. Instead, they expose <span className="text-orange-500 font-semibold">REST APIs for automation </span> 
                   and enabling DevOps teams to integrate security into their CI/CD pipelines to maintain DevSecOps practices.
                 </p>
               </div>

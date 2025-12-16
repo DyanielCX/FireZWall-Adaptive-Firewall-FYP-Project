@@ -25,8 +25,8 @@ class Firewall(Resource):
         parser.add_argument('service', type=str, required=False, help='Service name (optional if port is provided)')
         parser.add_argument('protocol', type=str, required=False, default='tcp', help='Protocol (tcp/udp/any)')
         parser.add_argument('direction', type=str, required=False, help='Direction (in/out)')
-        parser.add_argument('ipv4', type=str, required=False, default='true', help='Apply to IPv4 rules (true/false)')
-        parser.add_argument('ipv6', type=str, required=False, default='true', help='Apply to IPv6 rules (true/false)')
+        parser.add_argument('ipv4', type=str, required=False, default='true', help='Apply to IPv4 rules (True/False)')
+        parser.add_argument('ipv6', type=str, required=False, default='true', help='Apply to IPv6 rules (True/False)')
         parser.add_argument('source', type=str, required=False, help='Source (IP address/CIDR Subnet)')
         
         args = parser.parse_args()
@@ -45,6 +45,13 @@ class Firewall(Resource):
             return {
                 "success": False,
                 "error": "Either port or service must be provided"
+            }, 400
+        
+        # Prevent provide port & service at the same time
+        if args['port'] and args['service']:
+            return {
+                "success": False,
+                "error": "Either one port or service need to be provided"
             }, 400
         
         # If service is provided, get the port number for that service
@@ -372,8 +379,8 @@ class Firewall(Resource):
         parser.add_argument('service', type=str, required=False, help='Service name (optional if port is provided)')
         parser.add_argument('protocol', type=str, required=False, default='tcp', help='Protocol (tcp/udp/any)')
         parser.add_argument('direction', type=str, required=False, help='Direction (in/out)')
-        parser.add_argument('ipv4', type=str, required=False, default='true', help='Apply to IPv4 rules (true/false)')
-        parser.add_argument('ipv6', type=str, required=False, default='true', help='Apply to IPv6 rules (true/false)')
+        parser.add_argument('ipv4', type=str, required=False, default='true', help='Apply to IPv4 rules (True/False)')
+        parser.add_argument('ipv6', type=str, required=False, default='true', help='Apply to IPv6 rules (True/False)')
         parser.add_argument('source', type=str, required=False, help='Source (IP address/CIDR Subnet)')
         
         args = parser.parse_args()
@@ -384,6 +391,13 @@ class Firewall(Resource):
             return {
                 "success": False,
                 "error": "Either port or service must be provided"
+            }, 400
+                    
+        # Prevent provide port & service at the same time
+        if args['port'] and args['service']:
+            return {
+                "success": False,
+                "error": "Either one port or service need to be provided"
             }, 400
 
         # Standard & validate protocol input

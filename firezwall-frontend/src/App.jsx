@@ -9,6 +9,7 @@ import { AuthProvider } from './context/AuthContext';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import APIDocumentation from './pages/APIDocs/APIDocumentation';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/api-docs" element={<APIDocumentation />} />
         </Routes>
       </Router>
     </AuthProvider>

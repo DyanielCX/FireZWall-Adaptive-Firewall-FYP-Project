@@ -280,6 +280,32 @@ class Logout(Resource):
                 syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, details)
 
                 return {'message': 'Successfully logged out'}, 200
+
+            else:
+                # --- Logs Record --- #
+                # Get the OAuth token & username
+                auth_header = request.headers.get('Authorization')
+                access_token = auth_header.split(' ')[1]
+
+                # Define the webapp if ip_addr is localhost
+                if request.remote_addr == "127.0.0.1":
+                    current_ip = "127.0.0.1 (webapp)"
+                else:
+                    current_ip = request.remote_addr
+
+                # Log info
+                level = "WARNING"
+                event_type = "AUTH_LOGOUT_FAILED"
+                module = "auth"
+                message = f"Invalid access token"
+                ip_addr = current_ip
+                method = "POST"
+                endpoint = "/api/logout"
+                details = {"Authorization": f"Bearer {access_token}"}
+
+                syslog_create(level, event_type, module, message, None, ip_addr, method, endpoint, details)
+
+                return {'error': 'Invalid access token'}, 500
                 
         except Exception as e:
             db.session.rollback()

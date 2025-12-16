@@ -120,7 +120,7 @@ const APIRequestPractice = () => {
 
   // Generate expected API request based on configuration
   const generateExpectedRequest = () => {
-    const serverIP = 'localhost:8080';
+    const serverIP = 'localhost:5000';
     let expectedEndpoint = '';
     let expectedMethod = '';
     let expectedHeaders = {};
@@ -332,7 +332,7 @@ const APIRequestPractice = () => {
     const requestTypes = difficulty === 'easy' ? ['view rule', 'add rule'] : ['view rule', 'add rule', 'delete rule'];
     const ports = {
       easy: ['22', '80', '443'],
-      medium: ['8080', '3000', '5000'],
+      medium: ['8080', '3000', '4000'],
       hard: ['2222', '8443', '9090']
     };
     const services = ['ssh', 'http', 'https', 'mysql', 'postgresql'];
@@ -389,7 +389,7 @@ const APIRequestPractice = () => {
   // Generate hint based on configuration
   const generateHint = () => {
     if (hintsUsed === 0) {
-      return "Start by checking the endpoint URL. Remember the server is at localhost:8080";
+      return "Start by checking the endpoint URL. Remember the server is at localhost:5000";
     } else if (hintsUsed === 1) {
       return `For ${config.requestType} requests, check which HTTP method to use and what the route is`;
     } else if (hintsUsed === 2) {
@@ -532,14 +532,14 @@ const APIRequestPractice = () => {
             <div>
               <p className="text-sm font-semibold text-purple-400 mb-2">View Firewall Status (GET):</p>
               <div className="bg-slate-900 rounded-lg p-3 border border-slate-700 space-y-2 text-sm">
-                <div><span className="text-cyan-400">Endpoint:</span> <span className="text-green-400 font-mono">http://localhost:8080/api/firewall/status</span></div>
+                <div><span className="text-cyan-400">Endpoint:</span> <span className="text-green-400 font-mono">http://localhost:5000/api/firewall/status</span></div>
                 <div><span className="text-cyan-400">Headers:</span> <code className="text-purple-400 font-mono">{`{"Authorization": "Bearer <token>"}`}</code></div>
               </div>
             </div>
             <div>
               <p className="text-sm font-semibold text-purple-400 mb-2">Add Firewall Rule (POST):</p>
               <div className="bg-slate-900 rounded-lg p-3 border border-slate-700 space-y-2 text-sm">
-                <div><span className="text-cyan-400">Endpoint:</span> <span className="text-green-400 font-mono">http://localhost:8080/api/firewall</span></div>
+                <div><span className="text-cyan-400">Endpoint:</span> <span className="text-green-400 font-mono">http://localhost:5000/api/firewall</span></div>
                 <div><span className="text-cyan-400">Headers:</span> <code className="text-purple-400 font-mono">{`{"Content-Type": "application/json", "Authorization": "Bearer <token>"}`}</code></div>
                 <div><span className="text-cyan-400">Body:</span> <code className="text-orange-400 font-mono">{`{"action": "allow", "port": "22", "protocol": "tcp", "ipv4": false, "ipv6": false}`}</code></div>
               </div>
@@ -547,7 +547,7 @@ const APIRequestPractice = () => {
             <div>
               <p className="text-sm font-semibold text-purple-400 mb-2">Delete Firewall Rule (DELETE):</p>
               <div className="bg-slate-900 rounded-lg p-3 border border-slate-700 space-y-2 text-sm">
-                <div><span className="text-cyan-400">Endpoint:</span> <span className="text-green-400 font-mono">http://localhost:8080/api/firewall</span></div>
+                <div><span className="text-cyan-400">Endpoint:</span> <span className="text-green-400 font-mono">http://localhost:5000/api/firewall</span></div>
                 <div><span className="text-cyan-400">Headers:</span> <code className="text-purple-400 font-mono">{`{"Content-Type": "application/json", "Authorization": "Bearer <token>"}`}</code></div>
                 <div><span className="text-cyan-400">Body:</span> <code className="text-orange-400 font-mono">{`{"action": "allow", "service": "ssh", "protocol": "tcp", "ipv4": true, "ipv6": false}`}</code></div>
               </div>
@@ -925,14 +925,14 @@ const APIRequestPractice = () => {
             </label>
             <Input
               type="text"
-              placeholder="http://localhost:8080/api/..."
+              placeholder="http://localhost:5000/api/..."
               value={apiRequest.endpoint}
               onChange={(e) => setApiRequest({ ...apiRequest, endpoint: e.target.value })}
               disabled={!isFormValid() || attemptsLeft === 0}
             />
             <p className="text-slate-400 text-xs mt-1 flex items-center gap-1">
               <Info className="w-3 h-3" />
-              Include full URL with http://localhost:8080
+              Include full URL with http://localhost:5000
             </p>
           </div>
 

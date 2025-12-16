@@ -4,7 +4,7 @@
 // ============================================
 import { useState } from 'react';
 import { 
-  Terminal, CheckCircle, XCircle, AlertTriangle, 
+  Terminal, CheckCircle, XCircle, 
   Info, RotateCcw, Lightbulb, Shield, Sparkles, 
   BookOpen, Zap
 } from 'lucide-react';

@@ -1,8 +1,8 @@
 // ============================================
 // Landing Page
-// Location: /src/pages/index.js (Next.js) or /src/pages/Landing.jsx (React)
+// Location: /src/pages/Landing.jsx
 // ============================================
-import { Shield, Server, FileText, ChevronRight } from 'lucide-react';
+import { Shield, Server, FileText, ChevronRight, BookOpen, GraduationCap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -24,9 +24,9 @@ const Landing = () => {
       desc: 'Deploy decoys to detect intrusion attempts' 
     },
     { 
-      icon: FileText, 
-      title: 'System Logs', 
-      desc: 'Real-time monitoring and audit trails' 
+      icon: GraduationCap, 
+      title: 'Hand-On Practice', 
+      desc: 'Learning firewall and API knowledge with hand-on practice' 
     }
   ];
 
@@ -69,8 +69,10 @@ const Landing = () => {
             <Button 
               variant="outline" 
               className="text-lg px-8 py-3"
+              onClick={() => navigate('/api-docs')}
             >
-              Learn More
+              <FileText className="inline w-5 h-5 mr-2" />
+              API Documentation
             </Button>
           </div>
           

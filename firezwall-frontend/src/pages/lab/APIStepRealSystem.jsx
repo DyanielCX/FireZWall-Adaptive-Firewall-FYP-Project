@@ -138,7 +138,7 @@ import {
             <h3 className="text-lg font-semibold text-white mb-3">Example Request:</h3>
             <div className="bg-slate-900 rounded-lg p-4 border border-slate-700 overflow-x-auto">
               <code className="text-green-400 text-sm font-mono whitespace-pre">
-  {`curl -X POST http://localhost:8000/api/firewall \\
+  {`curl -X POST https://localhost:5000/api/firewall \\
     -H "Authorization: Bearer <ACCESS_TOKEN>" \\
     -H "Content-Type: application/json" \\
     -d '{"action":"allow","port":8080,"proto":"tcp"}'`}
@@ -210,19 +210,28 @@ import {
             <div className="bg-slate-900 rounded-lg p-4 border border-slate-700 overflow-x-auto">
               <code className="text-cyan-400 text-sm font-mono whitespace-pre">
   {`import requests
-  
-  headers = {
-      "Authorization": f"Bearer {token}",
-      "Content-Type": "application/json"
-  }
-  
-  rule_payload = {"action": "allow", "port": 8080, "proto": "tcp"}
-  
-  firewall_res = requests.post(
-      "http://localhost:8000/api/firewall",
-      json=rule_payload,
-      headers=headers
-  )`}
+
+endpoint = "https://localhost:5000/api/firewall"
+
+headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer <access_token>'  # Must be admin/dev/cybersec token
+}
+
+body = {
+    "action": "allow",
+    "port": "8080",
+    "protocol": "tcp"
+}
+
+r = requests.post(
+    endpoint,
+    json=body,
+    headers=headers,
+    verify=False
+)
+
+print(r.json())`}
               </code>
             </div>
           </div>

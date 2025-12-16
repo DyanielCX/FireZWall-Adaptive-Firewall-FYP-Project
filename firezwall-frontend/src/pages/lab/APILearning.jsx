@@ -224,7 +224,7 @@ const APILearning = () => {
           </p>
           <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-slate-800 rounded-lg border border-slate-700">
             <Code className="w-4 h-4 text-orange-500" />
-            <span className="text-slate-300 text-sm font-mono">POST /api/firewall/add-rule</span>
+            <span className="text-slate-300 text-sm font-mono">POST /api/firewall</span>
           </div>
         </div>
       </Card>
@@ -354,13 +354,7 @@ const APILearning = () => {
                 <pre className="text-green-400 text-sm font-mono overflow-x-auto">
 {`{
   "success": true,
-  "message": "Firewall rule added successfully",
-  "rule": {
-    "id": 42,
-    "port": 22,
-    "action": "deny",
-    "protocol": "tcp"
-  }
+  "message": "Rule - deny out to port 103/tcp with (IPv4:True IPv6:True) is added successfully"
 }`}
                 </pre>
               </div>
@@ -479,7 +473,7 @@ const APILearning = () => {
         <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
           <p className="text-slate-400 text-xs mb-2">Example with body parameters:</p>
           <pre className="text-sm font-mono mb-3">
-            <span className="text-blue-400">POST</span> <span className="text-green-400">/api/firewall/add-rule</span>
+            <span className="text-blue-400">POST</span> <span className="text-green-400">/api/firewall</span>
           </pre>
           <pre className="text-green-400 text-sm font-mono">
 {`{
