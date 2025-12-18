@@ -4,7 +4,7 @@ from flask import request
 
 
 ''' Internal File Import '''
-from dbModel import db, ServicerPort
+from dbModel import db, ServicePort
 from source.auth import require_oauth, require_oauth_with_scope
 from source.syslog_record import syslog_create, get_username_with_token
 
@@ -17,11 +17,12 @@ class CommonServicePort(Resource):
         """
         Get the common port list
         """
-        query = ServicerPort.query
+        query = ServicePort.query
         
         results = [{
                     "service": e.service,
-                    "port": e.port
+                    "port": e.port,
+                    "protocol": e.protocol
                 }for e in query]
         
         # --- Logs Record --- #
@@ -60,10 +61,12 @@ class CommonServicePort(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('service', type=str, required=True, help='Service')
         parser.add_argument('port', type=str, required=True, help='Port Number')
+        parser.add_argument('protocol', type=str, required=True, help='Prtocol (tcp/udp/any)')
         
         args = parser.parse_args()
         inp_service = args['service'].lower()
         inp_port = args['port']
+        inp_protocol = args['protocol'].lower()
         
         # Validate service cannot be numeric
         if inp_service.isdigit():
@@ -79,21 +82,29 @@ class CommonServicePort(Resource):
                 'error': 'Port must be a numeric value'
             }, 400
 
+        # Validate protocol cannot be numeric
+        if inp_protocol.isdigit():
+            return {
+                'valid': False,
+                'error': 'Protocol cannot a numeric value'
+            }, 400
+
         # Check if service already exists
-        if ServicerPort.query.filter_by(service=inp_service).first():
+        if ServicePort.query.filter_by(service=inp_service).first():
             return {
                 "success": False,
                 'error': 'Service already exists'
             }, 400
         
         # Add new common service port
-        newServicerPort = ServicerPort(
-            service = inp_service.lower(),
-            port = inp_port
+        newServicePort = ServicePort(
+            service = inp_service,
+            port = inp_port,
+            protocol = inp_protocol
         )
         
         try:
-            db.session.add(newServicerPort)
+            db.session.add(newServicePort)
             db.session.commit()
 
             # --- Logs Record --- #
@@ -112,7 +123,7 @@ class CommonServicePort(Resource):
             level = "INFO"
             event_type = "COMMON_SERVICE_PORT_ADDED_SUCCESS"
             module = "firewall"
-            message = f"Service({inp_service}) with port {inp_port} is added succeed"
+            message = f"Service({inp_service}) with port {inp_port}/{inp_protocol} is added succeed"
             username = Username
             ip_addr = current_ip
             method = "POST"
@@ -123,7 +134,7 @@ class CommonServicePort(Resource):
 
             return {
                 "success": True,
-                'message': f"Service({inp_service}) with port {inp_port} is added succeed"
+                'message': f"Service({inp_service}) with port {inp_port}/{inp_protocol} is added succeed"
             }, 201
         except Exception as e:
             db.session.rollback()
@@ -142,7 +153,7 @@ class CommonServicePort(Resource):
         parser.add_argument('port', type=str, required=False, help='Port Number')
 
         args = parser.parse_args()
-        query = ServicerPort.query
+        query = ServicePort.query
 
         # Validate that at least one of port or service is provided
         if not args['port'] and not args['service']:
@@ -236,7 +247,7 @@ class CommonServicePort(Resource):
                 level = "INFO"
                 event_type = "DELETE_COMMON_SERVICE_PORT_SUCCESS"
                 module = "auth"
-                message = f"Service({service_to_delete.service}) with port {service_to_delete.port} is deleted successfully"
+                message = f"Service({service_to_delete.service}) with port {service_to_delete.port}/{service_to_delete.protocol} is deleted successfully"
                 ip_addr = current_ip
                 method = "DELETE"
                 endpoint = "/api/firewall/svc-port"
@@ -246,7 +257,7 @@ class CommonServicePort(Resource):
                 
                 return {
                     "success": True,
-                    "message": f"Service({service_to_delete.service}) with port {service_to_delete.port} is deleted successfully",
+                    "message": f"Service({service_to_delete.service}) with port {service_to_delete.port}/{service_to_delete.protocol} is deleted successfully",
                 }, 200
  
         except Exception as e:

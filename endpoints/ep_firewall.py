@@ -6,7 +6,7 @@ import ipaddress
 import re
 
 ''' Internal File Import '''
-from dbModel import db, ServicerPort
+from dbModel import db, ServicePort
 from source.auth import require_oauth_with_scope
 from source.syslog_record import syslog_create, get_username_with_token
 
@@ -54,10 +54,18 @@ class Firewall(Resource):
                 "error": "Either one port or service need to be provided"
             }, 400
         
+        # Standard & validate protocol input
+        protocol = args['protocol'].lower()
+        if protocol not in ['tcp', 'udp', 'any']:
+            return {
+                "success": False,
+                "error": "Only enter tcp/udp/any for protocol"
+            }, 400
+        
         # If service is provided, get the port number for that service
         target_port = args['port']
         if args['service']:
-            target_port = self._service_to_port(args['service'])
+            target_port, protocol = self._service_to_port(args['service'])
             if not target_port:
                 return {
                     "success": False,
@@ -98,14 +106,6 @@ class Firewall(Resource):
                     "success": False,
                     "error": f"Service '{args['service']}' returned an invalid port number"
                 }, 400
-
-        # Standard & validate protocol input
-        protocol = args['protocol'].lower()
-        if protocol not in ['tcp', 'udp', 'any']:
-            return {
-                "success": False,
-                "error": "Only enter tcp/udp/any for protocol"
-            }, 400
 
         # Standard & validate direction input
         if args['direction']:
@@ -204,7 +204,7 @@ class Firewall(Resource):
                         current_rules, 
                         args['action'], 
                         target_port, 
-                        args['protocol'], 
+                        protocol, 
                         args['direction'],
                         not(ipv4), 
                         not(ipv6),
@@ -254,7 +254,7 @@ class Firewall(Resource):
                         current_rules, 
                         args['action'], 
                         target_port, 
-                        args['protocol'], 
+                        protocol, 
                         args['direction'],
                         not(ipv4), 
                         not(ipv6),
@@ -444,7 +444,7 @@ class Firewall(Resource):
         # If service is provided, get the port number for that service
         target_port = args['port']
         if args['service']:
-            target_port = self._service_to_port(args['service'])
+            target_port, protocol = self._service_to_port(args['service'])
             if not target_port:
                 return {
                     "success": False,
@@ -480,7 +480,7 @@ class Firewall(Resource):
                 current_rules, 
                 args['action'], 
                 target_port, 
-                args['protocol'], 
+                protocol, 
                 args['direction'],
                 ipv4, 
                 ipv6,
@@ -521,7 +521,7 @@ class Firewall(Resource):
             level = "INFO"
             event_type = "DELETE_FIREWALL_RULE_SUCCESS"
             module = "firewall"
-            message = f"Successfully deleted {len(deletion_results)} rule(s) for port {target_port}/{args['protocol']}"
+            message = f"Successfully deleted {len(deletion_results)} rule(s) for port {target_port}/{protocol}"
             username = current_ip
             ip_addr = request.remote_addr
             method = "DELETE"
@@ -532,7 +532,7 @@ class Firewall(Resource):
             
             return {
                 "success": True,
-                "message": f"Successfully deleted {len(deletion_results)} rule(s) for port {target_port}/{args['protocol']}",
+                "message": f"Successfully deleted {len(deletion_results)} rule(s) for port {target_port}/{protocol}",
                 "deleted_rules": deletion_results,
                 "details": details
             }, 200
@@ -831,8 +831,11 @@ class Firewall(Resource):
         service_lower = service_name.lower()
 
         # Query the database
-        entry = ServicerPort.query.filter_by(service=service_lower).first()
-        return entry.port if entry else None
+        entry = ServicePort.query.filter_by(service=service_lower).first()
+        if entry:
+            return entry.port, entry.protocol
+        else:
+            return None, None
     
     def _get_current_rules(self):
         """

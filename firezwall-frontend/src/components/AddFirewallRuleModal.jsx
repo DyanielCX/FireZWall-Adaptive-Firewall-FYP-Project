@@ -1,9 +1,11 @@
-import { useState } from 'react';
-import { X, Plus, AlertCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, Plus, AlertCircle, RefreshCw } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Card from '../components/ui/Card';
 import Alert from '../components/ui/Alert';
+import tokenManager from '../utils/tokenManager';
+import apiClient from '../api/client';
 
 const AddFirewallRuleModal = ({ isOpen, onClose, onSubmit, loading }) => {
   // Form state
@@ -19,9 +21,66 @@ const AddFirewallRuleModal = ({ isOpen, onClose, onSubmit, loading }) => {
     source: ''
   });
 
+  // Common services state
+  const [commonServices, setCommonServices] = useState([]);
+  const [loadingServices, setLoadingServices] = useState(false);
+  const [servicesError, setServicesError] = useState('');
+
   // Validation errors
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState('');
+
+  // Fetch common services when modal opens and service input is selected
+  useEffect(() => {
+    if (isOpen && formData.inputType === 'service') {
+      fetchCommonServices();
+    }
+  }, [isOpen, formData.inputType]);
+
+  // Auto-set protocol when service is selected
+  useEffect(() => {
+    if (formData.inputType === 'service' && formData.service) {
+      const selectedService = commonServices.find(s => s.service === formData.service);
+      if (selectedService) {
+        // Automatically set protocol from the selected service
+        setFormData(prev => ({ ...prev, protocol: selectedService.protocol.toLowerCase() }));
+      }
+    }
+  }, [formData.service, formData.inputType, commonServices]);
+
+  const fetchCommonServices = async () => {
+    setLoadingServices(true);
+    setServicesError('');
+    
+    try {
+      const token = tokenManager.getAccessToken();
+      
+      // Check if the API method exists
+      if (!apiClient.getServicePorts) {
+        console.error('getServicePorts method not found in apiClient');
+        setServicesError('API method not configured. Please add getServicePorts to client.js');
+        setLoadingServices(false);
+        return;
+      }
+      
+      const response = await apiClient.getServicePorts(token);
+      
+      if (response.success) {
+        // Sort services alphabetically by service name
+        const sortedServices = (response['service ports'] || []).sort((a, b) => 
+          a.service.localeCompare(b.service)
+        );
+        setCommonServices(sortedServices);
+      } else {
+        setServicesError('Failed to load common services');
+      }
+    } catch (error) {
+      console.error('Error fetching common services:', error);
+      setServicesError(error.message || 'Failed to fetch common services');
+    } finally {
+      setLoadingServices(false);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -47,8 +106,6 @@ const AddFirewallRuleModal = ({ isOpen, onClose, onSubmit, loading }) => {
     } else {
       if (!formData.service.trim()) {
         newErrors.service = 'Service name is required';
-      } else if (/^\d+$/.test(formData.service.trim())) {
-        newErrors.service = 'Service must be a string, cannot be an integer';
       }
     }
 
@@ -128,16 +185,24 @@ const AddFirewallRuleModal = ({ isOpen, onClose, onSubmit, loading }) => {
     });
     setErrors({});
     setApiError('');
+    setServicesError('');
     onClose();
   };
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    
+    // Reset protocol to default TCP when switching to port mode
+    if (field === 'inputType' && value === 'port') {
+      setFormData(prev => ({ ...prev, protocol: 'tcp' }));
+    }
+    
     // Clear error for this field
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
   };
+
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -240,13 +305,75 @@ const AddFirewallRuleModal = ({ isOpen, onClose, onSubmit, loading }) => {
                 error={errors.port}
               />
             ) : (
-              <Input
-                type="text"
-                placeholder="e.g., ssh, http, https"
-                value={formData.service}
-                onChange={(e) => handleInputChange('service', e.target.value)}
-                error={errors.service}
-              />
+              <div className="space-y-2">
+                {/* Loading/Error State */}
+                {loadingServices ? (
+                  <div className="flex items-center gap-2 px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-400">
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Loading services...</span>
+                  </div>
+                ) : servicesError ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400">
+                      <AlertCircle className="w-4 h-4" />
+                      <span className="text-sm">{servicesError}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={fetchCommonServices}
+                      className="text-sm text-orange-400 hover:text-orange-300 flex items-center gap-1"
+                    >
+                      <RefreshCw className="w-3 h-3" />
+                      Retry
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    {/* Service Dropdown */}
+                    <select
+                      value={formData.service}
+                      onChange={(e) => handleInputChange('service', e.target.value)}
+                      className={`w-full px-4 py-3 bg-slate-700 border rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500 ${
+                        errors.service ? 'border-red-500' : 'border-slate-600'
+                      }`}
+                    >
+                      <option value="">Select a service</option>
+                      {commonServices.map((service) => (
+                        <option key={service.service} value={service.service}>
+                          {service.service} - Port {service.port}/{service.protocol.toUpperCase()}
+                        </option>
+                      ))}
+                    </select>
+                    
+                    {/* Show selected service details */}
+                    {formData.service && (
+                      <div className="px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg">
+                        {(() => {
+                          const selectedService = commonServices.find(s => s.service === formData.service);
+                          return selectedService ? (
+                            <div className="text-sm text-slate-300">
+                              <span className="font-semibold text-orange-400">{selectedService.service}</span>
+                              {' → '}
+                              Port <span className="text-white">{selectedService.port}</span>
+                              {' / '}
+                              <span className="text-white uppercase">{selectedService.protocol}</span>
+                            </div>
+                          ) : null;
+                        })()}
+                      </div>
+                    )}
+                    
+                    {errors.service && (
+                      <p className="text-red-400 text-sm">{errors.service}</p>
+                    )}
+                    
+                    {/* Service count info */}
+                    <p className="text-slate-500 text-xs">
+                      {commonServices.length} common services available
+                    </p>
+                  </>
+                )}
+              </div>
             )}
           </div>
 
@@ -255,11 +382,19 @@ const AddFirewallRuleModal = ({ isOpen, onClose, onSubmit, loading }) => {
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
                 Protocol <span className="text-red-400">*</span>
+                {formData.inputType === 'service' && formData.service && (
+                  <span className="ml-2 text-xs text-slate-500">(Auto-set from service)</span>
+                )}
               </label>
               <select
                 value={formData.protocol}
                 onChange={(e) => handleInputChange('protocol', e.target.value)}
-                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                disabled={formData.inputType === 'service' && formData.service !== ''}
+                className={`w-full px-4 py-3 border rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500 ${
+                  formData.inputType === 'service' && formData.service !== ''
+                    ? 'bg-slate-700/50 border-slate-600/50 cursor-not-allowed opacity-60'
+                    : 'bg-slate-700 border-slate-600'
+                }`}
               >
                 <option value="tcp">TCP</option>
                 <option value="udp">UDP</option>

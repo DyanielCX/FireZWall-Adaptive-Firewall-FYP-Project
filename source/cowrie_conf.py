@@ -8,6 +8,10 @@ import subprocess
 ''' Internal File Import '''
 from dbModel import db, HoneypotEvent
 
+# Define UTC+8 timezone (Malaysia, Singapore, China, Hong Kong, Taiwan)
+# The timezone of cowrie is UTC-5
+UTC_PLUS_8 = timezone(timedelta(hours=13))
+
 def cowrie_start():     # Start cowrie honeypot
     cmd = ["cowrie", "start"]
     subprocess.run(cmd)
@@ -114,9 +118,13 @@ def cowrie_watcher():
                         
                 if isRecon:
 
+                    # Convert timestamp to UTC+8
+                    parsed_ts = parser.isoparse(obj.get('timestamp'))
+                    parsed_ts = parsed_ts.astimezone(UTC_PLUS_8).replace(tzinfo=None)
+
                     # Auto block IP addr & Create Honeypot Report
                     event = HoneypotEvent(
-                        timestamp = parser.isoparse(obj.get('timestamp')),
+                        timestamp = parsed_ts,
                         event_id = "cowrie.recon.scan",
                         event_type = "reconnaissance",
                         src_ip = ip,
@@ -161,9 +169,9 @@ def cowrie_watcher():
                     # Check for brute-force pattern
                     if len(failed_attempts[ip]) >= BRUTE_FORCE_THRESHOLD:
 
-                        # Convert datetime format of timestamp
+                        # Convert datetime format of timestamp to UTC+8
                         parsed_ts = parser.isoparse(obj.get('timestamp'))
-                        parsed_ts = parsed_ts.astimezone(timezone.utc).replace(tzinfo=None)
+                        parsed_ts = parsed_ts.astimezone(UTC_PLUS_8).replace(tzinfo=None)
                         
                         # Auto block IP addr & Create Honeypot Report
                         event = HoneypotEvent(
@@ -230,9 +238,9 @@ def cowrie_watcher():
                         tty_code = tty_codes.get(session)
                         tty_code = next(iter(tty_code))
 
-                        # Convert datetime format of timestamp
+                        # Convert datetime format of timestamp to UTC+8
                         parsed_ts = parser.isoparse(obj.get('timestamp'))
-                        parsed_ts = parsed_ts.astimezone(timezone.utc).replace(tzinfo=None)
+                        parsed_ts = parsed_ts.astimezone(UTC_PLUS_8).replace(tzinfo=None)
 
                         event = HoneypotEvent(
                                 timestamp = parsed_ts,

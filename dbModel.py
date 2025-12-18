@@ -87,7 +87,8 @@ class SystemLog(db.Model):
     details = db.Column(db.JSON)
 
 # Common Service Port Model
-class ServicerPort(db.Model):
+class ServicePort(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     service = db.Column(db.String(80), nullable=False)
     port = db.Column(db.String(20), nullable=False)
+    protocol = db.Column(db.String(20), nullable=False)

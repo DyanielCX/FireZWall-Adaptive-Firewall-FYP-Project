@@ -83,6 +83,15 @@ const AddServicePortEndpointContent = ({ activeTab, setActiveTab }) => (
                 <td className="py-3 px-4 text-green-400">true</td>
                 <td className="py-3 px-4 text-slate-400">The service name for the common service port</td>
             </tr>
+            <tr className="border-b border-slate-700/50">
+                <td className="py-3 px-4 text-orange-400 font-mono">protocol</td>
+                <td className="py-3 px-4 text-slate-300">string</td>
+                <td className="py-3 px-4 text-green-400">true</td>
+                <td className="py-3 px-4 text-slate-400">
+                    The transport protocol for the common service port
+                    <span className="text-orange-400"> (tcp/udp/any)</span>
+                </td>
+            </tr>
         </tbody>
         </table>
     </div>
@@ -124,7 +133,8 @@ Header:
 Body:
 {
   "port": "<port>",
-  "service": "<service>"
+  "service": "<service>",
+  "protocol": "<protocol>"
 }
 `}
         </pre>
@@ -143,7 +153,8 @@ headers = {
 
 body = {
     "port": "<port>",
-    "service": "<service>"
+    "service": "<service>",
+    "protocol": "<protocol>"
 }
 
 r = requests.post(
@@ -167,7 +178,8 @@ print(r.json())`}
     },
     body: JSON.stringify({
           "port": "<port>",
-          "service": "<service>"
+          "service": "<service>",
+          "protocol": "<protocol>"
     })
 });
 
@@ -181,7 +193,7 @@ console.log(data);`}
 {`curl -X POST https://<server_ip>:5000/api/firewall/svc-port \\
     -H "Content-Type: application/json" \\
     -H "Authorization: Bearer <access_token>" \\
-    -d '{"port": "<port>", "service": "<service>"}'`}
+    -d '{"port": "<port>", "service": "<service>", "protocol": "<protocol>"}'`}
         </pre>
         )}
     </div>

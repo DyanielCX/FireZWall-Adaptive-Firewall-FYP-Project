@@ -63,12 +63,12 @@ const Dashboard = () => {
       
       const roleResponse = await apiClient.getUserRole(token);
       if (roleResponse.success) {
-        setUserRole(roleResponse.role);
+        setUserRole(roleResponse.role.toLowerCase()); // Normalize to lowercase
       }
     } catch (error) {
       console.error('Error fetching user info:', error);
       setUsername('User');
-      setUserRole('Unknown');
+      setUserRole('user'); // Default to user role
     }
   };
 
@@ -136,13 +136,44 @@ const Dashboard = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const menuItems = [
-    { id: 'overview', icon: Shield, label: 'Dashboard' },
-    { id: 'users', icon: Users, label: 'User Management' },
-    { id: 'firewall', icon: Settings, label: 'Firewall Rules' },
-    { id: 'honeypots', icon: Server, label: 'Honeypots' },
-    { id: 'logs', icon: FileText, label: 'System Logs' }
+  // Define all menu items with role-based access control
+  const allMenuItems = [
+    { 
+      id: 'overview', 
+      icon: Shield, 
+      label: 'Dashboard',
+      allowedRoles: ['admin', 'dev', 'cybersec', 'user'] // Everyone can access
+    },
+    { 
+      id: 'firewall', 
+      icon: Settings, 
+      label: 'Firewall Rules',
+      allowedRoles: ['admin', 'dev', 'cybersec', 'user'] // Everyone can access
+    },
+    { 
+      id: 'users', 
+      icon: Users, 
+      label: 'User Management',
+      allowedRoles: ['admin'] // Only admin can access
+    },
+    { 
+      id: 'honeypots', 
+      icon: Server, 
+      label: 'Honeypots',
+      allowedRoles: ['admin', 'cybersec'] // Only admin and cybersec can access
+    },
+    { 
+      id: 'logs', 
+      icon: FileText, 
+      label: 'System Logs',
+      allowedRoles: ['admin', 'dev', 'cybersec', 'user'] // Everyone can access
+    }
   ];
+
+  // Filter menu items based on user role
+  const menuItems = allMenuItems.filter(item => 
+    item.allowedRoles.includes(userRole)
+  );
 
   const getRoleBadgeColor = (role) => {
     switch (role?.toLowerCase()) {
@@ -170,9 +201,9 @@ const Dashboard = () => {
             Monitor and manage your firewall system from this dashboard.
           </p>
           
-          {/* Feature Cards */}
+          {/* Feature Cards - Only show accessible sections */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {menuItems.slice(1).map((item) => (
+            {menuItems.filter(item => item.id !== 'overview').map((item) => (
               <Card 
                 key={item.id} 
                 hoverable 
@@ -282,6 +313,18 @@ const Dashboard = () => {
     return null;
   };
 
+  // Show loading spinner while fetching user role
+  if (userRole === 'Loading...') {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500 mb-4"></div>
+          <p className="text-slate-400">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       {/* Lab Mode */}
@@ -298,86 +341,87 @@ const Dashboard = () => {
         <div className="min-h-screen bg-slate-900 flex">
           {/* Sidebar */}
           <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-slate-800 border-r border-slate-700 transition-all duration-300 flex flex-col`}>
-        <div className="p-4 border-b border-slate-700 flex items-center gap-3">
-          <div className="bg-gradient-to-br from-orange-500 to-red-600 p-2 rounded-lg flex-shrink-0">
-            <Shield className="w-5 h-5 text-white" />
-          </div>
-          {sidebarOpen && <span className="font-bold text-white">FireZWall</span>}
-        </div>
-        
-        <nav className="flex-1 p-4">
-          <ul className="space-y-2">
-            {menuItems.map((item) => (
-              <li key={item.id}>
-                <button
-                  onClick={() => handleNavigate(item.id)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
-                    activeSection === item.id 
-                      ? 'bg-gradient-to-r from-orange-500/20 to-red-600/20 text-orange-500 border border-orange-500/30' 
-                      : 'text-slate-400 hover:bg-slate-700 hover:text-white'
-                  }`}
-                >
-                  <item.icon className="w-5 h-5 flex-shrink-0" />
-                  {sidebarOpen && <span>{item.label}</span>}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        
-        <div className="p-4 border-t border-slate-700">
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors"
-          >
-            <LogOut className="w-5 h-5 flex-shrink-0" />
-            {sidebarOpen && <span>Logout</span>}
-          </button>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Top Bar */}
-        <header className="bg-slate-800 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="text-slate-400 hover:text-white transition-colors"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
+            <div className="p-4 border-b border-slate-700 flex items-center gap-3">
+              <div className="bg-gradient-to-br from-orange-500 to-red-600 p-2 rounded-lg flex-shrink-0">
+                <Shield className="w-5 h-5 text-white" />
+              </div>
+              {sidebarOpen && <span className="font-bold text-white">FireZWall</span>}
+            </div>
             
-            {/* Mode Switch Button */}
-            <button
-              onClick={() => setMode('lab')}
-              className="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-all flex items-center gap-2 text-sm border border-slate-600"
-            >
-              <GraduationCap className="w-4 h-4" />
-              <span>Switch to Lab Mode</span>
-            </button>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <p className="text-sm font-medium text-white">{username}</p>
-              <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getRoleBadgeColor(userRole)}`}>
-                {userRole}
-              </span>
+            <nav className="flex-1 p-4">
+              <ul className="space-y-2">
+                {/* Only render menu items that user has access to */}
+                {menuItems.map((item) => (
+                  <li key={item.id}>
+                    <button
+                      onClick={() => handleNavigate(item.id)}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
+                        activeSection === item.id 
+                          ? 'bg-gradient-to-r from-orange-500/20 to-red-600/20 text-orange-500 border border-orange-500/30' 
+                          : 'text-slate-400 hover:bg-slate-700 hover:text-white'
+                      }`}
+                    >
+                      <item.icon className="w-5 h-5 flex-shrink-0" />
+                      {sidebarOpen && <span>{item.label}</span>}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            
+            <div className="p-4 border-t border-slate-700">
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors"
+              >
+                <LogOut className="w-5 h-5 flex-shrink-0" />
+                {sidebarOpen && <span>Logout</span>}
+              </button>
             </div>
-            <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold">
-                {username.charAt(0).toUpperCase()}
-              </span>
-            </div>
-          </div>
-        </header>
+          </aside>
 
-        {/* Page Content */}
-        <main className="flex-1 p-6 overflow-auto">
-          {renderContent()}
-        </main>
-      </div>
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col">
+            {/* Top Bar */}
+            <header className="bg-slate-800 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  <Menu className="w-6 h-6" />
+                </button>
+                
+                {/* Mode Switch Button */}
+                <button
+                  onClick={() => setMode('lab')}
+                  className="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-all flex items-center gap-2 text-sm border border-slate-600"
+                >
+                  <GraduationCap className="w-4 h-4" />
+                  <span>Switch to Lab Mode</span>
+                </button>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                <div className="text-right">
+                  <p className="text-sm font-medium text-white">{username}</p>
+                  <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getRoleBadgeColor(userRole)}`}>
+                    {userRole?.toUpperCase()}
+                  </span>
+                </div>
+                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold">
+                    {username.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              </div>
+            </header>
+
+            {/* Page Content */}
+            <main className="flex-1 p-6 overflow-auto">
+              {renderContent()}
+            </main>
+          </div>
         </div>
       )}
     </>

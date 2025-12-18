@@ -131,7 +131,10 @@ const AddFirewallEndpointContent = ({ activeTab, setActiveTab }) => (
                     <div className="space-y-1">
                         <div className="text-slate-400">
                         Specifies the transport protocol used by the rule
-                            <span className="text-orange-400"> (tcp/udp)</span>
+                            <span className="text-orange-400"> (tcp/udp/any)</span>
+                        </div>
+                        <div className="text-orange-500 text-sm">
+                        This parameter no need to include when you have include the <code className="text-orange-400 bg-orange-500/10 px-1.5 py-0.5 rounded">service</code> parameter
                         </div>
                         <div className="text-slate-500 text-sm">
                             Default: <code className="text-orange-400 bg-orange-500/10 px-1.5 py-0.5 rounded">tcp</code>
