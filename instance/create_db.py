@@ -33,7 +33,7 @@ def init_database():
                 username = 'admin',
                 role = 'admin'
             )
-            admin_user.set_password('admin123')
+            admin_user.set_password('@dM1np4ss')
             db.session.add(admin_user)
             db.session.commit()
 

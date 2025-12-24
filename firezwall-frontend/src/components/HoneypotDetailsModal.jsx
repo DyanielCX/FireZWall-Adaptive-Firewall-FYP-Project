@@ -1,7 +1,7 @@
-// ============================================
+// ====================================================
 // Honeypot Report Details Modal
 // Location: /src/components/HoneypotDetailsModal.jsx
-// ============================================
+// ====================================================
 import { X, Server, Calendar, Shield, Globe, User, Lock, Clock, FileText, Terminal } from 'lucide-react';
 import Button from './ui/Button';
 import Card from './ui/Card';
@@ -67,6 +67,21 @@ const HoneypotDetailsModal = ({ isOpen, onClose, report }) => {
       className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
       onClick={handleClose}
     >
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: rgba(148, 163, 184, 0.3);
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background-color: rgba(148, 163, 184, 0.5);
+        }
+      `}</style>
       <div 
         className="bg-slate-800 rounded-xl border border-slate-700 max-w-3xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
@@ -95,7 +110,13 @@ const HoneypotDetailsModal = ({ isOpen, onClose, report }) => {
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-180px)]">
+        <div 
+          className="p-6 overflow-y-auto max-h-[calc(90vh-180px)] custom-scrollbar"
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'rgba(148, 163, 184, 0.3) transparent'
+          }}
+        >
           {/* Event Overview */}
           <div className="mb-6">
             <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4">

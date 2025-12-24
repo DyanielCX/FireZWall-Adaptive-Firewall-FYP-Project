@@ -1,3 +1,8 @@
+// =====================================================
+// Add Firewall Rule Modal
+// Location: /src/components/AddFirewallRuleModal.jsx
+// =====================================================
+
 import { useState, useEffect } from 'react';
 import { X, Plus, AlertCircle, RefreshCw } from 'lucide-react';
 import Button from '../components/ui/Button';
@@ -206,7 +211,29 @@ const AddFirewallRuleModal = ({ isOpen, onClose, onSubmit, loading }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: rgba(148, 163, 184, 0.3);
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background-color: rgba(148, 163, 184, 0.5);
+        }
+      `}</style>
+      <Card 
+        className="w-full max-w-2xl max-h-[80vh] overflow-y-auto custom-scrollbar"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(148, 163, 184, 0.3) transparent'
+        }}
+      >
         {/* Header */}
         <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-700">
           <div className="flex items-center gap-3">

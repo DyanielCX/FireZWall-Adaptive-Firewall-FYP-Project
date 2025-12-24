@@ -17,9 +17,7 @@ const Navbar = ({ showLogin = true }) => {
           className="flex items-center gap-3 cursor-pointer"
           onClick={() => navigate('/')}
         >
-          <div className="bg-gradient-to-br from-orange-500 to-red-600 p-2 rounded-lg">
-            <Shield className="w-6 h-6 text-white" />
-          </div>
+          <img src="/img/firezwall_logo.png" alt="FireZWall Logo" width="40" height="40"></img>
           <span className="text-xl font-bold text-white">FireZWall</span>
         </div>
 

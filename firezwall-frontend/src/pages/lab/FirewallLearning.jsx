@@ -472,7 +472,7 @@ const FirewallLearning = () => {
           <div className="bg-green-500/20 p-2 rounded-lg">
             <CheckCircle className="w-6 h-6 text-green-400" />
           </div>
-          <h3 className="text-lg font-bold text-white">✅ Correct Configuration (Secure)</h3>
+          <h3 className="text-lg font-bold text-white">Correct Configuration (Secure)</h3>
         </div>
         <p className="text-slate-300 mb-4 text-sm">
           Place specific DENY rules before general ALLOW rules:

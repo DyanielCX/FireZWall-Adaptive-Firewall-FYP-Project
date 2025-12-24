@@ -188,7 +188,7 @@ def cowrie_watcher():
                         )
 
                         # Check if event exist in database (prevent duplicate)
-                        commit_flag = _check_event(event)
+                        commit_flag = _bruteForce_check_event(event)
                         if commit_flag:
                             db.session.add(event)
                             db.session.commit()
@@ -313,7 +313,25 @@ def _check_event(event):
             e.password == event.password,
             e.duration == event.duration,
             e.tty_code == event.tty_code,
-            e.message == event.message,
+            e.message == event.message
+        ]):
+            return False
+    return True
+
+def _bruteForce_check_event(event):
+    """
+    Compare & check the current honetpot event info
+    with all events that are stored in database
+    """
+    event_query = HoneypotEvent.query
+    for e in event_query:
+        if all([
+            e.event_id == event.event_id,
+            e.event_type == event.event_type,
+            e.src_ip == event.src_ip,
+            e.protocol == event.protocol,
+            e.duration == event.duration,
+            e.tty_code == event.tty_code
         ]):
             return False
     return True

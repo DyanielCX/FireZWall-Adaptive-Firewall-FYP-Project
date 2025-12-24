@@ -378,7 +378,7 @@ class Firewall(Resource):
         parser.add_argument('port', type=str, required=False, help='Port number (optional if service is provided)')
         parser.add_argument('service', type=str, required=False, help='Service name (optional if port is provided)')
         parser.add_argument('protocol', type=str, required=False, default='tcp', help='Protocol (tcp/udp/any)')
-        parser.add_argument('direction', type=str, required=False, help='Direction (in/out)')
+        parser.add_argument('direction', type=str, required=False, default='in', help='Direction (in/out)')
         parser.add_argument('ipv4', type=str, required=False, default='true', help='Apply to IPv4 rules (True/False)')
         parser.add_argument('ipv6', type=str, required=False, default='true', help='Apply to IPv6 rules (True/False)')
         parser.add_argument('source', type=str, required=False, help='Source (IP address/CIDR Subnet)')
@@ -497,6 +497,47 @@ class Firewall(Resource):
                     "success": False,
                     "error": f"No matching rules found for {args['action']} port {target_port}/{args['protocol']} with IPv4:{ipv4} IPv6:{ipv6}"
                 }, 404
+
+            #====== PORT 5000 PROTECTION ======#
+            # Prevent deletion of last ALLOW rule for port 5000 (system access port)
+            if target_port == '5000' and args['action'].lower() == 'allow':
+                # Count total ALLOW rules for port 5000 in current_rules
+                port_5000_allow_rules = [
+                    rule for rule in current_rules 
+                    if rule['port'] == '5000' and rule['action'].upper() == 'ALLOW'
+                ]
+                
+                # If we're about to delete ALL port 5000 ALLOW rules, block it
+                if len(port_5000_allow_rules) <= len(matching_rules):
+                    
+                     # --- Logs Record --- #
+                    # Get the OAuth token & username
+                    auth_header = request.headers.get('Authorization')
+                    access_token = auth_header.split(' ')[1]
+                    Username = get_username_with_token(access_token)
+                    
+                    # Define the webapp if ip_addr is localhost
+                    if request.remote_addr == "127.0.0.1":
+                        current_ip = "127.0.0.1 (webapp)"
+                    else:
+                        current_ip = request.remote_addr
+                    
+                    level = "WARNING"
+                    event_type = "DELETE_FIREWALL_RULE_BLOCKED"
+                    module = "firewall"
+                    message = f"Blocked deletion of last port 5000 ALLOW rule - system would become inaccessible"
+                    username = Username
+                    ip_addr = current_ip
+                    method = "DELETE"
+                    endpoint = "/api/firewall"
+                    log_details = request.get_json()
+                    
+                    syslog_create(level, event_type, module, message, username, ip_addr, method, endpoint, log_details)
+                    
+                    return {
+                        "success": False,
+                        "error": "Cannot delete the last ALLOW rule for port 5000. This would make the system inaccessible. Please add another ALLOW rule for port 5000 before deleting this one.",
+                    }, 403
             
             # Delete the matching rules
             deletion_results = self._delete_rules(matching_rules)
@@ -522,8 +563,8 @@ class Firewall(Resource):
             event_type = "DELETE_FIREWALL_RULE_SUCCESS"
             module = "firewall"
             message = f"Successfully deleted {len(deletion_results)} rule(s) for port {target_port}/{protocol}"
-            username = current_ip
-            ip_addr = request.remote_addr
+            username = Username
+            ip_addr = current_ip
             method = "DELETE"
             endpoint = "/api/firewall"
             log_details = request.get_json()
@@ -930,7 +971,7 @@ class Firewall(Resource):
         # print(f"Delete param: ipv4={ipv4}, ipv6={ipv6}")
         
         for rule in rules:
-            # print(f"\nChecking rule {rule['rule_number']}: {rule['action']} {rule['port']}/{rule['protocol']} IPv4:{rule['ipv4']} IPv6:{rule['ipv6']}")
+            # print(f"\nChecking rule {rule['rule_number']}: {rule['action']} {rule['port']}/{rule['protocol']} Source: {rule['source']} IPv4:{rule['ipv4']} IPv6:{rule['ipv6']}")
             
             # Check if rule matches the action
             action = action.upper()
@@ -968,7 +1009,13 @@ class Firewall(Resource):
                 continue
 
             # Check if rule matches the source
-            if rule['source'] != source and rule['source'] != 'Anywhere':
+            # print(f" Rule source: {rule['source']}")
+            # print(f" Input source: {source}")
+
+            if source == None:
+                source = "Anywhere"
+            
+            if rule['source'] != source:
                 # print(f"  - Source mismatch: {rule['source']} != {source}")
                 continue
             

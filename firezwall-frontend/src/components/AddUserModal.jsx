@@ -1,3 +1,8 @@
+// =============================================
+// Add User Modal
+// Location: /src/components/AddUserModal.jsx
+// =============================================
+
 import { useState, useMemo } from 'react';
 import { X, UserPlus, AlertCircle, Check, XIcon } from 'lucide-react';
 import Button from './ui/Button';

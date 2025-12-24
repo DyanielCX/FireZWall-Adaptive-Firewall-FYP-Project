@@ -169,7 +169,7 @@ import {
               
               <Button
                 variant="outline"
-                onClick={() => onNavigate('cli-config')}
+                onClick={() => onNavigate('cli-practice')}
                 className="flex items-center gap-2 px-8"
               >
                 <Terminal className="w-5 h-5" />

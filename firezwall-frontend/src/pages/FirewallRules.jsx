@@ -136,6 +136,27 @@ const FirewallRules = () => {
   };
 
   const handleDeleteClick = async (rule) => {
+    // CRITICAL: Protect port 5000 - System will be inaccessible if all port 5000 rules are deleted
+    if (rule.port === '5000' && rule.action.toLowerCase() === 'allow') {
+      // Count how many ALLOW rules exist for port 5000
+      const port5000AllowRules = rules.filter(r => 
+        r.port === '5000' && 
+        r.action.toLowerCase() === 'allow'
+      );
+      
+      // If this is the ONLY allow rule for port 5000, prevent deletion
+      if (port5000AllowRules.length === 1) {
+        setError(
+          'You cannot delete the only ALLOW rule for port 5000. ' +
+          'Deleting it will make the system inaccessible. Please add another ALLOW rule for port 5000 before deleting this one.'
+        );
+        
+        // Auto-dismiss error after 10 seconds
+        setTimeout(() => setError(''), 10000);
+        return;
+      }
+    }
+    
     // Check role before showing delete confirmation
     setCheckingRole(true);
     
