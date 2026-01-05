@@ -2,6 +2,7 @@
 // Auth Context
 // Location: /src/context/AuthContext.js
 // ============================================
+
 const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {

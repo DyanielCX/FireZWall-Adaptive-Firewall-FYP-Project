@@ -1,3 +1,7 @@
+# ================================================= #
+#         System Logs Endpoints Source Code         #
+# ================================================= #
+
 ''' External Library Import '''
 from flask_restful import Resource, reqparse
 from datetime import datetime, timedelta
@@ -14,6 +18,13 @@ from source.auth import require_oauth
 from source.syslog_record import syslog_create, get_username_with_token
 
 class ViewSyslog(Resource):
+    """
+    View System Logs Endpoint
+    - Purpose: Get the system logs list
+    - Route: '/api/logs' 
+    - Methods: POST
+    """
+
     @require_oauth()
     def post(self):
         
@@ -34,9 +45,9 @@ class ViewSyslog(Resource):
         current_user = User.query.filter_by(username = current_username).first()
         current_user_role = current_user.role
 
-        # =============
-        #   Filtering
-        # =============
+        # ============= #
+        #   Filtering   #
+        # ============= #
 
         ## Timestamp filtering ##
         timestamp = args.get("timestamp")

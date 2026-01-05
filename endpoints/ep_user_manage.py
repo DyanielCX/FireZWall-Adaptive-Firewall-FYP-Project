@@ -11,7 +11,13 @@ from source.syslog_record import syslog_create, get_username_with_token
 
 # View User Endpoint
 class ViewUser(Resource):
-    @require_oauth_with_scope('admin') # Admin only access
+    """
+    - Purpose: Get the user account list
+    - Route: '/api/user/view' 
+    - Methods: POST
+    """
+
+    @require_oauth_with_scope('admin') # Admin access only
     def post(self):
         
         parser = reqparse.RequestParser()
@@ -20,9 +26,9 @@ class ViewUser(Resource):
         args = parser.parse_args()
         query = User.query
 
-        # =============
-        #   Filtering
-        # =============
+        # ============= #
+        #   Filtering   #
+        # ============= #
 
         ## Role filtering ##
         role = args.get("role")
@@ -79,7 +85,13 @@ class ViewUser(Resource):
 
 # Register User Endpoint
 class Register(Resource):
-    @require_oauth_with_scope('admin')
+    """
+    - Purpose: Register a new user account
+    - Route: '/api/user/register' 
+    - Methods: POST
+    """
+
+    @require_oauth_with_scope('admin') # Admin access only
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('username', type=str, required=True, help='Username is required')
@@ -171,7 +183,13 @@ class Register(Resource):
 
 # Delete User Endpoint
 class DeleteUser(Resource):
-    @require_oauth_with_scope('admin')
+    """
+    - Purpose: Delete a user account
+    - Route: '/api/user/delete' 
+    - Methods: DELETE
+    """
+    
+    @require_oauth_with_scope('admin') # Admin access only
     def delete(self):
         
         parser = reqparse.RequestParser()
@@ -180,9 +198,9 @@ class DeleteUser(Resource):
         args = parser.parse_args()
         query = User.query
 
-        # =============
-        #   Filtering
-        # =============
+        # ============= #
+        #   Filtering   #
+        # ============= #
 
         ## Role filtering ##
         username_to_delete  = args.get("username")
@@ -270,6 +288,7 @@ class DeleteUser(Resource):
             
         except Exception as e:
             db.session.rollback()
+            
             # --- Logs Record --- #
             # Define the webapp if ip_addr is localhost
             if request.remote_addr == "127.0.0.1":
@@ -296,11 +315,14 @@ class DeleteUser(Resource):
 
 # Get User Role Endpoint (Used for front-end)
 class GetUserRole(Resource):
+    """
+    - Purpose: Get current user role based on access token
+    - Route: '/api/user/getRole' 
+    - Methods: GET
+    """
+
     @require_oauth()
     def get(self):
-        """
-        Get current user role based on token
-        """
         try:
             # Get the OAuth token
             auth_header = request.headers.get('Authorization')
@@ -329,11 +351,14 @@ class GetUserRole(Resource):
 
 # Get User Name Endpoint (Used for front-end)
 class GetUserName(Resource):
+    """
+    - Purpose: Get current username based on access token
+    - Route: '/api/user/getUsername' 
+    - Methods: GET
+    """
+
     @require_oauth()
     def get(self):
-        """
-        Get current username based on token
-        """
         try:
             # Get the OAuth token & username
             auth_header = request.headers.get('Authorization')

@@ -1,3 +1,7 @@
+# ================================================ #
+#       Authentication Endpoints Source Code       #
+# ================================================ #
+
 ''' External Library Import '''
 from flask import request, jsonify
 from flask_restful import Resource, reqparse
@@ -10,9 +14,13 @@ from source.auth import require_oauth
 from source.syslog_record import syslog_create, get_username_with_token
 
 
-## Authentication Endpoints ##
-# Login Endpoint
 class Login(Resource):
+    """
+    Login Endpoint
+    - Purpose: Login to get the access token
+    - Route: '/api/login' 
+    - Methods: POST
+    """
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('username', type=str, required=True, help='Username is required')
@@ -119,8 +127,13 @@ class Login(Resource):
             return {'error': str(e)}, 500
 
 
-# Refresh Token Endpoints
 class RefreshToken(Resource):
+    """
+    Refresh Token Endpoint
+    - Purpose: Refresh the access token
+    - Route: '/api/refresh-token' 
+    - Methods: POST
+    """
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('refresh_token', type=str, required=True, help='Refresh token is required')
@@ -236,8 +249,13 @@ class RefreshToken(Resource):
             db.session.rollback()
             return {'error': str(e)}, 500
 
-# Logout Endpoints
 class Logout(Resource):
+    """
+    Logout Endpoint
+    - Purpose: Logout the user session
+    - Route: '/api/logout' 
+    - Methods: POST
+    """
     @require_oauth()
     def post(self):
         try:
@@ -313,6 +331,12 @@ class Logout(Resource):
 
 # Logout All Devices Endpoints
 class LogoutAll(Resource):
+    """
+    Logout All Sessions Endpoint
+    - Purpose: Logout the all user session
+    - Route: '/api/logout-all' 
+    - Methods: POST
+    """
     @require_oauth()
     def post(self):
         try:

@@ -2,6 +2,7 @@
 // Token Management Utility with Auto-Refresh
 // Location: /src/utils/tokenManager.js
 // ============================================
+
 import Cookies from './cookies';
 
 const TOKEN_COOKIE_NAME = 'access_token';
@@ -214,10 +215,6 @@ class TokenManager {
     }
 
     console.log('Token found in cookies. Will check validity on first API call.');
-    
-    // We can't know the exact expiry time after page refresh
-    // But the token will be checked on first API call via getValidToken()
-    // If it's expired (401), it will auto-refresh
   }
 }
 

@@ -2,6 +2,7 @@
 // CLI Steps in Real-System Page
 // Location: /src/pages/lab/CLIStepRealSystem.jsx
 // ============================================
+
 import { 
     Server, Terminal, Shield, AlertTriangle, 
     CheckCircle, Lock, Info, ArrowRight, Zap

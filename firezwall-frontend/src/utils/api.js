@@ -2,19 +2,8 @@
 // API Utility with Automatic Token Refresh
 // Location: /src/utils/api.js
 // ============================================
-import tokenManager from './tokenManager';
 
-/**
- * Enhanced fetch wrapper with automatic token refresh
- * Use this instead of regular fetch() for authenticated API calls
- * 
- * Usage:
- *   const response = await apiFetch('/api/firewall', {
- *     method: 'POST',
- *     headers: { 'Content-Type': 'application/json' },
- *     body: JSON.stringify(data)
- *   });
- */
+import tokenManager from './tokenManager';
 
 export const apiFetch = async (url, options = {}) => {
   // Get valid token (will refresh if needed)

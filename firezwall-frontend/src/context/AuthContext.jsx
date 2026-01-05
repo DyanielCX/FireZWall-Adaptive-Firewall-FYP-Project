@@ -2,6 +2,7 @@
 // Updated AuthContext with Token Auto-Refresh
 // Location: /src/context/AuthContext.jsx  
 // ============================================
+
 import { createContext, useState, useContext, useEffect } from 'react';
 import apiClient from '../api/client';
 import tokenManager from '../utils/tokenManager';
@@ -96,7 +97,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   if (loading) {
-    return null; // Or a loading spinner
+    return null;
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

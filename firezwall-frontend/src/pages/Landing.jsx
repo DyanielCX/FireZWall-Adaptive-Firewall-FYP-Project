@@ -2,6 +2,7 @@
 // Landing Page
 // Location: /src/pages/Landing.jsx
 // ============================================
+
 import { Shield, Server, FileText, ChevronRight, BookOpen, GraduationCap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -15,7 +16,7 @@ const Landing = () => {
   const features = [
     { 
       icon: Shield, 
-      title: 'Firewall Rules', 
+      title: 'Firewall Management', 
       desc: 'Configure and manage network security rules' 
     },
     { 

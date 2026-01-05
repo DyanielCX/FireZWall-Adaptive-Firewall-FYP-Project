@@ -1,7 +1,8 @@
 // ============================================
-// System Logs Page (Protected - All Roles)
+// System Logs Page (Protected)
 // Location: /src/pages/SystemLogs.jsx
 // ============================================
+
 import { useState, useEffect } from 'react';
 import { 
   FileText, Search, Filter, X, AlertCircle, 

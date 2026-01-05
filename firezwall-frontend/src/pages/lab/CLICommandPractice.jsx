@@ -2,6 +2,7 @@
 // CLI Command Practice Page
 // Location: /src/pages/lab/CLICommandPractice.jsx
 // ============================================
+
 import { useState } from 'react';
 import { 
   Terminal, CheckCircle, XCircle, 

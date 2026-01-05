@@ -2,8 +2,9 @@
 // Lab Introduction Page  (Protected)
 // Location: /src/pages/lab/LabIntroduction.jsx
 // ============================================
+
 import { 
-    Shield, BookOpen, Terminal, Code, 
+    Shield, Terminal, Code, 
     CheckCircle, Target, Zap, Rocket 
   } from 'lucide-react';
   import Card from '../../components/ui/Card';

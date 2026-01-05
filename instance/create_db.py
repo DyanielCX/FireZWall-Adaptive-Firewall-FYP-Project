@@ -1,3 +1,7 @@
+# ================================================= #
+#   Database Initialization Module for FireZWall    #
+# ================================================= #
+
 ''' External Library Import '''
 import datetime
 
@@ -5,10 +9,12 @@ import datetime
 from dbModel import db, User, OAuth2Client
 
 
-# Create default client and user
 def init_database():
+    '''
+    Initialize the database
+    '''
     try:
-        # Create all tables
+        # Create all database tables
         db.create_all()
         print("Database tables created successfully!")
         

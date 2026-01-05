@@ -1,3 +1,7 @@
+# ================================================= #
+#           Honeypot Endpoints Source Code          #
+# ================================================= #
+
 ''' External Library Import '''
 from flask_restful import Resource, reqparse
 from datetime import datetime, timedelta
@@ -13,7 +17,14 @@ from source.auth import require_oauth, require_oauth_with_scope
 from source.syslog_record import syslog_create, get_username_with_token
 
 class HoneypotReport(Resource):
-    @require_oauth_with_scope('admin', 'cybersec')
+    """
+    View Honeypot Endpoint
+    - Purpose: Get the honeypot report list
+    - Route: '/api/honeypot/reports' 
+    - Methods: POST
+    """
+
+    @require_oauth_with_scope('admin', 'cybersec') # Admin & Cybersecurity access only
     def post(self):
         
         parser = reqparse.RequestParser()
@@ -25,9 +36,9 @@ class HoneypotReport(Resource):
         args = parser.parse_args()
         query = HoneypotEvent.query
 
-        # =============
-        #   Filtering
-        # =============
+        # ============= #
+        #   Filtering   #
+        # ============= #
 
         ## Event type validation & filtering ##
         event_type = args.get("event_type")

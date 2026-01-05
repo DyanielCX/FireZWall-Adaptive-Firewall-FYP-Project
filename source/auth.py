@@ -1,3 +1,7 @@
+# ================================================ #
+#     Authentication Module for FireZWall API      #
+# ================================================ #
+
 ''' External Library Import '''
 from authlib.integrations.flask_oauth2 import ResourceProtector, AuthorizationServer
 from authlib.oauth2.rfc6750 import BearerTokenValidator
@@ -46,6 +50,7 @@ def require_oauth_with_scope(*scopes):
         @wraps(f)
         @handle_oauth_errors
         def decorated(*args, **kwargs):
+            
             # Let Authlib handle token validation and basic scope checking
             token = require_oauth.acquire_token()
             if not token:
@@ -59,6 +64,7 @@ def require_oauth_with_scope(*scopes):
             required_scopes = set(scopes)
             
             if not token_scopes.intersection(required_scopes):
+                
                 # ---Logs Record--- #
                 # Get the OAuth token & username
                 auth_header = request.headers.get('Authorization')
@@ -93,6 +99,7 @@ def require_oauth_with_scope(*scopes):
         return decorated
     return wrapper
 
+# Handle OAuth errors
 def handle_oauth_errors(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -104,7 +111,7 @@ def handle_oauth_errors(f):
             }, 401
     return decorated_function
 
-# OAuth 2.0 Grant Implementation
+# OAuth 2.0 Password Grant Implementation
 class PasswordGrant(grants.ResourceOwnerPasswordCredentialsGrant):
     TOKEN_ENDPOINT_AUTH_METHODS = ['client_secret_basic', 'client_secret_post']
     
@@ -118,6 +125,7 @@ class PasswordGrant(grants.ResourceOwnerPasswordCredentialsGrant):
 def query_client(client_id):
     return OAuth2Client.query.filter_by(client_id=client_id).first()
 
+# Save token to database
 def save_token(token_data, request):
     if not hasattr(request, 'user') or not request.user:
         return None

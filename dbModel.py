@@ -1,7 +1,13 @@
+# ================================================ #
+#     Database Models for FireZWall API            #
+# ================================================ #
+
+''' External Library Import '''
 import datetime
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
+''' Internal File Import '''
 from config import app
 
 db = SQLAlchemy(app)

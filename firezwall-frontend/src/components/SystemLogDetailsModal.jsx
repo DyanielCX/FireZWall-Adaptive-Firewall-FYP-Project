@@ -2,6 +2,7 @@
 // System Log Details Modal Component
 // Location: /src/components/SystemLogDetailsModal.jsx
 // ============================================
+
 import { X, Calendar, AlertCircle, Shield, User, Globe, Server, FileText } from 'lucide-react';
 import Card from './ui/Card';
 import Button from './ui/Button';
@@ -47,7 +48,7 @@ const SystemLogDetailsModal = ({ isOpen, onClose, log }) => {
 
   return (
     <div 
-      className="fixed inset-0 bg-black/70 flex items-start justify-center z-50 p-4 overflow-y-auto"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
       onClick={handleClose}
     >
       <div 

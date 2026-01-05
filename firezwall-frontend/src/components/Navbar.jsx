@@ -2,6 +2,7 @@
 // Navbar Component
 // Location: /src/components/Navbar.jsx
 // ============================================
+
 import { Shield, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from './ui/Button';

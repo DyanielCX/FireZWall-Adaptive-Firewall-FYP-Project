@@ -1,3 +1,7 @@
+# ================================================ #
+#        Syslog Record Module for FireZWall        #
+# ================================================ #
+
 ''' External Library Import '''
 from datetime import datetime, timezone, timedelta
 from dateutil import parser
@@ -6,6 +10,9 @@ from dateutil import parser
 from dbModel import db, User, OAuth2Token, SystemLog
 
 def syslog_create(Level, Event_type, Module, Message, Username, IP_addr, Method, Endpoint, Details):
+    """
+    Create a syslog record
+    """
     # Convert datetime format of timestamp
     malaysia_tz = timezone(timedelta(hours=8))
     parsed_ts = datetime.now(malaysia_tz).replace(tzinfo=None)
@@ -28,6 +35,9 @@ def syslog_create(Level, Event_type, Module, Message, Username, IP_addr, Method,
     db.session.commit()
 
 def get_username_with_token (OAuth_token):
+    """
+    Get the username with the OAuth token
+    """
     # Get User ID
     token = OAuth2Token.query.filter_by(access_token=OAuth_token).first()
     user_ID = token.user_id

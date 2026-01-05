@@ -2,6 +2,7 @@
 // API Request Practice Page
 // Location: /src/pages/lab/APIRequestPractice.jsx
 // ============================================
+
 import { useState } from 'react';
 import { 
   Code, CheckCircle, XCircle, AlertTriangle, 

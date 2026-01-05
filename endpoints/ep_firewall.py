@@ -1,3 +1,7 @@
+# ================================================= #
+#          Firewall Endpoints Source Code           #
+# ================================================= #
+
 ''' External Library Import '''
 from flask import request, jsonify
 from flask_restful import Resource, reqparse
@@ -10,15 +14,18 @@ from dbModel import db, ServicePort
 from source.auth import require_oauth_with_scope
 from source.syslog_record import syslog_create, get_username_with_token
 
-# Protected Firewall Endpoint
+# Protected Firewall Endpoints
 class Firewall(Resource):
 
-    ## Post Request
-    @require_oauth_with_scope('admin', 'dev', 'cybersec') # Admin, Develeoper & Cybersecurity access
+    #===== Add Firewall Rule Endpoint =====#
+    @require_oauth_with_scope('admin', 'dev', 'cybersec') # Admin, Develeoper & Cybersecurity access only
     def post(self):
         """
-        Add firewall rule by port/service
+        - Purpose: Add firewall rule by port/service
+        - Route: '/api/firewall' 
+        - Methods: POST
         """
+
         parser = reqparse.RequestParser()
         parser.add_argument('action', type=str, required=False, default='allow', help='Action (allow/deny/reject)')
         parser.add_argument('port', type=str, required=False, help='Port number (optional if service is provided)')
@@ -367,11 +374,13 @@ class Firewall(Resource):
 
 
 
-    ## Delete Request
-    @require_oauth_with_scope('admin') # Admin only access
+    #===== Delete Firewall Rule Endpoint =====#
+    @require_oauth_with_scope('admin') # Admin access only
     def delete(self):
         """
-        Delete firewall rule by port/service
+        - Purpose: Delete firewall rule by port/service
+        - Route: '/api/firewall' 
+        - Methods: DELETE
         """
         parser = reqparse.RequestParser()
         parser.add_argument('action', type=str, required=False, default='allow', help='Action (allow/deny/reject)')

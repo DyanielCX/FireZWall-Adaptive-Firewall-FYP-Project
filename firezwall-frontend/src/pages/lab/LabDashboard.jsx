@@ -2,6 +2,7 @@
 // Lab Dashboard (Lab Practical Section)
 // Location: /src/pages/lab/LabDashboard.jsx
 // ============================================
+
 import { useState } from 'react';
 import { 
   Shield, LogOut, BookOpen, Terminal, Code, 

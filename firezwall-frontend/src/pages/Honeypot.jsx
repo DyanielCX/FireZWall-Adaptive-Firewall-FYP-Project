@@ -2,6 +2,7 @@
 // Honeypot Reports Page (Protected - Admin & CyberSec Only)
 // Location: /src/pages/Honeypot.jsx
 // ============================================
+
 import { useState, useEffect } from 'react';
 import { 
   Server, Search, Filter, X, AlertCircle, 

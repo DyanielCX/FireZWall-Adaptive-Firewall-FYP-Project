@@ -2,6 +2,7 @@
 // Firewall Rules Learning Page
 // Location: /src/pages/lab/FirewallLearning.jsx
 // ============================================
+
 import { useState, useEffect } from 'react';
 import { 
   Shield, Terminal, AlertTriangle, CheckCircle, 

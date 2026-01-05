@@ -2,6 +2,7 @@
 // Honeypot Report Details Modal
 // Location: /src/components/HoneypotDetailsModal.jsx
 // ====================================================
+
 import { X, Server, Calendar, Shield, Globe, User, Lock, Clock, FileText, Terminal } from 'lucide-react';
 import Button from './ui/Button';
 import Card from './ui/Card';

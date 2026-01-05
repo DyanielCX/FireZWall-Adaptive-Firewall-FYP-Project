@@ -1,3 +1,7 @@
+# ================================================== #
+#    Cowrie HoneyPot Monitor Module for FireZWall    #
+# ================================================== #
+
 ''' External Library Import '''
 import time, json
 from collections import defaultdict
@@ -8,28 +12,29 @@ import subprocess
 ''' Internal File Import '''
 from dbModel import db, HoneypotEvent
 
-# Define UTC+8 timezone (Malaysia, Singapore, China, Hong Kong, Taiwan)
-# The timezone of cowrie is UTC-5
+# Define UTC+8 timezone
+#--- The timezone of cowrie is UTC-5 ---#
 UTC_PLUS_8 = timezone(timedelta(hours=13))
 
-def cowrie_start():     # Start cowrie honeypot
+# Start cowrie honeypot
+def cowrie_start():     
     cmd = ["cowrie", "start"]
     subprocess.run(cmd)
 
-def cowrie_stop():      # Stop cowrie honeypot
+# Stop cowrie honeypot
+def cowrie_stop():      
     cmd = ["cowrie", "stop"]
     subprocess.run(cmd)
 
 def cowrie_watcher():
-    '''
+    """
     Monitor the cowrie log event, 
     auto block access ip addr & create report
-    '''
+    """
 
     LOGFILE = 'cowrie/var/log/cowrie/cowrie.json'
     
     #=====  Reconnaissance Detection Variables  ======#  
-    
     # Reconnaissance Flag (determine whether is )
     rateDetect = False
     signDetect = False
@@ -49,7 +54,6 @@ def cowrie_watcher():
 
 
     #=====  Brute-Force Detection Variables  ======#    
-    
     # Track failed login attempts per IP with timestamps
     failed_attempts = defaultdict(list)
     
@@ -61,7 +65,6 @@ def cowrie_watcher():
 
 
     #=====  Session Tracking Variables  ======#    
-    
     # Dictionary to track active sessions
     active_sessions = {}
     
@@ -200,10 +203,11 @@ def cowrie_watcher():
                         failed_attempts[ip] = []
 
 
-                #============================================#
-                #-------  Connected Session Tracking  -------#
-                #============================================#
-                # Login Success Session - track the connected session info #
+                #======================================================#
+                #-------  Unauthorized Access Session Tracking  -------#
+                #======================================================#
+                
+                # Login Success Session - track the unauthorized access session info #
                 elif event_id == 'cowrie.login.success' and ip and session:
                     
                     # Store the active login session in dictionary
@@ -337,6 +341,9 @@ def _bruteForce_check_event(event):
     return True
 
 def _ip_auto_block(ip):
+    """
+    Auto block the source IP address
+    """
     # First check if rule already exists
     status_cmd = ["sudo", "/usr/sbin/ufw", "status", "numbered"]
     status = subprocess.run(status_cmd, capture_output=True, text=True).stdout

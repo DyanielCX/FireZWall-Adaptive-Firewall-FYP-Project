@@ -1,7 +1,8 @@
 // ============================================
 // Login Page
-// Location: /src/pages/login.js (Next.js) or /src/pages/Login.jsx (React)
+// Location: /src/pages/Login.jsx (React)
 // ============================================
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock } from 'lucide-react';

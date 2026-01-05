@@ -1,3 +1,7 @@
+# ================================================= #
+#       Firewall Status Endpoints Source Code       #
+# ================================================= #
+
 ''' External Library Import '''
 from flask_restful import Resource
 from flask import request
@@ -12,7 +16,10 @@ class FirewallStatus(Resource):
     @require_oauth()
     def get(self):
         """
-        Get current firewall status with combined IPv4/IPv6 rules
+        View Firewall Rule Endpoint
+        - Purpose: Get the firewall rule list
+        - Route: '/api/firewall/status' 
+        - Methods: GET
         """
         try:
             cmd = ["sudo", "ufw", "status", "numbered"]

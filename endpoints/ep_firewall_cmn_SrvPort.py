@@ -1,3 +1,7 @@
+# ================================================= #
+#     Common Service Port Endpoints Source Code     #
+# ================================================= #
+
 ''' External Library Import '''
 from flask_restful import Resource, reqparse
 from flask import request
@@ -8,14 +12,16 @@ from dbModel import db, ServicePort
 from source.auth import require_oauth, require_oauth_with_scope
 from source.syslog_record import syslog_create, get_username_with_token
 
-# Common Service Port Endpoint
+# Common Service Port Endpoints
 class CommonServicePort(Resource):
 
     #===== View Common Service Port =====#
     @require_oauth()
     def get(self):
         """
-        Get the common port list
+        - Purpose: Get the common port list
+        - Route: '/api/firewall/svc-port' 
+        - Methods: GET
         """
         query = ServicePort.query
         
@@ -56,8 +62,13 @@ class CommonServicePort(Resource):
         }
     
     #===== Add Common Service Port Endpoint =====#
-    @require_oauth_with_scope('admin')
+    @require_oauth_with_scope('admin') # Admin access only
     def post(self):
+        """
+        - Purpose: Add the common service port
+        - Route: '/api/firewall/svc-port' 
+        - Methods: POST
+        """        
         parser = reqparse.RequestParser()
         parser.add_argument('service', type=str, required=True, help='Service')
         parser.add_argument('port', type=str, required=True, help='Port Number')
@@ -145,8 +156,13 @@ class CommonServicePort(Resource):
 
 
     #===== Delete Common Service Port Endpoint =====#
-    @require_oauth_with_scope('admin')
+    @require_oauth_with_scope('admin') # Admin access only
     def delete(self):
+        """
+        - Purpose: Delete the common service port
+        - Route: '/api/firewall/svc-port' 
+        - Methods: Delete
+        """ 
         
         parser = reqparse.RequestParser()
         parser.add_argument('service', type=str, required=False, help='Service')
