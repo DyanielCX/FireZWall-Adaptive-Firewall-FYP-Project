@@ -3,7 +3,7 @@
 # ================================================ #
 
 # Remember to change the server IP address to your own
-SERVER_IP = '192.168.218.131'
+SERVER_IP = '192.168.253.134'
 
 ''' External Library Import '''
 from flask import jsonify, request

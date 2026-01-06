@@ -237,8 +237,14 @@ def cowrie_watcher():
                     if session in active_sessions:
                         session_data = active_sessions[session]
                         
-                        # Get duration and tty code
-                        duration = obj.get('duration')
+                        # Convert & get the duration
+                        if session_data.get('protocol') == "telnet":
+                            duration = obj.get('duration')
+                            duration = f"{duration:.2f}"
+                        else:
+                            duration = obj.get('duration')
+
+                        # Get tty code
                         tty_code = tty_codes.get(session)
                         tty_code = next(iter(tty_code))
 
